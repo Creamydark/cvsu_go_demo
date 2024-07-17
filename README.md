@@ -4,4 +4,5 @@ Welcome to CVSU Go, a demo app showcasing the porting of a web-based platform to
 Sreenshots:
 ![image](https://github.com/user-attachments/assets/06447819-4560-4932-a88a-045fbb62f8eb)
 ![image](https://github.com/user-attachments/assets/74abe5a2-9ca8-48c3-a19a-32d59fb97ff5)
+<img src="[path_to_resized_image](https://github.com/user-attachments/assets/06447819-4560-4932-a88a-045fbb62f8eb)" alt="Image Description" width="300" height="200">
 
