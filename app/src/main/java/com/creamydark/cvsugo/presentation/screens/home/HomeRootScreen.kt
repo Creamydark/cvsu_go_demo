@@ -1,6 +1,7 @@
 package com.creamydark.cvsugo.presentation.screens.home
 
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -46,19 +47,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.imageLoader
 import coil.request.ImageRequest
 import coil.util.DebugLogger
 import com.creamydark.cvsugo.R
 import com.creamydark.cvsugo.domain.dataclass.CoursesOfferedData
+import com.creamydark.cvsugo.presentation.navgraphs.CoursesScreens
 import com.creamydark.cvsugo.presentation.screens.home.viewmodel.HomeViewModel
 
 
 
 
 @Composable
-fun HomeRootScreen(modifier: Modifier = Modifier,viewModel: HomeViewModel = hiltViewModel()) {
+fun HomeRootScreen(navHostController: NavHostController,modifier: Modifier = Modifier,viewModel: HomeViewModel = hiltViewModel()) {
     val coursesofferedList by viewModel.coursesOfferList.collectAsStateWithLifecycle()
     val partnersLogosUrl by viewModel.partnersLogoUrl.collectAsStateWithLifecycle()
     val state = rememberScrollState()
@@ -93,7 +96,7 @@ fun HomeRootScreen(modifier: Modifier = Modifier,viewModel: HomeViewModel = hilt
         )
         Spacer(modifier = Modifier.height(8.dp))
 
-        CoursesOffer(Modifier.fillMaxWidth(),coursesofferedList)
+        CoursesOffer(Modifier.fillMaxWidth(),navHostController,coursesofferedList)
 
         Spacer(modifier = Modifier.height(32.dp))
 
@@ -179,7 +182,8 @@ fun GridItem(modifier: Modifier = Modifier ,label: String, value: String) {
 }
 
 @Composable
-fun CoursesOffer(modifier: Modifier = Modifier,list: List<CoursesOfferedData>) {
+fun CoursesOffer(modifier: Modifier = Modifier,navHostController: NavHostController,list: List<CoursesOfferedData>) {
+    val context = LocalContext.current
     LazyRow(modifier = modifier) {
 
         items(
@@ -192,7 +196,17 @@ fun CoursesOffer(modifier: Modifier = Modifier,list: List<CoursesOfferedData>) {
             CoursesOfferItem(
                 modifier = Modifier.width(240.dp),
                 data = item
-            )
+            ){
+                id->
+                navHostController.navigate(CoursesScreens.CourseDetailScreen.route.plus("/$id")){
+                    popUpTo(CoursesScreens.RootScreen.route){
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                }
+//                Toast.makeText(context, id ,Toast.LENGTH_SHORT).show()
+
+            }
             Spacer(modifier = Modifier.size(8.dp))
         }
 
@@ -200,8 +214,18 @@ fun CoursesOffer(modifier: Modifier = Modifier,list: List<CoursesOfferedData>) {
 }
 
 @Composable
-fun CoursesOfferItem(modifier: Modifier = Modifier,data:CoursesOfferedData) {
-    Card(modifier = modifier, colors = CardDefaults.cardColors().copy(containerColor = data.bgColor)) {
+fun CoursesOfferItem(
+    modifier: Modifier = Modifier,
+    data: CoursesOfferedData,
+    onClick:(id:String)->Unit={}
+) {
+    Card(
+        modifier = modifier,
+        colors = CardDefaults.cardColors().copy(containerColor = data.bgColor),
+        onClick = {
+            onClick(data.id)
+        }
+    ) {
         Column {
             Text(
                 modifier = Modifier.padding(16.dp),

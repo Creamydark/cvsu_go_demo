@@ -12,6 +12,7 @@ sealed class HomeScreens(val route:String){
 }
 sealed class CoursesScreens(val route:String){
     data object RootScreen:HomeScreens(route = "courses_screen")
+    data object CourseDetailScreen:HomeScreens(route = "course_detail_screen")
 }
 
 sealed class AboutScreens(val route:String){
