@@ -1,6 +1,7 @@
 package com.creamydark.cvsugo.presentation.navgraphs
 
 import androidx.compose.material3.Text
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -9,6 +10,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import com.creamydark.cvsugo.presentation.screens.coursesoffered.CourseDetailScreen
 import com.creamydark.cvsugo.presentation.screens.coursesoffered.CoursesOfferedRootScreen
+import com.creamydark.cvsugo.presentation.screens.coursesoffered.viewmodel.CourseDetailViewModel
 import com.creamydark.cvsugo.presentation.screens.home.HomeRootScreen
 
 
@@ -34,8 +36,8 @@ fun NavGraphBuilder.courses(navHostController: NavHostController){
             ),
         ){
             val id = it.arguments?.getString("id")
-            Text(text = id.toString())
-//            CourseDetailScreen(navHostController = navHostController)
+            val viewModel : CourseDetailViewModel = hiltViewModel()
+            CourseDetailScreen(navHostController = navHostController,viewModel = viewModel)
         }
     }
 }

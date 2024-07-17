@@ -3,10 +3,12 @@ package com.creamydark.cvsugo.presentation.screens.coursesoffered.viewmodel
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import com.creamydark.cvsugo.domain.dataclass.CoursesOfferedData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
+@HiltViewModel
 class CoursesOfferedViewModel @Inject constructor():ViewModel() {
     private val coursesofferedList = listOf(
         CoursesOfferedData(id = "BSP" ,courseName = "Bachelor of Science in Psychology", imgUrl = "http://generaltrias.cvsu.edu.ph/images/course/BSP.jpg", bgColor = Color(0xFF9944c9)),

@@ -1,7 +1,10 @@
-package com.creamydark.cvsugo.presentation.screens.home.viewmodel
+package com.creamydark.cvsugo.presentation.screens.coursesoffered.viewmodel
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
+import com.creamydark.cvsugo.R
+import com.creamydark.cvsugo.domain.dataclass.CourseData
 import com.creamydark.cvsugo.domain.dataclass.CoursesOfferedData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,7 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor():ViewModel() {
+class CourseDetailViewModel @Inject constructor():ViewModel() {
     private val coursesofferedList = listOf(
         CoursesOfferedData(id = "BSP" ,courseName = "Bachelor of Science in Psychology", imgUrl = "http://generaltrias.cvsu.edu.ph/images/course/BSP.jpg", bgColor = Color(0xFF9944c9)),
         CoursesOfferedData(id = "BSIT" ,courseName = "Bachelor of Science in Information Technology", imgUrl = "http://generaltrias.cvsu.edu.ph/images/course/BSIT.jpg", bgColor = Color(0xFF18c9eb)),
@@ -19,18 +22,19 @@ class HomeViewModel @Inject constructor():ViewModel() {
         CoursesOfferedData(id = "BSTM" ,courseName = "Bachelor of Science in Tourism Management", imgUrl = "http://generaltrias.cvsu.edu.ph/images/course/BSTM.jpg", bgColor = Color(0xff7e5c48)),
         CoursesOfferedData(id = "BSE" ,courseName = "Bachelor of Science in Secondary Education", imgUrl = "http://generaltrias.cvsu.edu.ph/images/course/BSE.jpg", bgColor = Color(0xff1e175e))
     )
-    private val partnersListLogoUrl = listOf(
-        "http://generaltrias.cvsu.edu.ph/images/patnar-logo/gt.png",
-        "http://generaltrias.cvsu.edu.ph/images/patnar-logo/tesda.png",
-        "http://generaltrias.cvsu.edu.ph/images/patnar-logo/ched.png",
-        "http://generaltrias.cvsu.edu.ph/images/patnar-logo/bong.png",
-        "http://generaltrias.cvsu.edu.ph/images/patnar-logo/pts.png",
-        "http://generaltrias.cvsu.edu.ph/images/patnar-logo/foi.png",
+    private val _currentCourseData = MutableStateFlow(
+        CourseData(
+            coursName = "Lorem ipsum",
+            chairperson = "Jang Wonyoung",
+            department = "Lorem ipsum",
+            programSummary = "",
+            id = "null",
+            totalUnits = 0,
+            contactHours = 0,
+            courseBannerImgUrl = "https://kpopping.com/documents/34/2/1440/240624-WONYOUNG-INSTAGRAM-UPDATE-documents-4(1).jpeg?v=c7f9c"
+        ),
     )
+    val currentCourseData: StateFlow<CourseData> get() = _currentCourseData
 
-    private val _partnersLogoUrl = MutableStateFlow<List<String>>(partnersListLogoUrl)
-    val partnersLogoUrl: StateFlow<List<String>> get() = _partnersLogoUrl
 
-    private val _coursesOfferList = MutableStateFlow(coursesofferedList)
-    val coursesOfferList: StateFlow<List<CoursesOfferedData>> get() = _coursesOfferList
 }
