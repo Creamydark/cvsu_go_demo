@@ -26,6 +26,7 @@ import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -92,7 +93,7 @@ fun HomeRootScreen(navHostController: NavHostController,modifier: Modifier = Mod
             text = "Courses Offered",
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.secondary
+//            color = MaterialTheme.colorScheme.secondary
         )
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -219,7 +220,7 @@ fun CoursesOfferItem(
     data: CoursesOfferedData,
     onClick:(id:String)->Unit={}
 ) {
-    Card(
+    ElevatedCard(
         modifier = modifier,
         colors = CardDefaults.cardColors().copy(containerColor = data.bgColor),
         onClick = {
@@ -227,6 +228,8 @@ fun CoursesOfferItem(
         }
     ) {
         Column {
+            AsyncImage(model = data.imgUrl, contentDescription = "", modifier = Modifier.fillMaxWidth())
+
             Text(
                 modifier = Modifier.padding(16.dp),
                 text = data.courseName,
@@ -241,7 +244,6 @@ fun CoursesOfferItem(
 
             )
 //            Spacer(modifier = Modifier.height(8.dp))
-            AsyncImage(model = data.imgUrl, contentDescription = "", modifier = Modifier.fillMaxWidth())
 
         }
     }

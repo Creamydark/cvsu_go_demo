@@ -73,6 +73,9 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.datastore.preferences.core)
+
     implementation(libs.coil)
     implementation(libs.androidx.hilt.navigation)
     implementation(libs.hilt.android)

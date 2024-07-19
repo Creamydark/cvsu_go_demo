@@ -15,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -88,10 +89,11 @@ fun CoursesOfferedRootScreen(
 
 @Composable
 fun CoursesOfferedItem(modifier: Modifier = Modifier,data:CourseData,onClick:()->Unit={}) {
-    Card(
+    ElevatedCard(
         modifier = modifier,
 //        colors = CardDefaults.cardColors().copy(containerColor = data.bgColor),
-        onClick = { onClick() }
+        onClick = { onClick() },
+
     ) {
         Column {
             AsyncImage(model = data.courseBannerImgUrl, contentDescription = "",modifier = Modifier.fillMaxWidth() )

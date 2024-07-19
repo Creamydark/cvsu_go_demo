@@ -1,6 +1,5 @@
 package com.creamydark.cvsugo.presentation.navgraphs
 
-import androidx.compose.material3.Text
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -13,8 +12,8 @@ import com.creamydark.cvsugo.presentation.screens.appInfo.AppInfoRootScreen
 import com.creamydark.cvsugo.presentation.screens.coursesoffered.CourseDetailScreen
 import com.creamydark.cvsugo.presentation.screens.coursesoffered.CoursesOfferedRootScreen
 import com.creamydark.cvsugo.presentation.screens.coursesoffered.viewmodel.CourseDetailViewModel
-import com.creamydark.cvsugo.presentation.screens.coursesoffered.viewmodel.CoursesOfferedViewModel
 import com.creamydark.cvsugo.presentation.screens.home.HomeRootScreen
+import com.creamydark.cvsugo.presentation.screens.signin.SignInScreen
 
 
 fun NavGraphBuilder.home(navHostController: NavHostController){
@@ -60,6 +59,14 @@ fun NavGraphBuilder.appInfo(navHostController: NavHostController){
     navigation(route = MainGraph.AppInfo.route, startDestination = AppInfoScreens.RootScreen.route){
         composable(route = AppInfoScreens.RootScreen.route){
             AppInfoRootScreen()
+        }
+    }
+}
+
+fun NavGraphBuilder.account(navHostController: NavHostController){
+    navigation(route = MainGraph.Account.route, startDestination = AccountScreens.SignInScreen.route){
+        composable(route = AccountScreens.SignInScreen.route){
+            SignInScreen(navHostController)
         }
     }
 }
