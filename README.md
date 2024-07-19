@@ -1,5 +1,5 @@
 
-#**Welcome to CVSU Go!**
+# **Welcome to CVSU Go!**
 
 CVSU Go is a demo app designed to showcase the seamless porting of a web-based platform to Android. Although this app is not affiliated with Cavite State University, it serves as an entertaining and informative tool during school vacations. Explore the mobile adaptation of web functionalities through CVSU Go, crafted with Kotlin and Jetpack Compose, adhering to a clean architecture approach.
 
