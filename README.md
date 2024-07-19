@@ -29,6 +29,5 @@ For inquiries about using my codebase, please contact me at marcluis1187@gmail.c
 <img src="https://github.com/user-attachments/assets/1e51c1d7-8c3e-4755-b1b2-acb77df115da" alt="Image Description" width="168" height="374">
 <img src="https://github.com/user-attachments/assets/2f0d0e1c-74a5-4e01-94e3-73ffb7d972aa" alt="Image Description" width="168" height="374">
 <img src="https://github.com/user-attachments/assets/3d7bc347-74a9-45a0-8b62-38818b345210" alt="Image Description" width="168" height="374">
-<img src="https://github.com/user-attachments/assets/b5f026ca-cb87-4342-8fed-64a5acc61d30" alt="Image Description" width="168" height="374">
 
 
