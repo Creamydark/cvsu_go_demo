@@ -20,7 +20,7 @@ For inquiries about using my codebase, please contact me at marcluis1187@gmail.c
 - Resources such as images and text are sourced from [Cavite State University - General Trias Campus](http://generaltrias.cvsu.edu.ph/).
 
 
-# []
+# 
 
 
 <img src="https://github.com/user-attachments/assets/42c183e0-073a-422d-b9f1-b595272f3a87" alt="Image Description" width="168" height="374">
