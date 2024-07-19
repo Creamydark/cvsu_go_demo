@@ -16,6 +16,13 @@ CVSU Go is a demo app designed to showcase the seamless porting of a web-based p
 
 For inquiries about using my codebase, please contact me at marcluis1187@gmail.com.
 
+**Credits:**
+- Resources such as images and text are sourced from [Cavite State University - General Trias Campus](http://generaltrias.cvsu.edu.ph/).
+
+
+# []
+
+
 <img src="https://github.com/user-attachments/assets/42c183e0-073a-422d-b9f1-b595272f3a87" alt="Image Description" width="168" height="374">
 <img src="https://github.com/user-attachments/assets/3f584bfc-c0ef-4853-a404-1d23c252a369" alt="Image Description" width="168" height="374">
 <img src="https://github.com/user-attachments/assets/d9714c62-ff1c-4995-9938-3424b06a986f" alt="Image Description" width="168" height="374">
