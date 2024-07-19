@@ -29,15 +29,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.creamydark.cvsugo.domain.dataclass.CourseData
 import com.creamydark.cvsugo.domain.dataclass.CoursesOfferedData
+import com.creamydark.cvsugo.presentation.navgraphs.CoursesScreens
+import com.creamydark.cvsugo.presentation.screens.coursesoffered.viewmodel.CourseDetailViewModel
 import com.creamydark.cvsugo.presentation.screens.coursesoffered.viewmodel.CoursesOfferedViewModel
 
 
 @Composable
-fun CoursesOfferedRootScreen(modifier: Modifier = Modifier,viewModel: CoursesOfferedViewModel = hiltViewModel()) {
+fun CoursesOfferedRootScreen(
+    navHostController: NavHostController,
+    modifier: Modifier = Modifier,
+    viewModel: CourseDetailViewModel
+) {
 
-    val coursesofferedList by viewModel.coursesOfferList.collectAsStateWithLifecycle()
+    val coursesofferedList by viewModel.coursesMutableList.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
     LazyColumn(modifier = modifier.padding(horizontal = 16.dp)) {
@@ -67,7 +75,9 @@ fun CoursesOfferedRootScreen(modifier: Modifier = Modifier,viewModel: CoursesOff
                 data = item
             ){
                 //onClicked
-                Toast.makeText(context, item.id,Toast.LENGTH_SHORT).show()
+                navHostController.navigate(CoursesScreens.CourseDetailScreen.route.plus("/${item.id}")){
+                    launchSingleTop = true
+                }
             }
             Spacer(modifier = Modifier.size(14.dp))
         }
@@ -77,14 +87,14 @@ fun CoursesOfferedRootScreen(modifier: Modifier = Modifier,viewModel: CoursesOff
 
 
 @Composable
-fun CoursesOfferedItem(modifier: Modifier = Modifier,data:CoursesOfferedData,onClick:()->Unit={}) {
+fun CoursesOfferedItem(modifier: Modifier = Modifier,data:CourseData,onClick:()->Unit={}) {
     Card(
         modifier = modifier,
-        colors = CardDefaults.cardColors().copy(containerColor = data.bgColor),
+//        colors = CardDefaults.cardColors().copy(containerColor = data.bgColor),
         onClick = { onClick() }
     ) {
         Column {
-            AsyncImage(model = data.imgUrl, contentDescription = "",modifier = Modifier.fillMaxWidth() )
+            AsyncImage(model = data.courseBannerImgUrl, contentDescription = "",modifier = Modifier.fillMaxWidth() )
             /*Text(
                 modifier = Modifier.padding(16.dp),
                 text = data.courseName,

@@ -8,9 +8,12 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
+import com.creamydark.cvsugo.presentation.screens.about.AboutRootScreen
+import com.creamydark.cvsugo.presentation.screens.appInfo.AppInfoRootScreen
 import com.creamydark.cvsugo.presentation.screens.coursesoffered.CourseDetailScreen
 import com.creamydark.cvsugo.presentation.screens.coursesoffered.CoursesOfferedRootScreen
 import com.creamydark.cvsugo.presentation.screens.coursesoffered.viewmodel.CourseDetailViewModel
+import com.creamydark.cvsugo.presentation.screens.coursesoffered.viewmodel.CoursesOfferedViewModel
 import com.creamydark.cvsugo.presentation.screens.home.HomeRootScreen
 
 
@@ -25,7 +28,8 @@ fun NavGraphBuilder.home(navHostController: NavHostController){
 fun NavGraphBuilder.courses(navHostController: NavHostController){
     navigation(route = MainGraph.Courses.route, startDestination = CoursesScreens.RootScreen.route){
         composable(route = CoursesScreens.RootScreen.route){
-            CoursesOfferedRootScreen()
+            val viewModel : CourseDetailViewModel = hiltViewModel()
+            CoursesOfferedRootScreen(navHostController = navHostController,viewModel = viewModel)
         }
         composable(
             route = CoursesScreens.CourseDetailScreen.route.plus("/{id}"),
@@ -35,8 +39,9 @@ fun NavGraphBuilder.courses(navHostController: NavHostController){
                 },
             ),
         ){
-            val id = it.arguments?.getString("id")
+            val id = it.arguments?.getString("id")?:""
             val viewModel : CourseDetailViewModel = hiltViewModel()
+            viewModel.setCourseData(id)
             CourseDetailScreen(navHostController = navHostController,viewModel = viewModel)
         }
     }
@@ -45,7 +50,16 @@ fun NavGraphBuilder.courses(navHostController: NavHostController){
 fun NavGraphBuilder.about(navHostController: NavHostController){
     navigation(route = MainGraph.About.route, startDestination = AboutScreens.RootScreen.route){
         composable(route = AboutScreens.RootScreen.route){
-            Text(text = "About")
+            AboutRootScreen()
+        }
+    }
+}
+
+
+fun NavGraphBuilder.appInfo(navHostController: NavHostController){
+    navigation(route = MainGraph.AppInfo.route, startDestination = AppInfoScreens.RootScreen.route){
+        composable(route = AppInfoScreens.RootScreen.route){
+            AppInfoRootScreen()
         }
     }
 }

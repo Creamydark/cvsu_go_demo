@@ -98,7 +98,7 @@ fun CourseDetailScreen(
             Icon(modifier = Modifier.size(18.dp),painter = painterResource(id = R.drawable.baseline_filter_none_24), contentDescription = "")
             Spacer(modifier = Modifier.width(4.dp))
             Text(
-                text = "Total Units: ${currentData.totalUnits}",
+                text = "Total Units: ${ if(currentData.totalUnits == 0) "-" else currentData.totalUnits }",
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
@@ -108,7 +108,7 @@ fun CourseDetailScreen(
             Icon(modifier = Modifier.size(18.dp),painter = painterResource(id = R.drawable.outline_access_time_24), contentDescription = "")
             Spacer(modifier = Modifier.width(4.dp))
             Text(
-                text = "Contact Hours: ${currentData.contactHours}",
+                text = "Contact Hours: ${if (currentData.contactHours == 0) "-" else currentData.contactHours.toString()}",
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
@@ -119,7 +119,7 @@ fun CourseDetailScreen(
         Text(
             text = "Program Summary",
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(8.dp))

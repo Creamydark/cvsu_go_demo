@@ -14,7 +14,7 @@ class HomeViewModel @Inject constructor():ViewModel() {
         CoursesOfferedData(id = "BSP" ,courseName = "Bachelor of Science in Psychology", imgUrl = "http://generaltrias.cvsu.edu.ph/images/course/BSP.jpg", bgColor = Color(0xFF9944c9)),
         CoursesOfferedData(id = "BSIT" ,courseName = "Bachelor of Science in Information Technology", imgUrl = "http://generaltrias.cvsu.edu.ph/images/course/BSIT.jpg", bgColor = Color(0xFF18c9eb)),
         CoursesOfferedData(id = "BSBM" ,courseName = "Bachelor of Science in Business Management", imgUrl = "http://generaltrias.cvsu.edu.ph/images/course/BSBM.jpg", bgColor = Color(0xff2d5d2b)),
-        CoursesOfferedData(id = "BSHM" ,courseName = "Bachelor of Science in Hotel Management", imgUrl = "http://generaltrias.cvsu.edu.ph/images/course/BSHM.jpg", bgColor = Color(0xff7e5c48)),
+        CoursesOfferedData(id = "BSHM" ,courseName = "Bachelor of Science in Hospitality Management", imgUrl = "http://generaltrias.cvsu.edu.ph/images/course/BSHM.jpg", bgColor = Color(0xff7e5c48)),
         CoursesOfferedData(id = "BSOA" ,courseName = "Bachelor of Science in Office Management", imgUrl = "http://generaltrias.cvsu.edu.ph/images/course/BSOA.jpg", bgColor = Color(0xff95241c)),
         CoursesOfferedData(id = "BSTM" ,courseName = "Bachelor of Science in Tourism Management", imgUrl = "http://generaltrias.cvsu.edu.ph/images/course/BSTM.jpg", bgColor = Color(0xff7e5c48)),
         CoursesOfferedData(id = "BSE" ,courseName = "Bachelor of Science in Secondary Education", imgUrl = "http://generaltrias.cvsu.edu.ph/images/course/BSE.jpg", bgColor = Color(0xff1e175e))
