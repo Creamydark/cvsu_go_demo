@@ -14,11 +14,11 @@ CVSU Go is a demo app designed to showcase the seamless porting of a web-based p
 - **Dagger Hilt**: For dependency injection to enhance modularity and scalability.
 - **Coil**: For efficient image loading and caching.
 
-For inquiries about using my codebase, please contact me at marcluis1187@gmail.com.
-
 **Credits:**
 - Resources such as images and text are sourced from [Cavite State University - General Trias Campus](http://generaltrias.cvsu.edu.ph/).
 
+
+For inquiries about using my codebase, please contact me at marcluis1187@gmail.com.
 
 # 
 
