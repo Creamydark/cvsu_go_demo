@@ -1,5 +1,6 @@
 package com.creamydark.cvsugo.presentation.screens.studentportal.homescreen
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -102,7 +104,7 @@ val subjects = listOf(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun StudentPortalHomeScreen(modifier: Modifier = Modifier,navHostController: NavHostController) {
-
+    val context = LocalContext.current
 
     LazyColumn(modifier = Modifier
 
@@ -128,7 +130,7 @@ fun StudentPortalHomeScreen(modifier: Modifier = Modifier,navHostController: Nav
                 value = "Not Enrolled"){
                 Button(
                     onClick = {
-
+                        Toast.makeText(context, "Pre-Registration", Toast.LENGTH_SHORT).show()
                     },
                 ) {
                     Text(text = "Pre-Registration")

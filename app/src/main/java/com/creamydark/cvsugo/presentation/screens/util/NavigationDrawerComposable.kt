@@ -137,7 +137,7 @@ fun NavigationDrawerComposable(
             modifier = hPadding12,
             label = {
                 Text(
-                    text = "See More",
+                    text = "Developer",
                 )
             },
             icon = {

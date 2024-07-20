@@ -1,6 +1,9 @@
 package com.creamydark.cvsugo.presentation.screens.home
 
 
+import android.annotation.SuppressLint
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +21,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
@@ -36,6 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -93,6 +98,13 @@ fun HomeRootScreen(navHostController: NavHostController,modifier: Modifier = Mod
         QualityPolicySection()
 
         Spacer(modifier = Modifier.height(32.dp))
+        Card {
+            YouTubePlayer(
+                "qZWVlW5IkLg"
+            )
+        }
+
+        Spacer(modifier = Modifier.height(32.dp))
 
         StrategicPlanSection(modifier = Modifier.fillMaxWidth())
 
@@ -109,7 +121,30 @@ fun HomeRootScreen(navHostController: NavHostController,modifier: Modifier = Mod
 
 
 
+@SuppressLint("SetJavaScriptEnabled")
+@Composable
+fun YouTubePlayer(videoId: String) {
+    val html = """
+        <!DOCTYPE html>
+        <html>
+        <body style="margin:0;padding:0;height:280px;">
+        <iframe width="100%" height="280px" src="https://www.youtube.com/embed/$videoId" 
+                frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen></iframe>
+        </body>
+        </html>
+    """.trimIndent()
 
+    AndroidView(factory = { context ->
+        WebView(context).apply {
+            settings.javaScriptEnabled = true
+            webViewClient = WebViewClient()
+            loadDataWithBaseURL(null, html, "text/html", "UTF-8", null)
+        }
+    }, update = {
+        it.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null)
+    })
+}
 
 
 @Composable
