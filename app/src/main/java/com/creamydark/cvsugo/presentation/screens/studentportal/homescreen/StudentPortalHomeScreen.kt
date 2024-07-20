@@ -45,56 +45,56 @@ import com.creamydark.cvsugo.domain.dataclass.SubjectData
 val subjects = listOf(
     SubjectData(
         subjectName = "Art Appreciation",
-        instructorName = "Ivory Pangwi",
+        instructorName = "Iv**y Pa****",
         schedCode = "202401356",
         subjectCode = "GNED 01",
         section = "BSIT 1-3"
     ),
     SubjectData(
         subjectName = "Mathematics in the Modern World",
-        instructorName = "Ronnel Siggy S. Deseo",
+        instructorName = "Ro**** Si*** S. D****",
         schedCode = "202401357",
         subjectCode = "GNED 03",
         section = "BSIT 1-3"
     ),
     SubjectData(
         subjectName = "Science, Technology and Society",
-        instructorName = "Kelvin Diloy",
+        instructorName = "Ke**** D****",
         schedCode = "202401358",
         subjectCode = "GNED 06",
         section = "BSIT 1-3"
     ),
     SubjectData(
         subjectName = "Dalumat Ng/Sa Filipino",
-        instructorName = "Christian D. Natinga",
+        instructorName = "Ch******* D. N******",
         schedCode = "202401359",
         subjectCode = "GNED 12",
         section = "BSIT 1-3"
     ),
     SubjectData(
         subjectName = "Computer Programming 2",
-        instructorName = "Janlouise Policarpio",
+        instructorName = "Ja******* Po*********",
         schedCode = "202401360",
         subjectCode = "DCIT 23",
         section = "BSIT 1-3"
     ),
     SubjectData(
         subjectName = "Web System and Technologies 1",
-        instructorName = "Marriel J. Bella",
+        instructorName = "Ma***** J. Be***",
         schedCode = "202401361",
         subjectCode = "ITEC 50",
         section = "BSIT 1-3"
     ),
     SubjectData(
         subjectName = "Fitness Exercises",
-        instructorName = "Nico I. Artista",
+        instructorName = "Ni** I. Ar****",
         schedCode = "202401362",
         subjectCode = "FITT 2",
         section = "BSIT 1-3"
     ),
     SubjectData(
         subjectName = "CWTS/LTS/ROTC",
-        instructorName = "Arrah Shaine dela Torre",
+        instructorName = "Ar*** Sh**** de** To****",
         schedCode = "202401363",
         subjectCode = "NSTP 2",
         section = "BSIT 1-3"
