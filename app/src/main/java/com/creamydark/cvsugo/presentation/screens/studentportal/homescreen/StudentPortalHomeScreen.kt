@@ -12,11 +12,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.outlined.DateRange
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -28,32 +32,124 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.creamydark.cvsugo.R
+import com.creamydark.cvsugo.domain.dataclass.SubjectData
 
+
+val subjects = listOf(
+    SubjectData(
+        subjectName = "Art Appreciation",
+        instructorName = "Ivory Pangwi",
+        schedCode = "202401356",
+        subjectCode = "GNED 01",
+        section = "BSIT 1-3"
+    ),
+    SubjectData(
+        subjectName = "Mathematics in the Modern World",
+        instructorName = "Ronnel Siggy S. Deseo",
+        schedCode = "202401357",
+        subjectCode = "GNED 03",
+        section = "BSIT 1-3"
+    ),
+    SubjectData(
+        subjectName = "Science, Technology and Society",
+        instructorName = "Kelvin Diloy",
+        schedCode = "202401358",
+        subjectCode = "GNED 06",
+        section = "BSIT 1-3"
+    ),
+    SubjectData(
+        subjectName = "Dalumat Ng/Sa Filipino",
+        instructorName = "Christian D. Natinga",
+        schedCode = "202401359",
+        subjectCode = "GNED 12",
+        section = "BSIT 1-3"
+    ),
+    SubjectData(
+        subjectName = "Computer Programming 2",
+        instructorName = "Janlouise Policarpio",
+        schedCode = "202401360",
+        subjectCode = "DCIT 23",
+        section = "BSIT 1-3"
+    ),
+    SubjectData(
+        subjectName = "Web System and Technologies 1",
+        instructorName = "Marriel J. Bella",
+        schedCode = "202401361",
+        subjectCode = "ITEC 50",
+        section = "BSIT 1-3"
+    ),
+    SubjectData(
+        subjectName = "Fitness Exercises",
+        instructorName = "Nico I. Artista",
+        schedCode = "202401362",
+        subjectCode = "FITT 2",
+        section = "BSIT 1-3"
+    ),
+    SubjectData(
+        subjectName = "CWTS/LTS/ROTC",
+        instructorName = "Arrah Shaine dela Torre",
+        schedCode = "202401363",
+        subjectCode = "NSTP 2",
+        section = "BSIT 1-3"
+    )
+)
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun StudentPortalHomeScreen(modifier: Modifier = Modifier,navHostController: NavHostController) {
 
 
-    Column(modifier = Modifier
+    LazyColumn(modifier = Modifier
+
         .fillMaxWidth()
         .padding(horizontal = 16.dp)) {
-        Text(
-            modifier = Modifier.padding(top = 22.dp),
-            text = "Portal",
-            style = MaterialTheme.typography.headlineLarge,
-            fontSize = 42.sp,
-            textAlign = TextAlign.Left,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
-        )
-        Text(text = "Welcome, Marc Luis Segunto", style = MaterialTheme.typography.titleLarge)
-        Spacer(modifier = Modifier.height(22.dp))
-        StudentLevelUI()
+        item {
+            Text(
+                modifier = Modifier.padding(top = 22.dp),
+                text = "Portal",
+                style = MaterialTheme.typography.headlineLarge,
+                fontSize = 42.sp,
+                textAlign = TextAlign.Left,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
+            )
+            Text(text = "Welcome, Marc Luis Segunto", style = MaterialTheme.typography.titleLarge)
+            Spacer(modifier = Modifier.height(22.dp))
+        }
+        item {
+            StudentStatusDashboardItem(
+                modifier = Modifier.fillMaxWidth(),
+                label = "Status",
+                value = "Not Enrolled"){
+                Button(
+                    onClick = {
+
+                    },
+                ) {
+                    Text(text = "Pre-Registration")
+                }
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+
+            StudentDashboard()
+            Spacer(modifier = Modifier.height(22.dp))
+        }
+
+        items(items = subjects, key = { it.subjectName }) {
+            data ->
+            SubjectsListItem(
+                subjectName = data.subjectName,
+                instructorName = data.instructorName,
+                schedCode = data.schedCode,
+                subjectCode = data.subjectCode,
+                section = data.section
+            )
+        }
 
     }
 
@@ -63,7 +159,7 @@ fun StudentPortalHomeScreen(modifier: Modifier = Modifier,navHostController: Nav
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun StudentLevelUI(modifier: Modifier = Modifier) {
+fun StudentDashboard(modifier: Modifier = Modifier) {
     FlowRow(
         modifier = modifier,
         maxItemsInEachRow = 2,
@@ -77,26 +173,98 @@ fun StudentLevelUI(modifier: Modifier = Modifier) {
             modifier = itemModifier,
             label = "Current\nSemester",
             value = "1st",
-            icon = ImageVector.vectorResource(id = R.drawable.baseline_calendar_today_24)
+            icon = {
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .background(
+                            color = Color(0xffffc107),
+                            shape = CircleShape
+                        ),
+                    contentAlignment = Alignment.Center
+                ){
+                    Icon(
+                        modifier = Modifier.size(16.dp),
+                        imageVector = ImageVector.vectorResource(id = R.drawable.baseline_calendar_today_24),
+                        contentDescription = "",
+                        tint = Color.White
+                    )
+                }
+            }
+//            icon = ImageVector.vectorResource(id = R.drawable.baseline_calendar_today_24)
         )
         StudentCurrentLevelItem(
             modifier = itemModifier,
             label = "Year\n" +
                     "& Section",
             value = "1-3",
-            icon = ImageVector.vectorResource(id = R.drawable.baseline_edit_calendar_24)
+            icon = {
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .background(
+                            color = Color(0xff17a2b8),
+                            shape = CircleShape
+                        ),
+                    contentAlignment = Alignment.Center
+                ){
+                    Icon(
+                        modifier = Modifier.size(16.dp),
+                        imageVector = ImageVector.vectorResource(id = R.drawable.baseline_edit_calendar_24),
+                        contentDescription = "",
+                        tint = Color.White
+                    )
+                }
+            }
+//            icon = ImageVector.vectorResource(id = R.drawable.baseline_edit_calendar_24)
         )
         StudentCurrentLevelItem(
             modifier = itemModifier,
             label = "Course",
             value = "BSIT",
-            icon = ImageVector.vectorResource(id = R.drawable.baseline_groups_24)
+            icon = {
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .background(
+                            color = Color(0xff6c757d),
+                            shape = CircleShape
+                        ),
+                    contentAlignment = Alignment.Center
+                ){
+                    Icon(
+                        modifier = Modifier.size(16.dp),
+                        imageVector = ImageVector.vectorResource(id = R.drawable.baseline_groups_24),
+                        contentDescription = "",
+                        tint = Color.White
+                    )
+                }
+            }
+//            icon = ImageVector.vectorResource(id = R.drawable.baseline_groups_24)
         )
         StudentCurrentLevelItem(
             modifier = itemModifier,
             label = "Academic Year",
             value = "2023-2024",
-            icon = Icons.Default.DateRange
+            icon = {
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .background(
+                            color = Color(0xff28a745),
+                            shape = CircleShape
+                        ),
+                    contentAlignment = Alignment.Center
+                ){
+                    Icon(
+                        modifier = Modifier.size(16.dp),
+                        imageVector = Icons.Outlined.DateRange,
+                        contentDescription = "",
+                        tint = Color.White
+                    )
+                }
+            }
+//            icon = Icons.Default.DateRange
         )
     }
 }
@@ -107,7 +275,7 @@ fun StudentCurrentLevelItem(
     modifier: Modifier = Modifier,
     label: String,
     value: String,
-    icon: ImageVector
+    icon: @Composable () -> Unit
 ) {
     Card(
         modifier = modifier,
@@ -127,22 +295,48 @@ fun StudentCurrentLevelItem(
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary
                 )
-                Box(
-                    modifier = Modifier
-                        .size(32.dp)
-                        .background(
-                            color = Color(0xff28a745),
-                            shape = CircleShape
-                        ),
-                    contentAlignment = Alignment.Center
-                ){
-                    Icon(
-                        modifier = Modifier.size(16.dp),
-                        imageVector = icon,
-                        contentDescription = "",
-                        tint = Color.White
-                    )
-                }
+                icon()
+
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = value,
+                style = MaterialTheme.typography.titleLarge,
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.8f)
+            )
+        }
+    }
+}
+
+
+@Composable
+fun StudentStatusDashboardItem(
+    modifier: Modifier = Modifier,
+    label: String,
+    value: String,
+    btn:@Composable () -> Unit 
+) {
+    Card(
+        modifier = modifier,
+        shape = RoundedCornerShape(28.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = label,
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                btn()
             }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
@@ -156,3 +350,57 @@ fun StudentCurrentLevelItem(
     }
 }
 
+
+
+
+@Preview(showBackground = true)
+@Composable
+private fun SomeItemPrev() {
+    SubjectsListItem()
+}
+
+
+
+@Composable
+fun SubjectsListItem(
+    modifier: Modifier = Modifier,
+    subjectName: String = "Mathematics in the Modern World",
+    instructorName: String = "Ronnel Siggy S. Deseo",
+    schedCode: String = "202401357",
+    subjectCode: String = "GNED 03",
+    section: String = "BSIT 1-3"
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .padding(top = 16.dp)
+    ) {
+        Text(
+            text = subjectName,
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f),
+            fontWeight = FontWeight.Bold,
+        )
+        Text(
+            text = instructorName,
+            fontSize = 14.sp,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+
+
+        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "$section - $subjectCode - $schedCode",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                fontSize = 12.sp,
+            )
+        }
+        HorizontalDivider(
+            modifier = Modifier.padding(vertical = 8.dp)
+        )
+    }
+}
