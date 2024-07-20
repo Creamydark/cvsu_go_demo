@@ -21,6 +21,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.creamydark.cvsugo.presentation.navgraphs.AccountScreens
 import com.creamydark.cvsugo.presentation.navgraphs.MainGraph
 import com.creamydark.cvsugo.presentation.screens.mainscreen.viewmodel.MainScreenViewModel
 
@@ -82,6 +83,44 @@ fun NavigationDrawerComposable(
                 }
             )
         }
+        if (isUserLoggedIn){
+            Spacer(modifier = Modifier.padding(vertical = 8.dp))
+            Text(
+                modifier = Modifier.padding(horizontal = 28.dp),
+                text = "Portal",
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.padding(vertical = 4.dp))
+            NavigationDrawerItem(
+                modifier = hPadding12,
+                label = {
+                    Text(
+                        text = "Student",
+                    )
+                },
+                icon = {
+                    Icon(imageVector = MainGraph.StudentPortal.icon, contentDescription = "")
+                },
+                selected = currentDestination?.hierarchy?.any { it.route == MainGraph.StudentPortal.route } == true,
+                onClick = {
+                    navHostController.navigate(MainGraph.StudentPortal.route) {
+                        // Pop up to the start destination of the graph to
+                        // avoid building up a large stack of destinations
+                        // on the back stack as users select items
+                        popUpTo(navHostController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        // Avoid multiple copies of the same destination when
+                        // reselecting the same item
+                        launchSingleTop = true
+                        // Restore state when reselecting a previously selected item
+                        restoreState = true
+                    }
+                },
+            )
+        }
+
 
         Spacer(modifier = Modifier.padding(vertical = 8.dp))
 
@@ -141,12 +180,9 @@ fun NavigationDrawerComposable(
                 icon = {
                     Icon(imageVector = Icons.Outlined.Lock, contentDescription = "")
                 },
-                selected = false,
+                selected = currentDestination?.hierarchy?.any { it.route == MainGraph.Account.route } == true,
                 onClick = {
-                    navHostController.navigate(MainGraph.Account.route){
-                        popUpTo(MainGraph.Home.route){
-                            inclusive = true
-                        }
+                    navHostController.navigate(AccountScreens.SignInScreen.route){
                         launchSingleTop = true
                     }
                 },

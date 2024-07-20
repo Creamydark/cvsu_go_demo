@@ -7,12 +7,12 @@ import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.creamydark.cvsugo.presentation.screens.util.enums.UserChooserType
+import com.creamydark.cvsugo.domain.enums.UserChooserType
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TwoSelectableComponent(modifier: Modifier = Modifier,selectedOption: UserChooserType,onSelect:(UserChooserType)->Unit={}) {
+fun TwoSelectableComponent(modifier: Modifier = Modifier, selectedOption: UserChooserType, onSelect:(UserChooserType)->Unit={}) {
 
     SingleChoiceSegmentedButtonRow(
         modifier = modifier

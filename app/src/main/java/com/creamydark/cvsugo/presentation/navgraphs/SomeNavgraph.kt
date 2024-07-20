@@ -14,6 +14,7 @@ import com.creamydark.cvsugo.presentation.screens.coursesoffered.CoursesOfferedR
 import com.creamydark.cvsugo.presentation.screens.coursesoffered.viewmodel.CourseDetailViewModel
 import com.creamydark.cvsugo.presentation.screens.home.HomeRootScreen
 import com.creamydark.cvsugo.presentation.screens.signin.SignInScreen
+import com.creamydark.cvsugo.presentation.screens.studentportal.homescreen.StudentPortalHomeScreen
 
 
 fun NavGraphBuilder.home(navHostController: NavHostController){
@@ -67,6 +68,14 @@ fun NavGraphBuilder.account(navHostController: NavHostController){
     navigation(route = MainGraph.Account.route, startDestination = AccountScreens.SignInScreen.route){
         composable(route = AccountScreens.SignInScreen.route){
             SignInScreen(navHostController)
+        }
+    }
+}
+
+fun NavGraphBuilder.studentPortal(navHostController: NavHostController){
+    navigation(route = MainGraph.StudentPortal.route, startDestination = StudentPortalScreens.StudentHome.route){
+        composable(route = StudentPortalScreens.StudentHome.route){
+            StudentPortalHomeScreen(navHostController = navHostController)
         }
     }
 }
