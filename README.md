@@ -26,6 +26,7 @@ CVSU Go is a demo app designed to showcase the seamless porting of a web-based p
 5. **Sign-In Page**:
    - Allows students and instructors to log in using their credentials (Student ID and password).
    - Indicates that this is a demo with test fields.
+   - Note: The sign-in functionality does not have access to an algorithm, server, or API, as it is just a demo and not connected to any backend system.
 
 6. **Navigation Menu**:
    - Provides access to home, courses offered, and developer options.
@@ -34,7 +35,7 @@ CVSU Go is a demo app designed to showcase the seamless porting of a web-based p
 7. **Notifications**:
    - Displays notifications and reminders, such as greeting messages from the university.
 
-These features suggest that the app is designed to help students and instructors manage their academic information, stay informed about courses, and receive notifications from the university. The app appears to prioritize ease of use, accessibility, and comprehensive details about academic offerings and institutional values.
+These features suggest that the app is designed to help students and instructors manage their academic information, stay informed about courses, and receive notifications from the university. The app appears to prioritize ease of use, accessibility, and comprehensive details about academic offerings and institutional values. The sign-in functionality is a placeholder and does not connect to any server or API, as the app is a demo.
 
 **Technologies and Tools Used:**
 - **Kotlin**: A modern programming language for Android development.
