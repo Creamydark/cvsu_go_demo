@@ -1,22 +1,23 @@
 package com.creamydark.cvsugo.presentation.screens.mainscreen
 
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.composable
+import com.creamydark.cvsugo.domain.enums.AuthenticationState
 import com.creamydark.cvsugo.presentation.navgraphs.MainGraph
+import com.creamydark.cvsugo.presentation.navgraphs.SplashScreens
 import com.creamydark.cvsugo.presentation.navgraphs.about
 import com.creamydark.cvsugo.presentation.navgraphs.account
+import com.creamydark.cvsugo.presentation.navgraphs.announcements
 import com.creamydark.cvsugo.presentation.navgraphs.appInfo
 import com.creamydark.cvsugo.presentation.navgraphs.courses
 import com.creamydark.cvsugo.presentation.navgraphs.home
@@ -33,29 +34,31 @@ fun MainScreen(
     viewModel: MainScreenViewModel
 ) {
 
-    val isUserLoggedIn by viewModel.isUserLoggedIn().collectAsStateWithLifecycle(initialValue = false)
+    val authState by viewModel.authenticationState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(key1 = isUserLoggedIn) {
-        Log.d("MainScreen", "MainScreen: $isUserLoggedIn")
+    val startd = when (authState) {
+        AuthenticationState.Authenticated -> MainGraph.StudentPortal.route
+        AuthenticationState.Unauthenticated -> MainGraph.Home.route
+        AuthenticationState.Loading -> SplashScreens.SplashZero.route
+        else -> MainGraph.Home.route
     }
 
-    val navBackStackEntry by navHostController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
     //Main Screen
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopBarCustomComposable(navHostController = navHostController, drawaState = drawaState)
+            if(authState != AuthenticationState.Loading){
+                TopBarCustomComposable(navHostController = navHostController, drawaState = drawaState)
+            }
         },
         bottomBar = {
 
         }
     ) { innerPadding ->
-        val startDestination = if (isUserLoggedIn) MainGraph.StudentPortal.route else MainGraph.Home.route
         NavHost(
             modifier = Modifier.padding(innerPadding),
             navController = navHostController,
-            startDestination = startDestination
+            startDestination = startd
         ){
             home(navHostController = navHostController)
             about(navHostController = navHostController)
@@ -63,6 +66,10 @@ fun MainScreen(
             appInfo(navHostController = navHostController)
             account(navHostController = navHostController)
             studentPortal(navHostController = navHostController)
+            announcements(navHostController = navHostController)
+            composable(route = SplashScreens.SplashZero.route){
+                SplashScreen(modifier = modifier.fillMaxSize())
+            }
         }
     }
 }

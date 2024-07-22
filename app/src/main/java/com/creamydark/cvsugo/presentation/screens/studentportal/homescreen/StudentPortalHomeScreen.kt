@@ -107,7 +107,6 @@ fun StudentPortalHomeScreen(
                 section = data.section
             )
         }
-
     }
 
 
@@ -282,3 +281,5 @@ fun SubjectsListItem(
         )
     }
 }
+
+

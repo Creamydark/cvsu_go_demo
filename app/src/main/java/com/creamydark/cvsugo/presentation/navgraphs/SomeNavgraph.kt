@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import com.creamydark.cvsugo.presentation.screens.about.AboutRootScreen
+import com.creamydark.cvsugo.presentation.screens.announcements.AnnouncementListScreen
 import com.creamydark.cvsugo.presentation.screens.appInfo.AppInfoRootScreen
 import com.creamydark.cvsugo.presentation.screens.coursesoffered.CourseDetailScreen
 import com.creamydark.cvsugo.presentation.screens.coursesoffered.CoursesOfferedRootScreen
@@ -76,6 +77,15 @@ fun NavGraphBuilder.studentPortal(navHostController: NavHostController){
     navigation(route = MainGraph.StudentPortal.route, startDestination = StudentPortalScreens.StudentHome.route){
         composable(route = StudentPortalScreens.StudentHome.route){
             StudentPortalHomeScreen(navHostController = navHostController)
+        }
+    }
+}
+
+
+fun NavGraphBuilder.announcements(navHostController: NavHostController){
+    navigation(route = MainGraph.Announcement.route, startDestination = AnnouncementScreens.ListScreens.route){
+        composable(route = AnnouncementScreens.ListScreens.route){
+            AnnouncementListScreen(navHostController = navHostController)
         }
     }
 }

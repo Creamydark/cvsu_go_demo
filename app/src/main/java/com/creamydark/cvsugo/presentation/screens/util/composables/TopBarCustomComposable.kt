@@ -21,6 +21,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.creamydark.cvsugo.R
 import com.creamydark.cvsugo.presentation.navgraphs.AboutScreens
+import com.creamydark.cvsugo.presentation.navgraphs.AnnouncementScreens
 import com.creamydark.cvsugo.presentation.navgraphs.AppInfoScreens
 import com.creamydark.cvsugo.presentation.navgraphs.CoursesScreens
 import com.creamydark.cvsugo.presentation.navgraphs.HomeScreens
@@ -67,7 +68,9 @@ fun TopBarCustomComposable(modifier: Modifier = Modifier, navHostController: Nav
         actions = {
             IconButton(
                 onClick = {
-
+                    navHostController.navigate(AnnouncementScreens.ListScreens.route){
+                        launchSingleTop = true
+                    }
                 },
             ) {
                 Icon(imageVector = Icons.Outlined.Notifications, contentDescription = "")

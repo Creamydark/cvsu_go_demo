@@ -23,6 +23,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.creamydark.cvsugo.domain.enums.AuthenticationState
 import com.creamydark.cvsugo.presentation.navgraphs.AccountScreens
 import com.creamydark.cvsugo.presentation.navgraphs.MainGraph
 import com.creamydark.cvsugo.presentation.screens.mainscreen.viewmodel.MainScreenViewModel
@@ -38,7 +39,9 @@ fun NavigationDrawerComposable(
 
     val scope = rememberCoroutineScope()
 
-    val isUserLoggedIn by viewModel.isUserLoggedIn().collectAsStateWithLifecycle(initialValue = false)
+    val authState by viewModel.authenticationState.collectAsStateWithLifecycle()
+
+
 
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -94,7 +97,7 @@ fun NavigationDrawerComposable(
                 }
             )
         }
-        if (isUserLoggedIn){
+        if (authState == AuthenticationState.Authenticated){
             Spacer(modifier = Modifier.padding(vertical = 8.dp))
             Text(
                 modifier = Modifier.padding(horizontal = 28.dp),
@@ -188,7 +191,7 @@ fun NavigationDrawerComposable(
         )
         Spacer(modifier = Modifier.padding(vertical = 4.dp))
 
-        if (!isUserLoggedIn){
+        if (authState == AuthenticationState.Unauthenticated){
             NavigationDrawerItem(
                 modifier = hPadding12,
                 label = {
