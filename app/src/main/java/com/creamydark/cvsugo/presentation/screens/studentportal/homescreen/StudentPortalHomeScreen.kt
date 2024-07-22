@@ -16,16 +16,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.CalendarToday
 import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,76 +37,28 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.creamydark.cvsugo.R
-import com.creamydark.cvsugo.domain.dataclass.SubjectData
+import com.creamydark.cvsugo.domain.dataclass.AcademicInformation
+import com.creamydark.cvsugo.presentation.screens.studentportal.homescreen.viewmodel.StudentPortalViewModel
+import com.creamydark.cvsugo.presentation.screens.util.composables.InfoCardWithButton
 
 
-val subjects = listOf(
-    SubjectData(
-        subjectName = "Art Appreciation",
-        instructorName = "Iv**y Pa****",
-        schedCode = "202401356",
-        subjectCode = "GNED 01",
-        section = "BSIT 1-3"
-    ),
-    SubjectData(
-        subjectName = "Mathematics in the Modern World",
-        instructorName = "Ro**** Si*** S. D****",
-        schedCode = "202401357",
-        subjectCode = "GNED 03",
-        section = "BSIT 1-3"
-    ),
-    SubjectData(
-        subjectName = "Science, Technology and Society",
-        instructorName = "Ke**** D****",
-        schedCode = "202401358",
-        subjectCode = "GNED 06",
-        section = "BSIT 1-3"
-    ),
-    SubjectData(
-        subjectName = "Dalumat Ng/Sa Filipino",
-        instructorName = "Ch******* D. N******",
-        schedCode = "202401359",
-        subjectCode = "GNED 12",
-        section = "BSIT 1-3"
-    ),
-    SubjectData(
-        subjectName = "Computer Programming 2",
-        instructorName = "Ja******* Po*********",
-        schedCode = "202401360",
-        subjectCode = "DCIT 23",
-        section = "BSIT 1-3"
-    ),
-    SubjectData(
-        subjectName = "Web System and Technologies 1",
-        instructorName = "Ma***** J. Be***",
-        schedCode = "202401361",
-        subjectCode = "ITEC 50",
-        section = "BSIT 1-3"
-    ),
-    SubjectData(
-        subjectName = "Fitness Exercises",
-        instructorName = "Ni** I. Ar****",
-        schedCode = "202401362",
-        subjectCode = "FITT 2",
-        section = "BSIT 1-3"
-    ),
-    SubjectData(
-        subjectName = "CWTS/LTS/ROTC",
-        instructorName = "Ar*** Sh**** de** To****",
-        schedCode = "202401363",
-        subjectCode = "NSTP 2",
-        section = "BSIT 1-3"
-    )
-)
-
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun StudentPortalHomeScreen(modifier: Modifier = Modifier,navHostController: NavHostController) {
+fun StudentPortalHomeScreen(
+    modifier: Modifier = Modifier,
+    navHostController: NavHostController,
+    viewModel: StudentPortalViewModel = hiltViewModel()
+) {
     val context = LocalContext.current
+    val information by viewModel.studentInformation.collectAsStateWithLifecycle()
+    val academicInformation by viewModel.academicInformation.collectAsStateWithLifecycle()
+    val subjectEnrolledList by viewModel.subjectEnrolledList.collectAsStateWithLifecycle()
+    val name = "${information.firstName} ${information.lastName}"
 
-    LazyColumn(modifier = Modifier
+    LazyColumn(modifier = modifier
 
         .fillMaxWidth()
         .padding(horizontal = 16.dp)) {
@@ -120,14 +72,15 @@ fun StudentPortalHomeScreen(modifier: Modifier = Modifier,navHostController: Nav
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
             )
-            Text(text = "Welcome, Marc Luis Segunto", style = MaterialTheme.typography.titleLarge)
+            Text(text = "Welcome, $name", style = MaterialTheme.typography.titleLarge)
             Spacer(modifier = Modifier.height(22.dp))
         }
         item {
-            StudentStatusDashboardItem(
+            InfoCardWithButton(
                 modifier = Modifier.fillMaxWidth(),
                 label = "Status",
-                value = "Not Enrolled"){
+                value = if (!academicInformation.enrolled)"Not Enrolled" else "Enrolled"
+            ){
                 Button(
                     onClick = {
                         Toast.makeText(context, "Pre-Registration", Toast.LENGTH_SHORT).show()
@@ -138,11 +91,13 @@ fun StudentPortalHomeScreen(modifier: Modifier = Modifier,navHostController: Nav
             }
             Spacer(modifier = Modifier.height(8.dp))
 
-            StudentDashboard()
+            StudentDashboard(
+                academicInformation = academicInformation
+            )
             Spacer(modifier = Modifier.height(22.dp))
         }
 
-        items(items = subjects, key = { it.subjectName }) {
+        items(items = subjectEnrolledList, key = { it.subjectName }) {
             data ->
             SubjectsListItem(
                 subjectName = data.subjectName,
@@ -161,7 +116,7 @@ fun StudentPortalHomeScreen(modifier: Modifier = Modifier,navHostController: Nav
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun StudentDashboard(modifier: Modifier = Modifier) {
+fun StudentDashboard(modifier: Modifier = Modifier,academicInformation: AcademicInformation) {
     FlowRow(
         modifier = modifier,
         maxItemsInEachRow = 2,
@@ -171,11 +126,11 @@ fun StudentDashboard(modifier: Modifier = Modifier) {
         val itemModifier = Modifier
             .height(120.dp)
             .weight(1f)
-        StudentCurrentLevelItem(
+        InfoCardWithButton(
             modifier = itemModifier,
             label = "Current\nSemester",
-            value = "1st",
-            icon = {
+            value = academicInformation.currentSemester,
+            btn = {
                 Box(
                     modifier = Modifier
                         .size(32.dp)
@@ -187,7 +142,7 @@ fun StudentDashboard(modifier: Modifier = Modifier) {
                 ){
                     Icon(
                         modifier = Modifier.size(16.dp),
-                        imageVector = ImageVector.vectorResource(id = R.drawable.baseline_calendar_today_24),
+                        imageVector = Icons.Outlined.CalendarToday,
                         contentDescription = "",
                         tint = Color.White
                     )
@@ -195,12 +150,12 @@ fun StudentDashboard(modifier: Modifier = Modifier) {
             }
 //            icon = ImageVector.vectorResource(id = R.drawable.baseline_calendar_today_24)
         )
-        StudentCurrentLevelItem(
+        InfoCardWithButton(
             modifier = itemModifier,
             label = "Year\n" +
                     "& Section",
-            value = "1-3",
-            icon = {
+            value = "${academicInformation.year}-${academicInformation.section}",
+            btn = {
                 Box(
                     modifier = Modifier
                         .size(32.dp)
@@ -220,11 +175,11 @@ fun StudentDashboard(modifier: Modifier = Modifier) {
             }
 //            icon = ImageVector.vectorResource(id = R.drawable.baseline_edit_calendar_24)
         )
-        StudentCurrentLevelItem(
+        InfoCardWithButton(
             modifier = itemModifier,
             label = "Course",
-            value = "BSIT",
-            icon = {
+            value = academicInformation.course,
+            btn = {
                 Box(
                     modifier = Modifier
                         .size(32.dp)
@@ -244,11 +199,11 @@ fun StudentDashboard(modifier: Modifier = Modifier) {
             }
 //            icon = ImageVector.vectorResource(id = R.drawable.baseline_groups_24)
         )
-        StudentCurrentLevelItem(
+        InfoCardWithButton(
             modifier = itemModifier,
             label = "Academic Year",
-            value = "2023-2024",
-            icon = {
+            value = academicInformation.currentAcademicYear,
+            btn = {
                 Box(
                     modifier = Modifier
                         .size(32.dp)
@@ -272,85 +227,7 @@ fun StudentDashboard(modifier: Modifier = Modifier) {
 }
 
 
-@Composable
-fun StudentCurrentLevelItem(
-    modifier: Modifier = Modifier,
-    label: String,
-    value: String,
-    icon: @Composable () -> Unit
-) {
-    Card(
-        modifier = modifier,
-        shape = RoundedCornerShape(28.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Top
-            ) {
-                Text(
-                    text = label,
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                icon()
 
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = value,
-                style = MaterialTheme.typography.titleLarge,
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.8f)
-            )
-        }
-    }
-}
-
-
-@Composable
-fun StudentStatusDashboardItem(
-    modifier: Modifier = Modifier,
-    label: String,
-    value: String,
-    btn:@Composable () -> Unit 
-) {
-    Card(
-        modifier = modifier,
-        shape = RoundedCornerShape(28.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = label,
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                btn()
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = value,
-                style = MaterialTheme.typography.titleLarge,
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.secondary
-            )
-        }
-    }
-}
 
 
 

@@ -1,4 +1,4 @@
-package com.creamydark.cvsugo.presentation.screens.util
+package com.creamydark.cvsugo.presentation.screens.util.composables
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height

@@ -38,7 +38,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.creamydark.cvsugo.R
 import com.creamydark.cvsugo.presentation.screens.signin.viewmodel.SignInViewModel
-import com.creamydark.cvsugo.presentation.screens.util.TwoSelectableComponent
+import com.creamydark.cvsugo.presentation.screens.util.composables.TwoSelectableComponent
 import com.creamydark.cvsugo.domain.enums.UserChooserType
 
 @Composable

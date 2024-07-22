@@ -1,4 +1,4 @@
-package com.creamydark.cvsugo.presentation.screens.util
+package com.creamydark.cvsugo.presentation.screens.util.composables
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SegmentedButton

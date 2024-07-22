@@ -21,7 +21,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
@@ -30,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
@@ -47,14 +47,17 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.creamydark.cvsugo.R
 import com.creamydark.cvsugo.domain.dataclass.CoursesOfferedData
+import com.creamydark.cvsugo.domain.dataclass.UniversityStatsData
 import com.creamydark.cvsugo.presentation.navgraphs.CoursesScreens
 import com.creamydark.cvsugo.presentation.screens.home.viewmodel.HomeViewModel
+import com.creamydark.cvsugo.presentation.screens.util.composables.ParagraphWithLabel
 
 
 @Composable
 fun HomeRootScreen(navHostController: NavHostController,modifier: Modifier = Modifier,viewModel: HomeViewModel = hiltViewModel()) {
     val coursesofferedList by viewModel.coursesOfferList.collectAsStateWithLifecycle()
     val partnersLogosUrl by viewModel.partnersLogoUrl.collectAsStateWithLifecycle()
+    val universityStatsData by viewModel.universityStatsData.collectAsStateWithLifecycle()
     val state = rememberScrollState()
     Column(
         modifier = modifier
@@ -63,8 +66,6 @@ fun HomeRootScreen(navHostController: NavHostController,modifier: Modifier = Mod
             .padding(top = 8.dp)
             .verticalScroll(state),
     ) {
-//        HomeTopBar(Modifier.fillMaxWidth())
-
         Text(
             modifier = Modifier.padding(vertical = 22.dp),
             text = "Cavite State\nUniversity",
@@ -79,11 +80,10 @@ fun HomeRootScreen(navHostController: NavHostController,modifier: Modifier = Mod
         Spacer(modifier = Modifier.height(32.dp))
 
         Text(
-            modifier = Modifier,
             text = "Courses Offered",
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
             style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold,
-//            color = MaterialTheme.colorScheme.secondary
+            fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -91,18 +91,29 @@ fun HomeRootScreen(navHostController: NavHostController,modifier: Modifier = Mod
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        CVSUDetails(modifier = Modifier )
+        UniversityStatsCard(
+            modifier = Modifier,
+            universityStatsData = universityStatsData
+        )
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        QualityPolicySection()
+        ParagraphWithLabel(
+            label = "Quality Policy",
+            text = stringResource(id = R.string.quality_policy_string),
+        )
 
         Spacer(modifier = Modifier.height(32.dp))
-        Card {
-            YouTubePlayer(
-                "qZWVlW5IkLg"
-            )
-        }
+
+        YouTubePlayer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(280.dp)
+                .clip(
+                    RoundedCornerShape(16.dp)
+                ),
+            "qZWVlW5IkLg"
+        )
 
         Spacer(modifier = Modifier.height(32.dp))
 
@@ -123,7 +134,7 @@ fun HomeRootScreen(navHostController: NavHostController,modifier: Modifier = Mod
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun YouTubePlayer(videoId: String) {
+private fun YouTubePlayer(modifier: Modifier = Modifier, videoId: String) {
     val html = """
         <!DOCTYPE html>
         <html>
@@ -135,26 +146,24 @@ fun YouTubePlayer(videoId: String) {
         </html>
     """.trimIndent()
 
-    AndroidView(factory = { context ->
-        WebView(context).apply {
-            settings.javaScriptEnabled = true
-            webViewClient = WebViewClient()
-            loadDataWithBaseURL(null, html, "text/html", "UTF-8", null)
-        }
-    }, update = {
-        it.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null)
-    })
+    AndroidView(
+        modifier = modifier,
+        factory = { context ->
+            WebView(context).apply {
+                settings.javaScriptEnabled = true
+                webViewClient = WebViewClient()
+                loadDataWithBaseURL(null, html, "text/html", "UTF-8", null)
+            }
+        },
+        update = {
+            it.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null)
+        },
+    )
 }
 
 
 @Composable
-fun CVSUDetails(modifier: Modifier = Modifier) {
-    val items = listOf(
-        Pair("2,190", "Students Enrolled"),
-        Pair("7", "Programs Offered"),
-        Pair("60", "Academic Personnel"),
-        Pair("9", "Admin Staff")
-    )
+private fun UniversityStatsCard(modifier: Modifier = Modifier,universityStatsData: UniversityStatsData) {
      ElevatedCard(modifier = modifier, shape = RoundedCornerShape(28.dp)) {
         Column(
             modifier = Modifier.padding(16.dp)
@@ -163,16 +172,32 @@ fun CVSUDetails(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                GridItem(modifier = Modifier.weight(1f), label = items[0].first, value = items[0].second)
-                GridItem(modifier = Modifier.weight(1f), label = items[1].first, value = items[1].second)
+                GridItem(
+                    modifier = Modifier.weight(1f),
+                    label = "Students Enrolled",
+                    value = universityStatsData.studentsEnrolled.toString()
+                )
+                GridItem(
+                    modifier = Modifier.weight(1f),
+                    label = "Programs Offered",
+                    value = universityStatsData.programsOffered.toString()
+                )
             }
             Spacer(modifier = Modifier.height(16.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                GridItem(modifier = Modifier.weight(1f), label = items[2].first, value = items[2].second)
-                GridItem(modifier = Modifier.weight(1f), label = items[3].first, value = items[3].second)
+                GridItem(
+                    modifier = Modifier.weight(1f),
+                    label = "Academic Personnel",
+                    value = universityStatsData.academicPersonnel.toString()
+                )
+                GridItem(
+                    modifier = Modifier.weight(1f),
+                    label = "Admin Staff",
+                    value = universityStatsData.adminStaff.toString()
+                )
             }
         }
     }
@@ -186,7 +211,7 @@ fun GridItem(modifier: Modifier = Modifier ,label: String, value: String) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = label,
+            text = value,
             fontSize = 22.sp,
             style = MaterialTheme.typography.headlineLarge,
             color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
@@ -194,7 +219,7 @@ fun GridItem(modifier: Modifier = Modifier ,label: String, value: String) {
 
         )
         Text(
-            text = value,
+            text = label,
             fontSize = 16.sp,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyLarge
@@ -250,7 +275,6 @@ fun CoursesOfferItem(
     ) {
         Column {
             AsyncImage(model = data.imgUrl, contentDescription = "", modifier = Modifier.fillMaxWidth())
-
             Text(
                 modifier = Modifier.padding(16.dp),
                 text = data.courseName,
@@ -272,29 +296,10 @@ fun CoursesOfferItem(
 
 
 
-@Composable
-fun QualityPolicySection(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-    ) {
-        Text(
-            text = "Quality Policy",
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = stringResource(id = R.string.quality_policy_string),
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-            lineHeight = 32.sp
-        )
-    }
-}
+
 
 @Composable
-fun StrategicPlanSection(modifier: Modifier = Modifier) {
+private fun StrategicPlanSection(modifier: Modifier = Modifier) {
     ElevatedCard(shape = RoundedCornerShape(28.dp)) {
         AsyncImage(
             model = "http://generaltrias.cvsu.edu.ph/images/StrategicPlan.jpg",
@@ -308,7 +313,7 @@ fun StrategicPlanSection(modifier: Modifier = Modifier) {
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun PartnersSection(modifier: Modifier = Modifier,list:List<String>) {
+private fun PartnersSection(modifier: Modifier = Modifier,list:List<String>) {
 
     FlowRow(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(16.dp), maxItemsInEachRow = 3, verticalArrangement = Arrangement.spacedBy(16.dp)) {
         val itemModifier = Modifier

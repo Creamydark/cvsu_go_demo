@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -58,12 +58,11 @@ fun MainScreen(
 
     val scope = rememberCoroutineScope()
     val minju = listOf(
-        HomeScreens.RootScreen.route,
-        CoursesScreens.RootScreen.route,
-        AboutScreens.RootScreen.route,
-        AppInfoScreens.RootScreen.route,
-        StudentPortalScreens.StudentHome.route
-
+            HomeScreens.RootScreen.route,
+            CoursesScreens.RootScreen.route,
+            AboutScreens.RootScreen.route,
+            AppInfoScreens.RootScreen.route,
+            StudentPortalScreens.StudentHome.route
         )
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -71,7 +70,7 @@ fun MainScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-//                        HomeTopBar(Modifier.padding(horizontal = 16.dp).statusBarsPadding().fillMaxWidth())
+//          HomeTopBar(Modifier.padding(horizontal = 16.dp).statusBarsPadding().fillMaxWidth())
             TopAppBar(
                 title = {
 
@@ -88,7 +87,7 @@ fun MainScreen(
                                 navHostController.popBackStack()
                             },
                         ) {
-                            Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = "")
+                            Icon(imageVector = Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "")
                         }
                     }
                 },

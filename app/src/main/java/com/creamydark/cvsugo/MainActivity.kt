@@ -14,7 +14,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.creamydark.cvsugo.presentation.screens.mainscreen.MainScreen
 import com.creamydark.cvsugo.presentation.screens.mainscreen.viewmodel.MainScreenViewModel
-import com.creamydark.cvsugo.presentation.screens.util.NavigationDrawerComposable
+import com.creamydark.cvsugo.presentation.screens.util.composables.NavigationDrawerComposable
 import com.creamydark.cvsugo.ui.theme.CVSUGoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
