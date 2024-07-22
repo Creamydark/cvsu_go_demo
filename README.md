@@ -5,6 +5,37 @@ CVSU Go is a demo app designed to showcase the seamless porting of a web-based p
 
 # **Please note that this app is not affiliated with Cavite State University.**
 
+
+
+1. **Courses Offered**:
+   - Displays a list of available courses with detailed information such as the Bachelor of Science in Psychology, Information Technology, Business Management, and Secondary Education.
+   - Includes images and brief summaries for each course.
+
+2. **Student Portal**:
+   - Personalized greeting for the user (e.g., "Welcome, Marc Luis Sagunto").
+   - Information about enrollment status, current semester, year and section, course, and academic year.
+   - Lists pre-registration options and current subjects with their details.
+
+3. **Detailed Course Information**:
+   - Provides specific details about each course, including the department, chairperson, number of total units, contact hours, and program summary.
+
+4. **Core Values and Quality Policy**:
+   - Emphasizes the institution's commitment to truth, excellence, and service.
+   - Highlights the mission and quality policy of the university.
+
+5. **Sign-In Page**:
+   - Allows students and instructors to log in using their credentials (Student ID and password).
+   - Indicates that this is a demo with test fields.
+
+6. **Navigation Menu**:
+   - Provides access to home, courses offered, and developer options.
+   - Simple and user-friendly navigation layout.
+
+7. **Notifications**:
+   - Displays notifications and reminders, such as greeting messages from the university.
+
+These features suggest that the app is designed to help students and instructors manage their academic information, stay informed about courses, and receive notifications from the university. The app appears to prioritize ease of use, accessibility, and comprehensive details about academic offerings and institutional values.
+
 **Technologies and Tools Used:**
 - **Kotlin**: A modern programming language for Android development.
 - **Jetpack Compose**: A toolkit for building native UI components.
