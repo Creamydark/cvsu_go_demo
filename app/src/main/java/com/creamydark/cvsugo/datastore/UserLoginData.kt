@@ -31,7 +31,7 @@ class UserLoginData(val dataStore: DataStore<Preferences>) {
             }
         }
         .map { preferences ->
-            preferences[KEY_IDS] as? Set<String> ?: emptySet() // Map to Set
+            preferences[KEY_IDS] ?: emptySet() // Map to Set
         }
 }
 

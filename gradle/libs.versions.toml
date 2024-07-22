@@ -18,12 +18,18 @@ androidxHilt = "1.2.0"
 androidxLifecycle = "2.8.3"
 coil = "2.6.0"
 uiTextGoogleFonts = "1.6.8"
+workRuntimeKtx = "2.9.0"
+accompanistPermissions = "0.35.1-alpha"
+firebaseFirestore = "25.0.0"
+
 [libraries]
 
 
+accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferencesCore" }
 androidx-datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastorePreferencesCore" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "androidxMaterialIconsExtended" }
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
 coil = {group = "io.coil-kt", name= "coil-compose",version.ref = "coil"}
 
 androidx-navigation-compose = {group = "androidx.navigation" , name = "navigation-compose", version.ref = "navigationCompose"}
@@ -51,6 +57,7 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 
 [plugins]
 
@@ -60,4 +67,5 @@ dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt
 
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+
 

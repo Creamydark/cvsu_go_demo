@@ -71,8 +71,12 @@ android {
         }
     }
 }
-
 dependencies {
+
+
+    implementation (libs.accompanist.permissions) // Use the latest version
+
+    implementation(libs.androidx.work.runtime.ktx)
 
     implementation (libs.androidx.material.icons.extended)
 

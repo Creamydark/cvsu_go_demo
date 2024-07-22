@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
@@ -13,6 +14,7 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -24,13 +26,18 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.creamydark.cvsugo.presentation.navgraphs.AccountScreens
 import com.creamydark.cvsugo.presentation.navgraphs.MainGraph
 import com.creamydark.cvsugo.presentation.screens.mainscreen.viewmodel.MainScreenViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun NavigationDrawerComposable(
     modifier: Modifier = Modifier,
     navHostController: NavHostController,
-    viewModel: MainScreenViewModel
+    viewModel: MainScreenViewModel,
+    drawerState: DrawerState
 ) {
+
+    val scope = rememberCoroutineScope()
+
     val isUserLoggedIn by viewModel.isUserLoggedIn().collectAsStateWithLifecycle(initialValue = false)
 
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
@@ -70,6 +77,10 @@ fun NavigationDrawerComposable(
                         launchSingleTop = true
                         // Restore state when reselecting a previously selected item
                         restoreState = true
+                    }.also {
+                        scope.launch {
+                            drawerState.close()
+                        }
                     }
 
                 },
@@ -116,6 +127,10 @@ fun NavigationDrawerComposable(
                         launchSingleTop = true
                         // Restore state when reselecting a previously selected item
                         restoreState = true
+                    }.also {
+                        scope.launch {
+                            drawerState.close()
+                        }
                     }
                 },
             )
@@ -157,6 +172,10 @@ fun NavigationDrawerComposable(
                     launchSingleTop = true
                     // Restore state when reselecting a previously selected item
                     restoreState = true
+                }.also {
+                    scope.launch {
+                        drawerState.close()
+                    }
                 }
             },
         )
@@ -184,6 +203,10 @@ fun NavigationDrawerComposable(
                 onClick = {
                     navHostController.navigate(AccountScreens.SignInScreen.route){
                         launchSingleTop = true
+                    }.also {
+                        scope.launch {
+                            drawerState.close()
+                        }
                     }
                 },
             )
@@ -200,7 +223,11 @@ fun NavigationDrawerComposable(
                 },
                 selected = false,
                 onClick = {
-                    viewModel.setLoginState(false)
+                    viewModel.setLoginState(false).also {
+                        scope.launch {
+                            drawerState.close()
+                        }
+                    }
                 },
             )
         }
