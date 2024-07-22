@@ -37,7 +37,7 @@ CVSU Go is a demo app designed to showcase the seamless porting of a web-based p
 
 These features suggest that the app is designed to help students and instructors manage their academic information, stay informed about courses, and receive notifications from the university. The app appears to prioritize ease of use, accessibility, and comprehensive details about academic offerings and institutional values. The sign-in functionality is a placeholder and does not connect to any server or API, as the app is a demo.
 
-**Technologies and Tools Used:**
+# **Technologies and Tools Used:**
 - **Kotlin**: A modern programming language for Android development.
 - **Jetpack Compose**: A toolkit for building native UI components.
 - **Material 3**: For a cohesive and modern UI design.
@@ -46,7 +46,7 @@ These features suggest that the app is designed to help students and instructors
 - **Dagger Hilt**: For dependency injection to enhance modularity and scalability.
 - **Coil**: For efficient image loading and caching.
 
-**Credits:**
+# **Credits:**
 - Resources such as images and text are sourced from [Cavite State University - General Trias Campus](http://generaltrias.cvsu.edu.ph/).
 
 
