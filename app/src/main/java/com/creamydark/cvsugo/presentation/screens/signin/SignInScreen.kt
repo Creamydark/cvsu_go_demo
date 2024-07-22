@@ -47,7 +47,6 @@ fun SignInScreen(
     modifier: Modifier = Modifier,
     viewmodel: SignInViewModel = hiltViewModel(),
 ) {
-    val isUserLoggedIn by viewmodel.isUserLoggedIn().collectAsStateWithLifecycle(initialValue = false)
 
     val context = LocalContext.current
     val scrollState = rememberScrollState()

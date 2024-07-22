@@ -1,12 +1,9 @@
 package com.creamydark.cvsugo.workmanager
 
-import android.app.NotificationManager
 import android.content.Context
-import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.creamydark.cvsugo.R
+import com.creamydark.cvsugo.notificationmanager.GreetingsNotificationManager
 import kotlinx.coroutines.delay
 import java.time.LocalTime
 
@@ -15,6 +12,7 @@ class GreetingtWorkManager(
     params: WorkerParameters
 ):CoroutineWorker(appContext, params) {
     override suspend fun doWork(): Result {
+        val greetingsNotificationManager = GreetingsNotificationManager(applicationContext)
 
         delay(3000)
 
@@ -41,24 +39,14 @@ class GreetingtWorkManager(
                 "Hey cvSUHenyo, still up? Don't forget to take breaks!"
             ).random()
         }
-        showNotification(
-            title = greetingText,
-            text = "Greetings from University"
+
+        greetingsNotificationManager.greet(
+            title = "Greetings from University",
+            text = greetingText
         )
         return Result.success()
     }
 
-    private fun showNotification(title:String="",text:String = ""){
-        val notificationManager = getSystemService(applicationContext,NotificationManager::class.java) as NotificationManager
-        val notification = NotificationCompat.Builder(
-            applicationContext,
-            "channel_id_0"
-        )
-            .setContentTitle(title)
-            .setContentText(text)
-            .setSmallIcon(R.drawable.baseline_groups_24)
-            .build()
-        notificationManager.notify(0,notification)
-    }
+
 
 }

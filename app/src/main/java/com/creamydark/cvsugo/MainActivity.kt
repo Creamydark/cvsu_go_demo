@@ -20,7 +20,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,19 +27,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
 import com.creamydark.cvsugo.presentation.screens.mainscreen.MainScreen
 import com.creamydark.cvsugo.presentation.screens.mainscreen.viewmodel.MainScreenViewModel
 import com.creamydark.cvsugo.presentation.screens.util.composables.NavigationDrawerComposable
 import com.creamydark.cvsugo.ui.theme.CVSUGoTheme
-import com.creamydark.cvsugo.workmanager.GreetingtWorkManager
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -90,32 +85,24 @@ class MainActivity : ComponentActivity() {
                             Text("Request permission")
                         }
                     }
-                }else{
-                    ModalNavigationDrawer(
-                        drawerState = drawerState,
-                        drawerContent = {
-                            NavigationDrawerComposable(
-                                navHostController = navHostController,
-                                viewModel = viewModel,
-                                drawerState = drawerState
-                            )
-                        },
-                    ) {
-                        MainScreen(
-                            modifier = Modifier.fillMaxWidth(),
-                            navHostController = navHostController,
-                            drawaState = drawerState,
-                            viewModel = viewModel
-                        )
-                    }
                 }
-                LaunchedEffect(key1 = Unit){
-                    val workRequest = PeriodicWorkRequestBuilder<GreetingtWorkManager>(
-                        repeatInterval = 3,
-                        repeatIntervalTimeUnit = TimeUnit.HOURS
-                    ).build()
-                    val workManager = WorkManager.getInstance(applicationContext)
-                    workManager.enqueue(workRequest)
+
+                ModalNavigationDrawer(
+                    drawerState = drawerState,
+                    drawerContent = {
+                        NavigationDrawerComposable(
+                            navHostController = navHostController,
+                            viewModel = viewModel,
+                            drawerState = drawerState
+                        )
+                    },
+                ) {
+                    MainScreen(
+                        modifier = Modifier.fillMaxWidth(),
+                        navHostController = navHostController,
+                        drawaState = drawerState,
+                        viewModel = viewModel
+                    )
                 }
             }
         }

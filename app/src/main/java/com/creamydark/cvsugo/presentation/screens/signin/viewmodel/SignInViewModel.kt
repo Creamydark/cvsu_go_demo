@@ -12,7 +12,7 @@ import javax.inject.Inject
 class SignInViewModel @Inject constructor(
     private val userLoginDataStoreRepo: UserLoginDataStoreRepo
 ): ViewModel() {
-    fun isUserLoggedIn () = userLoginDataStoreRepo.getLoginState()
+//    fun isUserLoggedIn () = userLoginDataStoreRepo.getLoginState()
     fun updateLoginState (state: Boolean){
         viewModelScope.launch {
             userLoginDataStoreRepo.updateLoginState(state).collectLatest {

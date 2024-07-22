@@ -1,9 +1,11 @@
 package com.creamydark.cvsugo.di
 
 import android.content.Context
+import com.creamydark.cvsugo.data.repository.AnnouncementRepoImpl
 import com.creamydark.cvsugo.data.repository.StudentDataRepositoryImpl
 import com.creamydark.cvsugo.data.repository.UniversityRepositoryImpl
 import com.creamydark.cvsugo.data.repository.UserLoginDataStoreRepoImpl
+import com.creamydark.cvsugo.domain.repository.AnnouncementRepo
 import com.creamydark.cvsugo.domain.repository.StudentDataRepository
 import com.creamydark.cvsugo.domain.repository.UniversityRepository
 import com.creamydark.cvsugo.domain.repository.UserLoginDataStoreRepo
@@ -39,6 +41,12 @@ object RepositoryModule {
     @Singleton
     fun provideStudentDataRepository(): StudentDataRepository {
         return StudentDataRepositoryImpl()
+    }
+
+    @Provides
+    @Singleton
+    fun provideAnnouncementRepository():AnnouncementRepo{
+        return AnnouncementRepoImpl()
     }
 
 }
