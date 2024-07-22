@@ -5,7 +5,7 @@ CVSU Go is a demo app designed to showcase the seamless porting of a web-based p
 
 # **Please note that this app is not affiliated with Cavite State University.**
 
-
+# Features:
 
 1. **Courses Offered**:
    - Displays a list of available courses with detailed information such as the Bachelor of Science in Psychology, Information Technology, Business Management, and Secondary Education.
