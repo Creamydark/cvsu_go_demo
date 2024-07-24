@@ -20,11 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.creamydark.cvsugo.R
-import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.AnnouncementScreens
-import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.DevelopmentScreens
-import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.HomeScreens
-import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.MainGraph
-import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.StudentPortalScreens
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.Routes
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,18 +29,16 @@ fun TopBarCustomComposable(modifier: Modifier = Modifier, navHostController: Nav
 
     val scope = rememberCoroutineScope()
 
-
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val minju = listOf(
-        HomeScreens.MainScreen.route,
-        HomeScreens.CoursesOfferScreen.route,
-        HomeScreens.AboutUniversityScreen.route,
-        StudentPortalScreens.StudentDashboard.route,
-        StudentPortalScreens.StudentGrades.route,
-        StudentPortalScreens.StudentProfile.route,
-        DevelopmentScreens.Developer.route,
-        MainGraph.SplashZero.route,
+        Routes.MainScreen.route,
+        Routes.CoursesOfferScreen.route,
+        Routes.AboutUniversityScreen.route,
+        Routes.DeveloperScreen.route,
+        Routes.StudentDashboardScreen.route,
+        Routes.StudentGradesScreen.route,
+        Routes.StudentProfileScreen.route,
     )
     TopAppBar(
         modifier = modifier,
@@ -70,7 +64,7 @@ fun TopBarCustomComposable(modifier: Modifier = Modifier, navHostController: Nav
         actions = {
             IconButton(
                 onClick = {
-                    navHostController.navigate(AnnouncementScreens.ListScreens.route){
+                    navHostController.navigate(Routes.AnnouncementListScreen.route){
                         launchSingleTop = true
                     }
                 },

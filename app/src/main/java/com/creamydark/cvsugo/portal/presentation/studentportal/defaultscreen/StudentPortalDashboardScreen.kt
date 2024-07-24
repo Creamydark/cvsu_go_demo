@@ -108,9 +108,6 @@ fun StudentPortalDashboardScreen(
             )
         }
     }
-
-
-
 }
 
 @OptIn(ExperimentalLayoutApi::class)

@@ -46,11 +46,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.creamydark.cvsugo.R
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.Routes
+import com.creamydark.cvsugo.core.presentation.util.composables.ParagraphWithLabel
 import com.creamydark.cvsugo.home.domain.dataclass.CoursesOfferedData
 import com.creamydark.cvsugo.home.domain.dataclass.UniversityStatsData
 import com.creamydark.cvsugo.home.presentation.main.viewmodel.HomeViewModel
-import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.HomeScreens
-import com.creamydark.cvsugo.core.presentation.util.composables.ParagraphWithLabel
 
 
 @Composable
@@ -59,74 +59,82 @@ fun HomeMainScreen(navHostController: NavHostController,modifier: Modifier = Mod
     val partnersLogosUrl by viewModel.partnersLogoUrl.collectAsStateWithLifecycle()
     val universityStatsData by viewModel.universityStatsData.collectAsStateWithLifecycle()
     val state = rememberScrollState()
+    val paddingHorrizontal = Modifier.padding(horizontal = 16.dp)
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .padding(top = 8.dp)
             .verticalScroll(state),
     ) {
-        Text(
-            modifier = Modifier.padding(vertical = 22.dp),
-            text = "Cavite State\nUniversity",
-            style = MaterialTheme.typography.headlineLarge,
-            fontSize = 42.sp,
-            lineHeight = 42.sp,
-            textAlign = TextAlign.Left,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
-        )
+        Column(
+            modifier = paddingHorrizontal
 
-        Spacer(modifier = Modifier.height(32.dp))
+        ) {
+            Text(
+                modifier = Modifier.padding(vertical = 22.dp),
+                text = "Cavite State\nUniversity",
+                style = MaterialTheme.typography.headlineLarge,
+                fontSize = 42.sp,
+                lineHeight = 42.sp,
+                textAlign = TextAlign.Left,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
+            )
 
-        Text(
-            text = "Courses Offered",
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold
-        )
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Text(
+                text = "Courses Offered",
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+        }
         Spacer(modifier = Modifier.height(8.dp))
-
         CoursesOffer(Modifier.fillMaxWidth(),navHostController,coursesofferedList)
+        Column(
+            modifier = paddingHorrizontal
+        ){
+            Spacer(modifier = Modifier.height(32.dp))
 
-        Spacer(modifier = Modifier.height(32.dp))
+            UniversityStatsCard(
+                modifier = Modifier,
+                universityStatsData = universityStatsData
+            )
 
-        UniversityStatsCard(
-            modifier = Modifier,
-            universityStatsData = universityStatsData
-        )
+            Spacer(modifier = Modifier.height(32.dp))
 
-        Spacer(modifier = Modifier.height(32.dp))
+            ParagraphWithLabel(
+                label = "Quality Policy",
+                text = stringResource(id = R.string.quality_policy_string),
+            )
 
-        ParagraphWithLabel(
-            label = "Quality Policy",
-            text = stringResource(id = R.string.quality_policy_string),
-        )
+            Spacer(modifier = Modifier.height(32.dp))
 
-        Spacer(modifier = Modifier.height(32.dp))
+            YouTubePlayer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(280.dp)
+                    .clip(
+                        RoundedCornerShape(16.dp)
+                    ),
+                "qZWVlW5IkLg"
+            )
 
-        YouTubePlayer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(280.dp)
-                .clip(
-                    RoundedCornerShape(16.dp)
-                ),
-            "qZWVlW5IkLg"
-        )
+            Spacer(modifier = Modifier.height(32.dp))
 
-        Spacer(modifier = Modifier.height(32.dp))
+            StrategicPlanSection(modifier = Modifier.fillMaxWidth())
 
-        StrategicPlanSection(modifier = Modifier.fillMaxWidth())
+            Spacer(modifier = Modifier.height(32.dp))
 
-        Spacer(modifier = Modifier.height(32.dp))
+            PartnersSection( modifier = Modifier.fillMaxWidth(),partnersLogosUrl)
 
-        PartnersSection( modifier = Modifier.fillMaxWidth(),partnersLogosUrl)
-
-        Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
 
+        }
     }
+
+
 }
 
 
@@ -229,9 +237,10 @@ fun GridItem(modifier: Modifier = Modifier ,label: String, value: String) {
 
 @Composable
 private fun CoursesOffer(modifier: Modifier = Modifier,navHostController: NavHostController,list: List<CoursesOfferedData>) {
-    val context = LocalContext.current
     LazyRow(modifier = modifier) {
-
+        item {
+            Spacer(modifier = Modifier.width(16.dp))
+        }
         items(
             items = list,
             key = { item ->
@@ -244,7 +253,7 @@ private fun CoursesOffer(modifier: Modifier = Modifier,navHostController: NavHos
                 data = item
             ){
                 id->
-                navHostController.navigate(HomeScreens.CoursesOfferDetailScreen.route.plus("/$id")){
+                navHostController.navigate(Routes.CoursesOfferDetailScreen.route.plus("/$id")){
                     launchSingleTop = true
                 }
 //                Toast.makeText(context, id ,Toast.LENGTH_SHORT).show()

@@ -24,7 +24,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.creamydark.cvsugo.core.domain.enums.AuthenticationState
-import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.HomeScreensNavigationItems
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.HomeNavigationItems
 import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.MainGraph
 import com.creamydark.cvsugo.core.presentation.rootscreen.viewmodel.MainScreenViewModel
 import kotlinx.coroutines.launch
@@ -56,7 +56,7 @@ fun NavigationDrawerComposable(
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.size(8.dp))
-        HomeScreensNavigationItems.entries.forEach { screen ->
+        HomeNavigationItems.entries.forEach { screen ->
             NavigationDrawerItem(
                 modifier = hPadding12,
                 selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,

@@ -25,8 +25,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.Routes
 import com.creamydark.cvsugo.home.domain.dataclass.CourseData
-import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.HomeScreens
 import com.creamydark.cvsugo.home.presentation.coursesoffered.viewmodel.CourseDetailViewModel
 
 
@@ -67,7 +67,7 @@ fun CoursesOfferedRootScreen(
                 data = item
             ){
                 //onClicked
-                navHostController.navigate(HomeScreens.CoursesOfferDetailScreen.route.plus("/${item.id}")){
+                navHostController.navigate(Routes.CoursesOfferDetailScreen.route.plus("/${item.id}")){
                     launchSingleTop = true
                 }
             }

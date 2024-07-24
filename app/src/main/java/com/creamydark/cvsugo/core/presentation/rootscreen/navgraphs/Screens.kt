@@ -13,59 +13,49 @@ import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.ui.graphics.vector.ImageVector
 
+sealed class Routes(val route: String) {
+    // Home Routes
+    data object MainScreen: Routes(route = "main_screen")
+    data object CoursesOfferScreen: Routes(route = "courses_offer_screen")
+    data object CoursesOfferDetailScreen: Routes(route = "courses_offer_detail_screen")
+    data object AboutUniversityScreen: Routes(route = "about_university_screen")
 
-sealed class HomeScreens(val route:String){
-    data object MainScreen: HomeScreens(route = "main_screen")
-    data object CoursesOfferScreen: HomeScreens(route = "courses_offer_screen")
-    data object CoursesOfferDetailScreen: HomeScreens(route = "courses_offer_detail_screen")
-    data object AboutUniversityScreen: HomeScreens(route = "about_university_screen")
+    // Development Routes
+    data object DeveloperScreen: Routes(route = "developer_screen")
+
+    // Account Routes
+    data object SignInScreen: Routes(route = "sign_in_screen")
+
+    // Student Portal Routes
+    data object StudentDashboardScreen: Routes(route = "student_dashboard_screen")
+    data object StudentGradesScreen: Routes(route = "student_grades_screen")
+    data object StudentProfileScreen: Routes(route = "student_profile_screen")
+
+    // Announcement Routes
+    data object AnnouncementListScreen: Routes(route = "announcement_list_screen")
 }
 
-
-enum class HomeScreensNavigationItems(
+enum class HomeNavigationItems(
     val route: String,
     val icon: ImageVector,
     val label: String
-){
-    Home(route = HomeScreens.MainScreen.route, icon = Icons.Outlined.Home, label = "Home"),
-    CoursesOffer(route = HomeScreens.CoursesOfferScreen.route, icon = Icons.Outlined.FavoriteBorder, label = "Courses Offered"),
-    AboutUniversity(route = HomeScreens.AboutUniversityScreen.route, icon = Icons.Outlined.Info, label = "About University")
+) {
+    Home(route = Routes.MainScreen.route, icon = Icons.Outlined.Home, label = "Home"),
+    CoursesOffer(route = Routes.CoursesOfferScreen.route, icon = Icons.Outlined.FavoriteBorder, label = "Courses Offered"),
+    AboutUniversity(route = Routes.AboutUniversityScreen.route, icon = Icons.Outlined.Info, label = "About University")
 }
-
-sealed class DevelopmentScreens(val route:String){
-    data object Developer: DevelopmentScreens(route = "developer_screen")
-}
-
-
-sealed class AccountScreens(val route:String){
-    data object SignInScreen: AccountScreens(route = "sign_in_screen")
-}
-
-
-
-sealed class StudentPortalScreens(val route:String){
-    data object StudentDashboard: StudentPortalScreens(route = "student_dashboard_screen")
-    data object StudentGrades: StudentPortalScreens(route = "student_grades_screen")
-    data object StudentProfile: StudentPortalScreens(route = "student_profile_screen")
-}
-
 
 enum class StudentPortalNavigationItems(
     val route: String,
     val icon: ImageVector,
     val label: String
-){
-    Dashboard(route = StudentPortalScreens.StudentDashboard.route, icon = Icons.Outlined.Dashboard, label = "Dashboard"),
-    Grades(route = StudentPortalScreens.StudentGrades.route, icon = Icons.Outlined.FiberSmartRecord, label = "Grades"),
-    Profile(route = StudentPortalScreens.StudentProfile.route, icon = Icons.Outlined.Person, label = "Profile")
+) {
+    Dashboard(route = Routes.StudentDashboardScreen.route, icon = Icons.Outlined.Dashboard, label = "Dashboard"),
+    Grades(route = Routes.StudentGradesScreen.route, icon = Icons.Outlined.FiberSmartRecord, label = "Grades"),
+    Profile(route = Routes.StudentProfileScreen.route, icon = Icons.Outlined.Person, label = "Profile")
 }
 
-sealed class AnnouncementScreens(val route:String){
-    data object ListScreens: AnnouncementScreens(route = "list_screen")
-}
-
-
-sealed class MainGraph(val route:String, val label:String = route,val icon:ImageVector= Icons.Default.Home){
+sealed class MainGraph(val route: String, val label: String = route, val icon: ImageVector = Icons.Default.Home) {
     data object Home: MainGraph(route = "home_screen_graph", label = "Home", icon = Icons.Outlined.Home)
     data object Account: MainGraph(route = "account_screen_graph", label = "Account", icon = Icons.Outlined.Lock)
     data object StudentPortal: MainGraph(route = "student_portal_screen_graph", label = "Student Portal", icon = Icons.Outlined.FavoriteBorder)
