@@ -6,8 +6,8 @@ import android.app.NotificationManager
 import android.content.Context
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.creamydark.cvsugo.notificationmanager.NotificationCHIds.greetingsChannel
-import com.creamydark.cvsugo.workmanager.GreetingtWorkManager
+import com.creamydark.cvsugo.core.notificationmanager.NotificationCHIds.greetingsChannel
+import com.creamydark.cvsugo.core.workmanager.GreetingtWorkManager
 import dagger.hilt.android.HiltAndroidApp
 import java.util.concurrent.TimeUnit
 

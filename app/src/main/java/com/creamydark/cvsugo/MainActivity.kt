@@ -27,9 +27,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
-import com.creamydark.cvsugo.presentation.screens.mainscreen.MainScreen
-import com.creamydark.cvsugo.presentation.screens.mainscreen.viewmodel.MainScreenViewModel
-import com.creamydark.cvsugo.presentation.screens.util.composables.NavigationDrawerComposable
+import com.creamydark.cvsugo.core.presentation.mainscreen.MainScreen
+import com.creamydark.cvsugo.core.presentation.mainscreen.viewmodel.MainScreenViewModel
+import com.creamydark.cvsugo.core.presentation.mainscreen.components.NavigationDrawerComposable
 import com.creamydark.cvsugo.ui.theme.CVSUGoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
