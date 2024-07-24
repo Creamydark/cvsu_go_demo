@@ -47,7 +47,7 @@ import com.creamydark.cvsugo.portal.presentation.studentportal.defaultscreen.vie
 
 
 @Composable
-fun StudentPortalDefaultScreen(
+fun StudentPortalDashboardScreen(
     modifier: Modifier = Modifier,
     navHostController: NavHostController,
     viewModel: StudentPortalViewModel = hiltViewModel()

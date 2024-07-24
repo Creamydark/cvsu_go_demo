@@ -49,7 +49,7 @@ import com.creamydark.cvsugo.R
 import com.creamydark.cvsugo.home.domain.dataclass.CoursesOfferedData
 import com.creamydark.cvsugo.home.domain.dataclass.UniversityStatsData
 import com.creamydark.cvsugo.home.presentation.main.viewmodel.HomeViewModel
-import com.creamydark.cvsugo.core.presentation.mainscreen.navgraphs.HomeScreens
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.HomeScreens
 import com.creamydark.cvsugo.core.presentation.util.composables.ParagraphWithLabel
 
 

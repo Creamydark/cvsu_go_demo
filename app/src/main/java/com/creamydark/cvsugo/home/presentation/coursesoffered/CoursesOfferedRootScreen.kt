@@ -26,7 +26,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.creamydark.cvsugo.home.domain.dataclass.CourseData
-import com.creamydark.cvsugo.core.presentation.mainscreen.navgraphs.HomeScreens
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.HomeScreens
 import com.creamydark.cvsugo.home.presentation.coursesoffered.viewmodel.CourseDetailViewModel
 
 

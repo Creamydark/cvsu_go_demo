@@ -20,9 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.creamydark.cvsugo.R
-import com.creamydark.cvsugo.core.presentation.mainscreen.navgraphs.AnnouncementScreens
-import com.creamydark.cvsugo.core.presentation.mainscreen.navgraphs.HomeScreens
-import com.creamydark.cvsugo.core.presentation.mainscreen.navgraphs.StudentPortalScreens
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.AnnouncementScreens
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.DevelopmentScreens
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.HomeScreens
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.MainGraph
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.StudentPortalScreens
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,7 +40,11 @@ fun TopBarCustomComposable(modifier: Modifier = Modifier, navHostController: Nav
         HomeScreens.MainScreen.route,
         HomeScreens.CoursesOfferScreen.route,
         HomeScreens.AboutUniversityScreen.route,
-        StudentPortalScreens.StudentHome.route
+        StudentPortalScreens.StudentDashboard.route,
+        StudentPortalScreens.StudentGrades.route,
+        StudentPortalScreens.StudentProfile.route,
+        DevelopmentScreens.Developer.route,
+        MainGraph.SplashZero.route,
     )
     TopAppBar(
         modifier = modifier,
@@ -54,7 +60,7 @@ fun TopBarCustomComposable(modifier: Modifier = Modifier, navHostController: Nav
             if (currentDestination?.route !in minju){
                 IconButton(
                     onClick = {
-                        navHostController.popBackStack()
+                        navHostController.navigateUp()
                     },
                 ) {
                     Icon(imageVector = Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "")

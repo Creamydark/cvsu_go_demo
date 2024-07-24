@@ -1,6 +1,7 @@
-package com.creamydark.cvsugo.core.presentation.mainscreen
+package com.creamydark.cvsugo.core.presentation.rootscreen
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -12,14 +13,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.creamydark.cvsugo.core.domain.enums.AuthenticationState
-import com.creamydark.cvsugo.core.presentation.mainscreen.navgraphs.MainGraph
-import com.creamydark.cvsugo.core.presentation.mainscreen.navgraphs.account
-import com.creamydark.cvsugo.core.presentation.mainscreen.navgraphs.announcements
-import com.creamydark.cvsugo.core.presentation.mainscreen.navgraphs.development
-import com.creamydark.cvsugo.core.presentation.mainscreen.navgraphs.home
-import com.creamydark.cvsugo.core.presentation.mainscreen.navgraphs.studentPortal
-import com.creamydark.cvsugo.core.presentation.mainscreen.viewmodel.MainScreenViewModel
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.MainGraph
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.account
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.announcements
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.development
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.home
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.studentPortal
+import com.creamydark.cvsugo.core.presentation.rootscreen.viewmodel.MainScreenViewModel
+import com.creamydark.cvsugo.core.presentation.util.composables.StudentBottomBar
 import com.creamydark.cvsugo.core.presentation.util.composables.TopBarCustomComposable
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -30,26 +33,27 @@ fun MainScreen(
     drawaState: DrawerState,
     viewModel: MainScreenViewModel
 ) {
-
+    val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
     val authState by viewModel.authenticationState.collectAsStateWithLifecycle()
-
     val startd = when (authState) {
         AuthenticationState.Authenticated -> MainGraph.StudentPortal.route
         AuthenticationState.Unauthenticated -> MainGraph.Home.route
-        AuthenticationState.Loading -> MainGraph.SplashZero.route
-        else -> MainGraph.Home.route
+        else -> MainGraph.SplashZero.route
     }
-
     //Main Screen
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            if(authState != AuthenticationState.Loading){
-                TopBarCustomComposable(navHostController = navHostController, drawaState = drawaState)
-            }
+            TopBarCustomComposable(navHostController = navHostController, drawaState = drawaState)
         },
         bottomBar = {
-
+            if (navBackStackEntry?.destination?.parent?.route == MainGraph.StudentPortal.route){
+                StudentBottomBar(
+                    modifier = Modifier.fillMaxWidth(),
+                    navHostController = navHostController
+                )
+            }
         }
     ) { innerPadding ->
         NavHost(
@@ -57,8 +61,8 @@ fun MainScreen(
             navController = navHostController,
             startDestination = startd
         ){
-            home(navHostController = navHostController)
             account(navHostController = navHostController)
+            home(navHostController = navHostController)
             studentPortal(navHostController = navHostController)
             announcements(navHostController = navHostController)
             development(navHostController = navHostController)

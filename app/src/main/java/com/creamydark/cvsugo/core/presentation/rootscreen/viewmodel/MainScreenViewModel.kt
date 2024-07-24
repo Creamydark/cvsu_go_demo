@@ -1,4 +1,4 @@
-package com.creamydark.cvsugo.core.presentation.mainscreen.viewmodel
+package com.creamydark.cvsugo.core.presentation.rootscreen.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -1,13 +1,16 @@
-package com.creamydark.cvsugo.core.presentation.mainscreen.navgraphs
+package com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.outlined.Dashboard
 import androidx.compose.material.icons.outlined.DeveloperMode
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.FiberSmartRecord
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.ui.graphics.vector.ImageVector
 
 
@@ -37,9 +40,26 @@ sealed class DevelopmentScreens(val route:String){
 sealed class AccountScreens(val route:String){
     data object SignInScreen: AccountScreens(route = "sign_in_screen")
 }
+
+
+
 sealed class StudentPortalScreens(val route:String){
-    data object StudentHome: StudentPortalScreens(route = "student_home_screen")
+    data object StudentDashboard: StudentPortalScreens(route = "student_dashboard_screen")
+    data object StudentGrades: StudentPortalScreens(route = "student_grades_screen")
+    data object StudentProfile: StudentPortalScreens(route = "student_profile_screen")
 }
+
+
+enum class StudentPortalNavigationItems(
+    val route: String,
+    val icon: ImageVector,
+    val label: String
+){
+    Dashboard(route = StudentPortalScreens.StudentDashboard.route, icon = Icons.Outlined.Dashboard, label = "Dashboard"),
+    Grades(route = StudentPortalScreens.StudentGrades.route, icon = Icons.Outlined.FiberSmartRecord, label = "Grades"),
+    Profile(route = StudentPortalScreens.StudentProfile.route, icon = Icons.Outlined.Person, label = "Profile")
+}
+
 sealed class AnnouncementScreens(val route:String){
     data object ListScreens: AnnouncementScreens(route = "list_screen")
 }

@@ -36,9 +36,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.creamydark.cvsugo.R
+import com.creamydark.cvsugo.accountsignin.components.TwoSelectableComponent
 import com.creamydark.cvsugo.accountsignin.presentation.signin.viewmodel.SignInViewModel
 import com.creamydark.cvsugo.core.domain.enums.UserChooserType
-import com.creamydark.cvsugo.accountsignin.components.TwoSelectableComponent
 
 @Composable
 fun SignInScreen(
@@ -143,15 +143,8 @@ fun SignInScreen(
         Button(
             modifier = Modifier.fillMaxWidth(),
             onClick = {
-
                 Toast.makeText(context, "Signing In", Toast.LENGTH_SHORT).show()
                 viewmodel.updateLoginState(true)
-                /*navHostController.navigate(MainGraph.Home.route){
-                    popUpTo(AccountScreens.SignInScreen.route){
-                        inclusive = true
-                    }
-                    launchSingleTop = true
-                }*/
             },
         ) {
             Text(modifier = Modifier.padding(vertical = 6.dp), text = "Sign In")

@@ -1,4 +1,4 @@
-package com.creamydark.cvsugo.core.presentation.mainscreen.components
+package com.creamydark.cvsugo.core.presentation.rootscreen.components
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -24,10 +24,9 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.creamydark.cvsugo.core.domain.enums.AuthenticationState
-import com.creamydark.cvsugo.core.presentation.mainscreen.navgraphs.AccountScreens
-import com.creamydark.cvsugo.core.presentation.mainscreen.navgraphs.HomeScreensNavigationItems
-import com.creamydark.cvsugo.core.presentation.mainscreen.navgraphs.MainGraph
-import com.creamydark.cvsugo.core.presentation.mainscreen.viewmodel.MainScreenViewModel
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.HomeScreensNavigationItems
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.MainGraph
+import com.creamydark.cvsugo.core.presentation.rootscreen.viewmodel.MainScreenViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -66,14 +65,10 @@ fun NavigationDrawerComposable(
                         // Pop up to the start destination of the graph to
                         // avoid building up a large stack of destinations
                         // on the back stack as users select items
-                        popUpTo(navHostController.graph.findStartDestination().id) {
-                            saveState = true
-                        }
+                        popUpTo(navHostController.graph.findStartDestination().id)
                         // Avoid multiple copies of the same destination when
                         // reselecting the same item
                         launchSingleTop = true
-                        // Restore state when reselecting a previously selected item
-                        restoreState = true
                     }.also {
                         scope.launch {
                             drawerState.close()
@@ -116,14 +111,10 @@ fun NavigationDrawerComposable(
                         // Pop up to the start destination of the graph to
                         // avoid building up a large stack of destinations
                         // on the back stack as users select items
-                        popUpTo(navHostController.graph.findStartDestination().id) {
-                            saveState = true
-                        }
+                        popUpTo(navHostController.graph.findStartDestination().id)
                         // Avoid multiple copies of the same destination when
                         // reselecting the same item
                         launchSingleTop = true
-                        // Restore state when reselecting a previously selected item
-                        restoreState = true
                     }.also {
                         scope.launch {
                             drawerState.close()
@@ -161,14 +152,8 @@ fun NavigationDrawerComposable(
                     // Pop up to the start destination of the graph to
                     // avoid building up a large stack of destinations
                     // on the back stack as users select items
-                    popUpTo(navHostController.graph.findStartDestination().id) {
-                        saveState = true
-                    }
-                    // Avoid multiple copies of the same destination when
-                    // reselecting the same item
+                    popUpTo(navHostController.graph.findStartDestination().id)
                     launchSingleTop = true
-                    // Restore state when reselecting a previously selected item
-                    restoreState = true
                 }.also {
                     scope.launch {
                         drawerState.close()
@@ -198,7 +183,11 @@ fun NavigationDrawerComposable(
                 },
                 selected = currentDestination?.hierarchy?.any { it.route == MainGraph.Account.route } == true,
                 onClick = {
-                    navHostController.navigate(AccountScreens.SignInScreen.route){
+                    navHostController.navigate(MainGraph.Account.route){
+                        // Pop up to the start destination of the graph to
+                        // avoid building up a large stack of destinations
+                        // on the back stack as users select items
+                        popUpTo(navHostController.graph.findStartDestination().id)
                         launchSingleTop = true
                     }.also {
                         scope.launch {
