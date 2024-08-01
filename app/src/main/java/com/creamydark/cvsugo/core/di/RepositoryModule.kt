@@ -1,14 +1,14 @@
 package com.creamydark.cvsugo.core.di
 
 import android.content.Context
-import com.creamydark.cvsugo.accountsignin.data.repository.UserLoginDataStoreRepoImpl
-import com.creamydark.cvsugo.accountsignin.domain.repository.UserLoginDataStoreRepo
-import com.creamydark.cvsugo.announcement.data.repository.AnnouncementRepoImpl
-import com.creamydark.cvsugo.announcement.domain.repository.AnnouncementRepo
-import com.creamydark.cvsugo.home.data.repository.UniversityRepositoryImpl
-import com.creamydark.cvsugo.home.domain.repository.UniversityRepository
+import com.creamydark.cvsugo.auth.data.repository.UserLoginDataStoreRepoImpl
+import com.creamydark.cvsugo.auth.domain.repository.UserLoginDataStoreRepo
+import com.creamydark.cvsugo.notification.data.repository.NotificationRepositoryImpl
+import com.creamydark.cvsugo.notification.domain.repository.NotificationRepository
 import com.creamydark.cvsugo.portal.data.repository.StudentDataRepositoryImpl
 import com.creamydark.cvsugo.portal.domain.repository.StudentDataRepository
+import com.creamydark.cvsugo.university.data.repository.UniversityRepositoryImpl
+import com.creamydark.cvsugo.university.domain.repository.UniversityRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,10 +43,10 @@ object RepositoryModule {
         return StudentDataRepositoryImpl()
     }
 
+
     @Provides
     @Singleton
-    fun provideAnnouncementRepository(): AnnouncementRepo {
-        return AnnouncementRepoImpl()
+    fun provideNotificationRepository(): NotificationRepository{
+        return NotificationRepositoryImpl()
     }
-
 }

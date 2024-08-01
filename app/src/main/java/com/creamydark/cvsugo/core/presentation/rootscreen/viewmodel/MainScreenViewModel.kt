@@ -3,7 +3,7 @@ package com.creamydark.cvsugo.core.presentation.rootscreen.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.creamydark.cvsugo.core.domain.enums.AuthenticationState
-import com.creamydark.cvsugo.accountsignin.domain.repository.UserLoginDataStoreRepo
+import com.creamydark.cvsugo.auth.domain.repository.UserLoginDataStoreRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

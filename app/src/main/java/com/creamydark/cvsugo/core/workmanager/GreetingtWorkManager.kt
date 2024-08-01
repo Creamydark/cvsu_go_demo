@@ -1,6 +1,7 @@
 package com.creamydark.cvsugo.core.workmanager
 
 import android.content.Context
+import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.creamydark.cvsugo.core.notificationmanager.GreetingsNotificationManager
@@ -40,6 +41,7 @@ class GreetingtWorkManager(
             ).random()
         }
 
+        Log.d("GreetingtWorkManager", "doWork: $greetingText")
         greetingsNotificationManager.greet(
             title = "Greetings from University",
             text = greetingText

@@ -4,18 +4,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.creamydark.cvsugo.core.components.ListItemCustom0
+import com.creamydark.cvsugo.portal.components.InfoCardWithButton
 import com.creamydark.cvsugo.portal.domain.dataclass.CourseData
 
 val courses = listOf(
@@ -142,17 +139,15 @@ fun StudentGradesScreen(modifier: Modifier = Modifier) {
     ) {
         item {
             Column {
-                Text(
-                    modifier = Modifier.padding(top = 22.dp),
-                    text = "Graded Subjects",
-                    style = MaterialTheme.typography.headlineLarge,
-                    fontSize = 42.sp,
-                    textAlign = TextAlign.Left,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
-                )
-                Text(text = "Here's your grades", style = MaterialTheme.typography.titleLarge)
-                Spacer(modifier = Modifier.height(32.dp))
+//                BigHeaderMain(text = "Sheeesh!")
+//                Text(text = "Here's your grades", style = MaterialTheme.typography.titleLarge)
+//                Spacer(modifier = Modifier.height(22.dp))
+                InfoCardWithButton(label = "Order", value = "Graded Subjects") {
+                    Button(onClick = { /*TODO*/ }) {
+                        Text(text = "1st, 2023-2024")
+                    }
+                }
+                Spacer(modifier = Modifier.height(22.dp))
             }
         }
         items(

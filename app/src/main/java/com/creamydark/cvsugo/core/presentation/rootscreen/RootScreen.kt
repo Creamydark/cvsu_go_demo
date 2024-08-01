@@ -1,37 +1,27 @@
 package com.creamydark.cvsugo.core.presentation.rootscreen
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.rememberDrawerState
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.creamydark.cvsugo.core.presentation.rootscreen.components.NavigationDrawerComposable
-import com.creamydark.cvsugo.core.presentation.rootscreen.viewmodel.MainScreenViewModel
+
+val LocalNavController = compositionLocalOf<NavHostController> { error("No NavController found!") }
 
 @Composable
 fun RootScreen(modifier: Modifier = Modifier) {
-    val viewModel: MainScreenViewModel = hiltViewModel()
-    val navHostController = rememberNavController()
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    ModalNavigationDrawer(
-        modifier = modifier,
-        drawerState = drawerState,
-        drawerContent = {
-            NavigationDrawerComposable(
-                navHostController = navHostController,
-                viewModel = viewModel,
-                drawerState = drawerState
-            )
-        },
+    Column(
+        modifier = modifier.fillMaxSize()
     ) {
-        MainScreen(
-            modifier = Modifier.fillMaxWidth(),
-            navHostController = navHostController,
-            drawaState = drawerState,
-            viewModel = viewModel
-        )
+        val navController = rememberNavController()
+        CompositionLocalProvider(LocalNavController provides navController) {
+            RootNavhostComponent()
+        }
+
+
+
     }
 }

@@ -72,7 +72,7 @@ android {
     }
 }
 dependencies {
-
+    implementation(libs.toolbar.compose)
 
     implementation (libs.accompanist.permissions) // Use the latest version
 
