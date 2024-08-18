@@ -14,3 +14,4 @@
 .cxx
 local.properties
 /keystore_cvso_go.jks
+/app/google-services.json

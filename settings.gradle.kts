@@ -17,9 +17,12 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven(url = "https://jitpack.io")
+
     }
 
 }
+
 
 rootProject.name = "CVSU Go"
 include(":app")

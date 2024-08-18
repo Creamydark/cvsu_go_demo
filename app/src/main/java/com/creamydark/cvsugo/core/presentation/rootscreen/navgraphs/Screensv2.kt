@@ -4,7 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.People
 import androidx.compose.material.icons.outlined.School
 import androidx.compose.material.icons.outlined.SpaceDashboard
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -16,8 +16,10 @@ sealed class RoutesV2(val route: String) {
     data object UniversityGraph: RoutesV2(route = "university_graph")
     data object NOtificationGraph: RoutesV2(route = "notification_graph")
     data object StudentPortalGraph: RoutesV2(route = "student_portal_graph")
-    data object StudentProfileGraph: RoutesV2(route = "student_profile_graph")
     data object AuthGraph: RoutesV2(route = "auth_graph")
+    data object CommunityGraph: RoutesV2(route = "community_graph")
+    data object GoogleAuthGraph:RoutesV2(route = "google_auth_in_graph")
+    data object ProfileGraph:RoutesV2(route = "profile_graph")
 
 
     data object UniversityHomeScreen: RoutesV2(route = "university_home_screen")
@@ -39,8 +41,19 @@ sealed class RoutesV2(val route: String) {
     data object NotificationScreen: RoutesV2(route = "notification_screen")
     // Profile
     data object ProfileScreen: RoutesV2(route = "profile_screen")
+
+    data object FeedListScreen: RoutesV2(route = "feed_list_screen")
+
+    data object GoogleSignInScreen: RoutesV2(route = "google_sign_in_screen")
+    data object GoogleSignUpScreen: RoutesV2(route = "google_sign_up_screen")
 }
 
+
+
+enum class SignInRoutesItems(val route: String, val label: String) {
+    SignIn(route = RoutesV2.SignInScreen.route, label = "Sign In"),
+    SignUp(route = RoutesV2.GoogleSignUpScreen.route, label = "Sign Up")
+}
 
 
 enum class StudentPortal(val route: String, val icon: ImageVector, val label: String){
@@ -53,7 +66,8 @@ enum class RootRoutesItems(val route: String, val icon: ImageVector, val label: 
     University(route = RoutesV2.UniversityGraph.route, icon = Icons.Outlined.School, label = "University"),
     Notification(route = RoutesV2.NOtificationGraph.route, icon = Icons.Outlined.Notifications, label = "Notifications"),
     Portal(route = RoutesV2.StudentPortalGraph.route, icon = Icons.Outlined.SpaceDashboard, label = "Portal"),
-    Profile(route = RoutesV2.StudentProfileGraph.route, icon = Icons.Outlined.Person, label = "Profile")
+    //Profile(route = RoutesV2.StudentProfileGraph.route, icon = Icons.Outlined.Person, label = "Profile")
+    Community(route = RoutesV2.CommunityGraph.route, icon = Icons.Outlined.People, label = "Community")
 }
 
 
@@ -68,4 +82,8 @@ enum class PortalRoutesItems(val route: String, val icon: ImageVector, val label
     Grades(route = RoutesV2.StudentGradesScreen.route, icon = Icons.Outlined.FavoriteBorder, label = "Grades")
 }
 
+
+enum class CommunityRoutesItems(val route: String, val icon: ImageVector, val label: String) {
+    FeedList(route = RoutesV2.FeedListScreen.route, icon = Icons.Outlined.SpaceDashboard, label = "Feed")
+}
 

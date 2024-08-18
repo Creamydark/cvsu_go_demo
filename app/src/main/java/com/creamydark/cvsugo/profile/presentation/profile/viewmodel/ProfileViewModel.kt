@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.creamydark.cvsugo.auth.domain.repository.UserLoginDataStoreRepo
+import com.creamydark.cvsugo.profile.domain.repository.AccountRepository
 import com.creamydark.cvsugo.profile.presentation.profile.state.ProfileScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -14,17 +14,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val authRepo: UserLoginDataStoreRepo
+    private val accountRepository: AccountRepository
 ):ViewModel(){
     var state by mutableStateOf(ProfileScreenState())
         private set
 
     init {
         viewModelScope.launch {
-            authRepo.getLoginState().collectLatest {
-                state = state.copy(
-                    authState = it
-                )
+            accountRepository.getFirebaseUser().collectLatest {
+                user->
+                state = state.copy(user = user)
             }
         }
     }

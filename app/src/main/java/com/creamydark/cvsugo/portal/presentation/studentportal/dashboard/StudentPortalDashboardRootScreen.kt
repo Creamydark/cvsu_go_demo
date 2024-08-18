@@ -62,7 +62,7 @@ fun StudentPortalDashboardScreen(
 ) {
     val context = LocalContext.current
 
-    val name = "${state.studentInformation.firstName} ${state.studentInformation.lastName}"
+    val name = state.user?.displayName?.ifBlank { "${state.studentInformation.firstName} ${state.studentInformation.lastName}" }
 
     LazyColumn(modifier = modifier
         .fillMaxWidth()

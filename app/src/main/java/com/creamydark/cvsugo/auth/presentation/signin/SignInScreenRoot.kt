@@ -43,7 +43,7 @@ import com.creamydark.cvsugo.R
 import com.creamydark.cvsugo.auth.components.TwoSelectableComponent
 import com.creamydark.cvsugo.auth.presentation.signin.intent.SignInScreenIntent
 import com.creamydark.cvsugo.auth.presentation.signin.state.SignInScreenState
-import com.creamydark.cvsugo.auth.presentation.signin.viewmodel.SignInViewModel
+import com.creamydark.cvsugo.auth.presentation.signin.viewmodel.PortalSignInViewModel
 import com.creamydark.cvsugo.auth.util.SignInResult
 import com.creamydark.cvsugo.core.domain.enums.UserChooserType
 import com.creamydark.cvsugo.core.presentation.rootscreen.LocalNavController
@@ -52,7 +52,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 
 @Composable
-fun SignInScreenRoot(modifier: Modifier = Modifier, viewModel: SignInViewModel = hiltViewModel()) {
+fun SignInScreenRoot(modifier: Modifier = Modifier, viewModel: PortalSignInViewModel = hiltViewModel()) {
     val navHostController = LocalNavController.current
 
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -144,7 +144,10 @@ private fun SignInScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        val usernameLabel = if (currentSelectedOption == UserChooserType.Student) "Student ID" else "Employee Number"
+        val usernameLabel = when (currentSelectedOption) {
+            UserChooserType.Student -> "Student ID"
+            UserChooserType.Instructor -> "Instructor ID"
+        }
 
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
@@ -198,7 +201,7 @@ private fun SignInScreen(
         Button(
             modifier = Modifier.fillMaxWidth(),
             onClick = {
-                intent(SignInScreenIntent.Submit)
+                intent(SignInScreenIntent.Submit(userChooserType = currentSelectedOption))
             },
         ) {
             Text(modifier = Modifier.padding(vertical = 6.dp), text = "Sign In")

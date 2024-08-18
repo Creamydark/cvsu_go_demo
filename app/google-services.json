@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "945224566639",
+    "project_id": "cvsu-go-fe0e2",
+    "storage_bucket": "cvsu-go-fe0e2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:945224566639:android:151aa394ada5ed118a4a9a",
+        "android_client_info": {
+          "package_name": "com.creamydark.cvsugo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "945224566639-9nl95jo9l7r6be2csptc1v0c9icgs55h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.creamydark.cvsugo",
+            "certificate_hash": "7441c284eeff3c47f3d7c635ed8d309719294ef0"
+          }
+        },
+        {
+          "client_id": "945224566639-mk395l03mo0jijrl76pv6hlg7gnt3fuo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.creamydark.cvsugo",
+            "certificate_hash": "d0bb5d19979a75e833ea40e1b188c69f6442c6ec"
+          }
+        },
+        {
+          "client_id": "945224566639-6obkj89114mvkbpdp4kpnc5aqj22gpo2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJyBWvAf7sB9LoafNZD3tVfOdp-imSF0U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "945224566639-6obkj89114mvkbpdp4kpnc5aqj22gpo2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

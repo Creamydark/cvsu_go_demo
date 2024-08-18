@@ -9,6 +9,8 @@ import com.creamydark.cvsugo.auth.domain.repository.UserLoginDataStoreRepo
 import com.creamydark.cvsugo.auth.presentation.signin.intent.SignInScreenIntent
 import com.creamydark.cvsugo.auth.presentation.signin.state.SignInScreenState
 import com.creamydark.cvsugo.auth.util.SignInResult
+import com.creamydark.cvsugo.core.domain.enums.UserChooserType
+import com.creamydark.cvsugo.googleAuth.domain.repository.SignInRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collectLatest
@@ -17,8 +19,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInViewModel @Inject constructor(
-    private val userLoginDataStoreRepo: UserLoginDataStoreRepo
+class PortalSignInViewModel @Inject constructor(
+    private val userLoginDataStoreRepo: UserLoginDataStoreRepo,
+    private val signInRepository: SignInRepository
+
 ): ViewModel() {
     var state by mutableStateOf(SignInScreenState())
         private set
@@ -29,21 +33,31 @@ class SignInViewModel @Inject constructor(
 
     fun processIntent(intent: SignInScreenIntent){
         when (intent) {
+
             is SignInScreenIntent.PasswordChanged -> {
                 state = state.copy(
                     password = intent.password
                 )
             }
+
             is SignInScreenIntent.UsernameChanged -> {
                 state = state.copy(
                     studentID = intent.username
                 )
             }
-            SignInScreenIntent.Submit -> {
-                viewModelScope.launch {
-                    userLoginDataStoreRepo.updateLoginState(true).collectLatest {
-                        value: SignInResult ->
-                        channel.trySend(value)
+
+            is SignInScreenIntent.Submit -> {
+                when (intent.userChooserType) {
+                    UserChooserType.Student -> {
+                        viewModelScope.launch {
+                            userLoginDataStoreRepo.updateLoginState(true).collectLatest {
+                                    value: SignInResult ->
+                                channel.trySend(value)
+                            }
+                        }
+                    }
+                    UserChooserType.Instructor -> {
+
                     }
                 }
             }

@@ -16,6 +16,9 @@ class MyApp:Application() {
     override fun onCreate() {
         super.onCreate()
 
+
+
+
         val channel = NotificationChannel(
             /* id = */ greetingsChannel,
             /* name = */ "University Greetings",

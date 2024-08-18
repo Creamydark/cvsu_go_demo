@@ -6,8 +6,8 @@ plugins {
 
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.google.gms.google.services)
 }
-
 android {
     signingConfigs {
         create("release") {
@@ -73,6 +73,11 @@ android {
 }
 dependencies {
 
+    implementation(libs.onetapcompose.v1014)
+
+    // Also add the dependency for the Google Play services library and specify its version
+    implementation(libs.onetapcompose)
+
     implementation (libs.accompanist.permissions) // Use the latest version
 
     implementation(libs.androidx.work.runtime.ktx)
@@ -86,6 +91,8 @@ dependencies {
     implementation(libs.androidx.hilt.navigation)
     implementation(libs.hilt.android)
     implementation(libs.androidx.ui.text.google.fonts)
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.auth)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle)

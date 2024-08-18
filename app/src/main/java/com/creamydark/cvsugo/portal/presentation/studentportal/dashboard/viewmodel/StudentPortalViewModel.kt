@@ -7,8 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.creamydark.cvsugo.auth.domain.repository.UserLoginDataStoreRepo
 import com.creamydark.cvsugo.core.domain.enums.AuthenticationState
+import com.creamydark.cvsugo.googleAuth.domain.repository.SignInRepository
 import com.creamydark.cvsugo.portal.domain.repository.StudentDataRepository
 import com.creamydark.cvsugo.portal.presentation.studentportal.dashboard.state.StudentPortalDashboardScreenState
+import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -17,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class StudentPortalViewModel @Inject constructor(
     private val provideStudentDataRepository: StudentDataRepository,
+    private val signInRepository: SignInRepository,
     private val authRepository: UserLoginDataStoreRepo
 ):ViewModel() {
 
@@ -34,6 +37,12 @@ class StudentPortalViewModel @Inject constructor(
             academicInformation = getAcademicInformation(),
             subjectEnrolledList = getSubjectEnrolledKist()
         )
+        viewModelScope.launch {
+            signInRepository.currentUserListener().collectLatest {
+                user: FirebaseUser? ->
+                state = state.copy(user = user)
+            }
+        }
         viewModelScope.launch {
             authRepository.getLoginState().collectLatest {
                 value: AuthenticationState ->

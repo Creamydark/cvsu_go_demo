@@ -5,6 +5,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.creamydark.cvsugo.auth.presentation.signin.SignInScreenRoot
+import com.creamydark.cvsugo.community.feed.presentation.feedlist.FeedListRootScreen
+import com.creamydark.cvsugo.googleAuth.presentation.oneClickSignIn.OneClickSignInRootScreen
+import com.creamydark.cvsugo.googleAuth.presentation.signup.SignUpRootScreen
 import com.creamydark.cvsugo.notification.presentation.listcreen.NotificationListRootScreen
 import com.creamydark.cvsugo.portal.presentation.studentportal.dashboard.StudentPortalDashboardRootScreen
 import com.creamydark.cvsugo.portal.presentation.studentportal.grades.StudentGradesScreen
@@ -43,13 +46,10 @@ fun NavGraphBuilder.studentNavGraph(navController: NavHostController) {
     }
 }
 
-fun NavGraphBuilder.profile(navController: NavHostController){
-    navigation(
-        route = RootRoutesItems.Profile.route,
-        startDestination = RoutesV2.ProfileScreen.route
-    ){
-        composable(route = RoutesV2.ProfileScreen.route){
-            ProfileScreenRoot()
+fun NavGraphBuilder.community(){
+    navigation(route = RootRoutesItems.Community.route, startDestination = CommunityRoutesItems.FeedList.route){
+        composable(route = CommunityRoutesItems.FeedList.route){
+            FeedListRootScreen()
         }
     }
 }
@@ -70,6 +70,27 @@ fun NavGraphBuilder.auth(){
     navigation(route = RoutesV2.AuthGraph.route, startDestination = RoutesV2.SignInScreen.route){
         composable(route = RoutesV2.SignInScreen.route){
             SignInScreenRoot()
+        }
+    }
+}
+
+fun NavGraphBuilder.googleAuth(){
+    navigation(route = RoutesV2.GoogleAuthGraph.route, startDestination = SignInRoutesItems.SignIn.route){
+        composable(route = SignInRoutesItems.SignIn.route){
+//            GoogleSignRootScreen()
+            OneClickSignInRootScreen()
+        }
+        composable(route = SignInRoutesItems.SignUp.route){
+            SignUpRootScreen()
+        }
+    }
+}
+
+
+fun NavGraphBuilder.profile(){
+    navigation(route = RoutesV2.ProfileGraph.route, startDestination = RoutesV2.ProfileScreen.route){
+        composable(route = RoutesV2.ProfileScreen.route){
+            ProfileScreenRoot()
         }
     }
 }

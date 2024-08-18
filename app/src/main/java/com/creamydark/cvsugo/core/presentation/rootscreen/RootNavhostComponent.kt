@@ -15,12 +15,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
+import com.creamydark.cvsugo.community.components.CommunitySectionTopBar
 import com.creamydark.cvsugo.core.presentation.rootscreen.components.RootBottomNavigationComponent
 import com.creamydark.cvsugo.core.presentation.rootscreen.components.TopBarCustomComponent
 import com.creamydark.cvsugo.core.presentation.rootscreen.components.TopBarCustomComponent0
 import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.RootRoutesItems
 import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.RoutesV2
 import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.auth
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.community
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.googleAuth
 import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.notification
 import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.profile
 import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.studentNavGraph
@@ -33,9 +36,15 @@ import com.creamydark.cvsugo.university.presentation.coursesoffered.viewmodel.Co
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun RootNavhostComponent(modifier: Modifier = Modifier,viewModel: MainScreenViewModel = hiltViewModel()) {
+fun RootNavhostComponent(
+    modifier: Modifier = Modifier,
+    viewModel: MainScreenViewModel = hiltViewModel()
+) {
 
+    val firebaseUser by viewModel.firebaseUser.collectAsStateWithLifecycle()
     val authState by viewModel.authenticationState.collectAsStateWithLifecycle()
+
+    val user by viewModel.firebaseUser.collectAsStateWithLifecycle()
 
     val navhostController = LocalNavController.current
 
@@ -43,13 +52,13 @@ fun RootNavhostComponent(modifier: Modifier = Modifier,viewModel: MainScreenView
 
     val currentDestination = navBackStackEntry?.destination
 
+
     Scaffold(
         modifier = modifier.fillMaxSize(),
         bottomBar = {
             if(currentDestination?.parent?.route in RootRoutesItems.entries.map { it.route }){
                 RootBottomNavigationComponent(
-                    navHostController = navhostController,
-                    currenDestination = currentDestination
+                    user = user
                 )
             }
         },
@@ -68,15 +77,14 @@ fun RootNavhostComponent(modifier: Modifier = Modifier,viewModel: MainScreenView
                         authenticationState = authState
                     )
                 }
-                RootRoutesItems.Profile.route -> {
-                    TopBarCustomComponent0()
+                RootRoutesItems.Community.route -> {
+                    CommunitySectionTopBar(firebaseUser = firebaseUser)
                 }
-                else -> { TopBarCustomComponent(navHostController = navhostController) }
+                else -> { TopBarCustomComponent() }
             }
-        },
+        }
     ){
-            innerPadding ->
-
+        innerPadding ->
         NavHost(
             modifier = Modifier
                 .fillMaxSize()
@@ -89,16 +97,17 @@ fun RootNavhostComponent(modifier: Modifier = Modifier,viewModel: MainScreenView
             composable(route = RoutesV2.CoursesOfferDetailScreen.route.plus("/{id}"),
                 listOf(navArgument("id") { type = NavType.StringType })
             ){
-                    navBackStackEntry->
-                val viewModel: CourseDetailViewModel = hiltViewModel(navBackStackEntry)
-                CourseDetailScreen(navHostController = navhostController, viewModel = viewModel)
+                navBackStackEntry->
+                val c: CourseDetailViewModel = hiltViewModel(navBackStackEntry)
+                CourseDetailScreen(navHostController = navhostController, viewModel = c)
             }
+
             studentNavGraph(navhostController)
-            profile(navhostController)
+            community()
             auth()
+            googleAuth()
+            profile()
         }
-
     }
-
 
 }

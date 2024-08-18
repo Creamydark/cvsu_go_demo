@@ -7,6 +7,8 @@ import com.creamydark.cvsugo.notification.data.repository.NotificationRepository
 import com.creamydark.cvsugo.notification.domain.repository.NotificationRepository
 import com.creamydark.cvsugo.portal.data.repository.StudentDataRepositoryImpl
 import com.creamydark.cvsugo.portal.domain.repository.StudentDataRepository
+import com.creamydark.cvsugo.profile.data.repository.AccountRepositoryImpl
+import com.creamydark.cvsugo.profile.domain.repository.AccountRepository
 import com.creamydark.cvsugo.university.data.repository.UniversityRepositoryImpl
 import com.creamydark.cvsugo.university.domain.repository.UniversityRepository
 import dagger.Module
@@ -49,4 +51,11 @@ object RepositoryModule {
     fun provideNotificationRepository(): NotificationRepository{
         return NotificationRepositoryImpl()
     }
+
+    @Provides
+    @Singleton
+    fun provideAccountRepository(): AccountRepository {
+        return AccountRepositoryImpl()
+    }
+
 }
