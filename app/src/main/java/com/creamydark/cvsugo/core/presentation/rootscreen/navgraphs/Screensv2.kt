@@ -46,6 +46,11 @@ sealed class RoutesV2(val route: String) {
 
     data object GoogleSignInScreen: RoutesV2(route = "google_sign_in_screen")
     data object GoogleSignUpScreen: RoutesV2(route = "google_sign_up_screen")
+
+    data object CreatePostScreen: RoutesV2(route = "create_post_screen")
+
+    data object AccountSetupScreen: RoutesV2(route = "account_setup_screen")
+    data object LoadingScreen: RoutesV2(route = "loading_screen")
 }
 
 
@@ -84,6 +89,6 @@ enum class PortalRoutesItems(val route: String, val icon: ImageVector, val label
 
 
 enum class CommunityRoutesItems(val route: String, val icon: ImageVector, val label: String) {
-    FeedList(route = RoutesV2.FeedListScreen.route, icon = Icons.Outlined.SpaceDashboard, label = "Feed")
+    FeedList(route = RoutesV2.FeedListScreen.route, icon = Icons.Outlined.SpaceDashboard, label = "Feed"),
 }
 

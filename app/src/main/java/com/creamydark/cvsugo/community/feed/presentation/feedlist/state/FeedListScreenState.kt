@@ -1,4 +1,4 @@
-package com.creamydark.cvsugo.community.feed.presentation.feedlist.intent
+package com.creamydark.cvsugo.community.feed.presentation.feedlist.state
 
 import com.creamydark.cvsugo.community.feed.domain.data.PostData
 

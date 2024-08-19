@@ -101,7 +101,7 @@ private fun DemoNotifierDialog(){
             onDismissRequest = { show = false },
             confirmButton = {
                 TextButton(onClick = { show = false }) {
-                    Text(text = "ok")
+                    Text(text = "OK")
                 }
             },
         )

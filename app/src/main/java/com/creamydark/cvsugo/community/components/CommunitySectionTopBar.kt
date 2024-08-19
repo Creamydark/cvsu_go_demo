@@ -20,6 +20,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.creamydark.cvsugo.R
 import com.creamydark.cvsugo.core.presentation.rootscreen.LocalNavController
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.RoutesV2
 import com.google.firebase.auth.FirebaseUser
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,7 +41,7 @@ fun CommunitySectionTopBar(modifier: Modifier = Modifier,firebaseUser: FirebaseU
         },
         actions = {
             CreatePostBTN{
-
+                naviagteToCreatePostScreen(navHostController)
             }
             Spacer(modifier = Modifier.width(8.dp))
             IconButton(
@@ -68,8 +69,15 @@ fun CommunitySectionTopBar(modifier: Modifier = Modifier,firebaseUser: FirebaseU
     )
 }
 
-fun navigateToProfileScreen(navHostController: NavHostController) {
-    navHostController.navigate("profile_screen"){
+private fun navigateToProfileScreen(navHostController: NavHostController) {
+    navHostController.navigate(RoutesV2.ProfileGraph.route){
+        launchSingleTop = true
+    }
+}
+
+
+private fun naviagteToCreatePostScreen(navHostController: NavHostController) {
+    navHostController.navigate(RoutesV2.CreatePostScreen.route){
         launchSingleTop = true
     }
 }

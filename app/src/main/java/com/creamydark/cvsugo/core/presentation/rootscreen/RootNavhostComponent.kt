@@ -15,7 +15,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
+import com.creamydark.cvsugo.accountSetup.presentation.setupnewaccount.AccountSetupRootScreen
 import com.creamydark.cvsugo.community.components.CommunitySectionTopBar
+import com.creamydark.cvsugo.community.feed.presentation.createpost.presentation.CreatePostRootScreen
+import com.creamydark.cvsugo.core.domain.enums.AuthenticationState.Loading
+import com.creamydark.cvsugo.core.domain.enums.AuthenticationState.OnRegister
+import com.creamydark.cvsugo.core.presentation.loading.LoadingScreen
 import com.creamydark.cvsugo.core.presentation.rootscreen.components.RootBottomNavigationComponent
 import com.creamydark.cvsugo.core.presentation.rootscreen.components.TopBarCustomComponent
 import com.creamydark.cvsugo.core.presentation.rootscreen.components.TopBarCustomComponent0
@@ -42,9 +47,10 @@ fun RootNavhostComponent(
 ) {
 
     val firebaseUser by viewModel.firebaseUser.collectAsStateWithLifecycle()
-    val authState by viewModel.authenticationState.collectAsStateWithLifecycle()
 
-    val user by viewModel.firebaseUser.collectAsStateWithLifecycle()
+    val currentUser by viewModel.currentUser.collectAsStateWithLifecycle()
+
+    val authState by viewModel.authenticationState.collectAsStateWithLifecycle()
 
     val navhostController = LocalNavController.current
 
@@ -58,7 +64,7 @@ fun RootNavhostComponent(
         bottomBar = {
             if(currentDestination?.parent?.route in RootRoutesItems.entries.map { it.route }){
                 RootBottomNavigationComponent(
-                    user = user
+                    user = firebaseUser
                 )
             }
         },
@@ -80,17 +86,37 @@ fun RootNavhostComponent(
                 RootRoutesItems.Community.route -> {
                     CommunitySectionTopBar(firebaseUser = firebaseUser)
                 }
-                else -> { TopBarCustomComponent() }
+                else -> {
+                    when (currentDestination?.route) {
+                        RoutesV2.AccountSetupScreen.route -> {
+
+                        }
+                        else -> {
+                            TopBarCustomComponent()
+                        }
+                    }
+                }
             }
         }
     ){
         innerPadding ->
+        val startd = when (authState) {
+            Loading -> {
+                RoutesV2.LoadingScreen.route
+            }
+            OnRegister -> {
+                RoutesV2.AccountSetupScreen.route
+            }
+            else -> {
+                RoutesV2.UniversityGraph.route
+            }
+        }
         NavHost(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
             navController = navhostController,
-            startDestination = RootRoutesItems.University.route
+            startDestination = startd
         ) {
             universityNavGraph(navhostController)
             notification(navhostController)
@@ -101,12 +127,22 @@ fun RootNavhostComponent(
                 val c: CourseDetailViewModel = hiltViewModel(navBackStackEntry)
                 CourseDetailScreen(navHostController = navhostController, viewModel = c)
             }
+            composable(route = RoutesV2.CreatePostScreen.route){
+                CreatePostRootScreen()
+            }
 
+            composable(route = RoutesV2.AccountSetupScreen.route){
+                AccountSetupRootScreen()
+            }
+            composable(route = RoutesV2.LoadingScreen.route){
+                LoadingScreen()
+            }
             studentNavGraph(navhostController)
             community()
             auth()
             googleAuth()
             profile()
+
         }
     }
 

@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.creamydark.cvsugo.profile.domain.repository.AccountRepository
+import com.creamydark.cvsugo.googleAuth.domain.repository.AccountRepository
 import com.creamydark.cvsugo.profile.presentation.profile.state.ProfileScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest

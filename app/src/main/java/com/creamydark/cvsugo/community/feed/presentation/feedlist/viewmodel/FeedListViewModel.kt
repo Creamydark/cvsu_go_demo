@@ -4,14 +4,58 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.creamydark.cvsugo.community.feed.presentation.feedlist.intent.FeedListScreenState
+import androidx.lifecycle.viewModelScope
+import com.creamydark.cvsugo.community.feed.domain.data.PostData
+import com.creamydark.cvsugo.community.feed.domain.repository.FeedRepository
+import com.creamydark.cvsugo.community.feed.presentation.feedlist.intent.FeedListScreenIntent
+import com.creamydark.cvsugo.community.feed.presentation.feedlist.state.FeedListScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class FeedListViewModel @Inject constructor(
-
+    private val feedRepository: FeedRepository
 ):ViewModel() {
+
     var state by mutableStateOf(FeedListScreenState())
         private set
+
+    init {
+        viewModelScope.launch {
+            state = state.copy(loading = true)
+            feedRepository.getPosts().collectLatest {
+                result: Result<List<PostData>> ->
+                result.onSuccess {
+                    data: List<PostData> ->
+                    state = state.copy(feedList = data, loading = false)
+                }
+            }
+        }
+    }
+
+    fun onIntent(intent: FeedListScreenIntent){
+        when (intent) {
+            is FeedListScreenIntent.OnDeletePost -> {
+                deletePost(intent.postData)
+            }
+            is FeedListScreenIntent.OnEditPost -> {
+
+            }
+        }
+    }
+    fun deletePost(postData: PostData){
+        viewModelScope.launch {
+            feedRepository.deletePost(postData).collectLatest {
+                result->
+                result.onSuccess {
+
+                }
+                result.onFailure {
+
+                }
+            }
+        }
+    }
 }

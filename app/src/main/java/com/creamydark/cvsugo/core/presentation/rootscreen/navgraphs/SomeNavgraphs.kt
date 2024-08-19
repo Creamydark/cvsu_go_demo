@@ -51,6 +51,7 @@ fun NavGraphBuilder.community(){
         composable(route = CommunityRoutesItems.FeedList.route){
             FeedListRootScreen()
         }
+
     }
 }
 
