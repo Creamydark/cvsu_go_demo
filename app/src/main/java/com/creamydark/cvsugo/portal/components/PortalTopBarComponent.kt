@@ -22,18 +22,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.creamydark.cvsugo.R
 import com.creamydark.cvsugo.core.components.AnimatedTextCustomComponent
 import com.creamydark.cvsugo.core.domain.enums.AuthenticationState
+import com.creamydark.cvsugo.core.presentation.rootscreen.LocalNavController
 import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.PortalRoutesItems
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PortalTopBarComponent(modifier: Modifier = Modifier,authenticationState: AuthenticationState,navHostController: NavHostController) {
+fun PortalTopBarComponent(modifier: Modifier = Modifier,authenticationState: AuthenticationState) {
 
     var expanded by remember { mutableStateOf(false) }
+    val navHostController = LocalNavController.current
 
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination

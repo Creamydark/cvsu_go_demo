@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class RoutesV2(val route: String) {
 
-    // Home Routes
+    // Graphs
     data object UniversityGraph: RoutesV2(route = "university_graph")
     data object NOtificationGraph: RoutesV2(route = "notification_graph")
     data object StudentPortalGraph: RoutesV2(route = "student_portal_graph")
@@ -22,35 +22,24 @@ sealed class RoutesV2(val route: String) {
     data object ProfileGraph:RoutesV2(route = "profile_graph")
 
 
-    data object UniversityHomeScreen: RoutesV2(route = "university_home_screen")
-    data object CoursesOfferScreen: RoutesV2(route = "courses_offer_screen")
-    data object CoursesOfferDetailScreen: RoutesV2(route = "courses_offer_detail_screen")
-    data object AboutUniversityScreen: RoutesV2(route = "about_university_screen")
-
-    // Development Routes
-    data object DeveloperScreen: RoutesV2(route = "developer_screen")
-
-    // Account Routes
-    data object SignInScreen: RoutesV2(route = "sign_in_screen")
-
-    // Student Portal Routes
-    data object StudentDashboardScreen: RoutesV2(route = "student_dashboard_screen")
-    data object StudentGradesScreen: RoutesV2(route = "student_grades_screen")
-
-    // Announcement Routes
-    data object NotificationScreen: RoutesV2(route = "notification_screen")
-    // Profile
-    data object ProfileScreen: RoutesV2(route = "profile_screen")
-
-    data object FeedListScreen: RoutesV2(route = "feed_list_screen")
-
-    data object GoogleSignInScreen: RoutesV2(route = "google_sign_in_screen")
-    data object GoogleSignUpScreen: RoutesV2(route = "google_sign_up_screen")
-
-    data object CreatePostScreen: RoutesV2(route = "create_post_screen")
-
-    data object AccountSetupScreen: RoutesV2(route = "account_setup_screen")
-    data object LoadingScreen: RoutesV2(route = "loading_screen")
+    // Screen Routes
+    object UniversityHomeScreen : RoutesV2("university_home_screen")
+    object CoursesOfferScreen : RoutesV2("courses_offer_screen")
+    object CoursesOfferDetailScreen : RoutesV2("courses_offer_detail_screen")
+    object AboutUniversityScreen : RoutesV2("about_university_screen")
+    object DeveloperScreen : RoutesV2("developer_screen")
+    object SignInScreen : RoutesV2("sign_in_screen")
+    object StudentDashboardScreen : RoutesV2("student_dashboard_screen")
+    object StudentGradesScreen : RoutesV2("student_grades_screen")
+    object NotificationScreen : RoutesV2("notification_screen")
+    object ProfileScreen : RoutesV2("profile_screen")
+    object FeedListScreen : RoutesV2("feed_list_screen")
+    object GoogleSignInScreen : RoutesV2("google_sign_in_screen")
+    object GoogleSignUpScreen : RoutesV2("google_sign_up_screen")
+    object CreatePostScreen : RoutesV2("create_post_screen")
+    object AccountSetupScreen : RoutesV2("account_setup_screen")
+    object LoadingScreen : RoutesV2("loading_screen")
+    object PostDetailScreen : RoutesV2("post_detail_screen")
 }
 
 
@@ -79,7 +68,13 @@ enum class RootRoutesItems(val route: String, val icon: ImageVector, val label: 
 enum class UniversityRoutesItems(val route: String, val icon: ImageVector, val label: String) {
     Home(route = RoutesV2.UniversityHomeScreen.route, icon = Icons.Outlined.School, label = "Home"),
     CoursesOffer(route = RoutesV2.CoursesOfferScreen.route, icon = Icons.Outlined.FavoriteBorder, label = "Courses Offered"),
+    CoursesDetail(route = RoutesV2.CoursesOfferDetailScreen.route, icon = Icons.Outlined.Info, label = "Detail"),
     AboutUniversity(route = RoutesV2.AboutUniversityScreen.route, icon = Icons.Outlined.Info, label = "About")
+}
+
+
+enum class NotificationRoutesItems(val route: String, val icon: ImageVector, val label: String){
+    Notification(route = RoutesV2.NotificationScreen.route , icon = Icons.Outlined.Notifications, label = "Notifications")
 }
 
 enum class PortalRoutesItems(val route: String, val icon: ImageVector, val label: String) {
@@ -90,5 +85,7 @@ enum class PortalRoutesItems(val route: String, val icon: ImageVector, val label
 
 enum class CommunityRoutesItems(val route: String, val icon: ImageVector, val label: String) {
     FeedList(route = RoutesV2.FeedListScreen.route, icon = Icons.Outlined.SpaceDashboard, label = "Feed"),
+    PostDetail(route = RoutesV2.PostDetailScreen.route, icon = Icons.Outlined.FavoriteBorder, label = "Post Detail"),
+    CreatePost(route = RoutesV2.CreatePostScreen.route, icon = Icons.Outlined.Info, label = "Create Post")
 }
 

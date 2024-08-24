@@ -73,6 +73,8 @@ android {
 }
 dependencies {
 
+    implementation ("com.google.accompanist:accompanist-pager-indicators:0.30.1")
+
     implementation(libs.onetapcompose.v1014)
 
     // Also add the dependency for the Google Play services library and specify its version
@@ -93,6 +95,7 @@ dependencies {
     implementation(libs.androidx.ui.text.google.fonts)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.auth)
+    implementation(libs.firebase.storage.ktx)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle)

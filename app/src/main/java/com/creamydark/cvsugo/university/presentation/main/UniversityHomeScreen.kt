@@ -44,7 +44,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.creamydark.cvsugo.R
 import com.creamydark.cvsugo.core.components.ParagraphWithLabel
-import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.RoutesV2
+import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.UniversityRoutesItems
 import com.creamydark.cvsugo.university.domain.dataclass.CoursesOfferedData
 import com.creamydark.cvsugo.university.domain.dataclass.UniversityStatsData
 import com.creamydark.cvsugo.university.presentation.main.intent.UniversityHomeIntent
@@ -65,7 +65,7 @@ fun UniversityHomeScreenRoot(
             intent ->
             when (intent) {
                 is UniversityHomeIntent.OnSelectCourse -> {
-                    navHostController.navigate(route = RoutesV2.CoursesOfferDetailScreen.route.plus("/${intent.id}")){
+                    navHostController.navigate(route = UniversityRoutesItems.CoursesDetail.route.plus("/${intent.id}")){
                         launchSingleTop = true
                     }
                 }

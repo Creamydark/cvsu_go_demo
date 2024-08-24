@@ -7,5 +7,5 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 enum class FeedItemActions(val icon: ImageVector) {
     Edit(icon = Icons.Outlined.Edit),
-    Delete(icon = Icons.Outlined.Delete)
+    Delete(icon = Icons.Outlined.Delete),
 }

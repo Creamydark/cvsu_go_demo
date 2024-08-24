@@ -9,7 +9,6 @@ import com.creamydark.cvsugo.auth.util.SignInResult
 import com.creamydark.cvsugo.googleAuth.domain.repository.SignInRepository
 import com.creamydark.cvsugo.googleAuth.presentation.oneClickSignIn.intent.OneClickSignInScreenIntent
 import com.creamydark.cvsugo.googleAuth.presentation.oneClickSignIn.state.OneClickSignInScreenState
-import com.stevdzasan.onetap.getUserFromTokenId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collectLatest
@@ -47,7 +46,16 @@ class OneClickSignInViewmodel @Inject constructor(
 
     fun signIn(tokenId:String){
         state = state.copy(isLoading = true)
-        val userEmail = getUserFromTokenId(tokenId)?.email
+
+        viewModelScope.launch {
+            signInRepository.oneTapSignIn(tokenId).collectLatest { result ->
+                channel.trySend(result)
+                state = state.copy(isLoading = false)
+            }
+        }
+
+
+        /*val userEmail = getUserFromTokenId(tokenId)?.email
         if (userEmail?.endsWith("@cvsu.edu.ph") != true) {
             channel.trySend(SignInResult.Error(Exception("Please use a CVSU email account")))
             state = state.copy(isLoading = false)
@@ -58,6 +66,6 @@ class OneClickSignInViewmodel @Inject constructor(
                     state = state.copy(isLoading = false)
                 }
             }
-        }
+        }*/
     }
 }

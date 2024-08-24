@@ -25,6 +25,7 @@ accompanistPermissions = "0.35.1-alpha"
 firebaseFirestore = "25.0.0"
 googleGmsGoogleServices = "4.4.2"
 firebaseAuth = "23.0.0"
+firebaseStorageKtx = "21.0.0"
 
 [libraries]
 
@@ -65,6 +66,7 @@ firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 onetapcompose = { module = "com.github.stevdza-san:OneTapCompose", version.ref = "onetapcompose" }
 onetapcompose-v1014 = { module = "com.github.stevdza-san:OneTapCompose", version.ref = "onetapcomposeVersion" }
+firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx", version.ref = "firebaseStorageKtx" }
 
 [plugins]
 

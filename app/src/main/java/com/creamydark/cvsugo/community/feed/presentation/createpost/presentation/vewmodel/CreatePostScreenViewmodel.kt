@@ -1,5 +1,6 @@
 package com.creamydark.cvsugo.community.feed.presentation.createpost.presentation.vewmodel
 
+import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,28 +43,33 @@ class CreatePostScreenViewmodel @Inject constructor(
                 state = state.copy(content = event.content)
             }
             is CreatePostScreenIntent.OnPublishClicked -> {
-                publish()
+                publish(state.attachments)
+            }
+
+            is CreatePostScreenIntent.OnGetImages -> {
+                state = state.copy(attachments = state.attachments + event.images)
+            }
+            is CreatePostScreenIntent.OnRemoveImage -> {
+
+                state = state.copy(attachments = state.attachments.filterIndexed { index, uri ->  index != event.index})
+
             }
         }
     }
 
-    private fun publish(){
+    private fun publish(images:List<Uri>){
         state = state.copy(
             loadingPublishBTN = true
         )
-
         viewModelScope.launch {
-
-
 
             val data = PostData(
                 userId = currentUser?.uid?:"unknown",
                 content = state.content,
                 visibility = state.visibility,
-                attachments = state.attachments
             )
 
-            feedRepository.createPost(data).collectLatest {
+            feedRepository.createPost(data,images).collectLatest {
                 value: Result<String> ->
                 value.onSuccess {
                     Log.d("CreatePostScreenViewmodel", "publish:$it")

@@ -35,7 +35,6 @@ import com.creamydark.cvsugo.university.presentation.coursesoffered.viewmodel.Co
 
 @Composable
 fun CourseDetailScreen(
-    navHostController: NavHostController,
     modifier: Modifier = Modifier,
     viewModel: CourseDetailViewModel
 ) {

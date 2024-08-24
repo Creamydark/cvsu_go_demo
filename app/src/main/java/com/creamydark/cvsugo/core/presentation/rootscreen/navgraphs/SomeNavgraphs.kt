@@ -1,11 +1,17 @@
 package com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs
 
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import androidx.navigation.navArgument
 import com.creamydark.cvsugo.auth.presentation.signin.SignInScreenRoot
+import com.creamydark.cvsugo.community.feed.presentation.createpost.presentation.CreatePostRootScreen
 import com.creamydark.cvsugo.community.feed.presentation.feedlist.FeedListRootScreen
+import com.creamydark.cvsugo.community.feed.presentation.postdetail.presentation.FeedPostDetailRootScreen
+import com.creamydark.cvsugo.community.feed.presentation.postdetail.viewmodel.FeedPostDetailScreenViewmodel
 import com.creamydark.cvsugo.googleAuth.presentation.oneClickSignIn.OneClickSignInRootScreen
 import com.creamydark.cvsugo.googleAuth.presentation.signup.SignUpRootScreen
 import com.creamydark.cvsugo.notification.presentation.listcreen.NotificationListRootScreen
@@ -13,29 +19,38 @@ import com.creamydark.cvsugo.portal.presentation.studentportal.dashboard.Student
 import com.creamydark.cvsugo.portal.presentation.studentportal.grades.StudentGradesScreen
 import com.creamydark.cvsugo.profile.presentation.profile.ProfileScreenRoot
 import com.creamydark.cvsugo.university.presentation.about.AboutUniversityScreen
+import com.creamydark.cvsugo.university.presentation.coursesoffered.CourseDetailScreen
 import com.creamydark.cvsugo.university.presentation.coursesoffered.CoursesOfferedRootScreen
+import com.creamydark.cvsugo.university.presentation.coursesoffered.viewmodel.CourseDetailViewModel
 import com.creamydark.cvsugo.university.presentation.main.UniversityHomeScreenRoot
 
 fun NavGraphBuilder.universityNavGraph(navController: NavHostController) {
     navigation(
         route = RootRoutesItems.University.route,
-        startDestination = RoutesV2.UniversityHomeScreen.route
+        startDestination = UniversityRoutesItems.Home.route
     ){
-        composable(route = RoutesV2.UniversityHomeScreen.route){
+        composable(route = UniversityRoutesItems.Home.route){
             UniversityHomeScreenRoot(navHostController = navController)
         }
+        composable(route = UniversityRoutesItems.CoursesDetail.route.plus("/{id}"),
+            listOf(navArgument("id") { type = NavType.StringType })
+        ){
+                navBackStackEntry->
+            val c: CourseDetailViewModel = hiltViewModel(navBackStackEntry)
+            CourseDetailScreen( viewModel = c)
+        }
 
-        composable(route = RoutesV2.CoursesOfferScreen.route){
+        composable(route = UniversityRoutesItems.CoursesOffer.route){
             CoursesOfferedRootScreen()
         }
-        composable(route = RoutesV2.AboutUniversityScreen.route){
+        composable(route = UniversityRoutesItems.AboutUniversity.route){
             AboutUniversityScreen()
         }
     }
 }
 
 
-fun NavGraphBuilder.studentNavGraph(navController: NavHostController) {
+fun NavGraphBuilder.studentNavGraph() {
     navigation(route = RootRoutesItems.Portal.route, startDestination = StudentPortal.Dashboard.route){
         composable(route = StudentPortal.Dashboard.route){
            StudentPortalDashboardRootScreen()
@@ -51,7 +66,17 @@ fun NavGraphBuilder.community(){
         composable(route = CommunityRoutesItems.FeedList.route){
             FeedListRootScreen()
         }
-
+        composable(
+            route = CommunityRoutesItems.PostDetail.route.plus("/{postId}"),
+            listOf(navArgument("postId") { type = NavType.StringType }),
+        ){
+            navBackStackEntry ->
+            val viewmodel : FeedPostDetailScreenViewmodel = hiltViewModel(navBackStackEntry)
+            FeedPostDetailRootScreen(viewModel = viewmodel)
+        }
+        composable(route = CommunityRoutesItems.CreatePost.route){
+            CreatePostRootScreen()
+        }
     }
 }
 
@@ -59,8 +84,8 @@ fun NavGraphBuilder.community(){
 
 
 fun NavGraphBuilder.notification(navController: NavHostController){
-    navigation(route = RootRoutesItems.Notification.route, startDestination = RoutesV2.NotificationScreen.route){
-        composable(route = RoutesV2.NotificationScreen.route){
+    navigation(route = RootRoutesItems.Notification.route, startDestination = NotificationRoutesItems.Notification.route){
+        composable(route = NotificationRoutesItems.Notification.route){
             NotificationListRootScreen(navHostController = navController)
         }
     }

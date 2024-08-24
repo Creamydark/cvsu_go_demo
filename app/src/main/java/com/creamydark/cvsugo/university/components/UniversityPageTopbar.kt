@@ -23,10 +23,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.creamydark.cvsugo.R
 import com.creamydark.cvsugo.core.components.AnimatedTextCustomComponent
+import com.creamydark.cvsugo.core.presentation.rootscreen.LocalNavController
 import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.UniversityRoutesItems
 
 
@@ -34,9 +34,9 @@ import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.UniversityRo
 @Composable
 fun UniversityPageTopbar(
     modifier: Modifier = Modifier,
-    navHostController: NavHostController,
 ) {
 
+    val navHostController = LocalNavController.current
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
@@ -64,7 +64,7 @@ fun UniversityPageTopbar(
                 }
             }
             DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                UniversityRoutesItems.entries.forEach {
+                UniversityRoutesItems.entries.filterNot { it == UniversityRoutesItems.CoursesDetail }.forEach {
                     universityRoutesItems ->
                     DropdownMenuItem(
                         leadingIcon = {

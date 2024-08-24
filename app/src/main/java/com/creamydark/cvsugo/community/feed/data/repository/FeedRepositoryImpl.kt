@@ -1,5 +1,6 @@
 package com.creamydark.cvsugo.community.feed.data.repository
 
+import android.net.Uri
 import com.creamydark.cvsugo.community.feed.domain.data.PostData
 import com.creamydark.cvsugo.community.feed.domain.repository.FeedRepository
 import com.creamydark.cvsugo.core.util.POSTS
@@ -9,18 +10,59 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.toObjects
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import java.util.UUID
 import javax.inject.Inject
 
 class FeedRepositoryImpl @Inject constructor(
 
 ): FeedRepository {
     private val firestore = Firebase.firestore
-    override suspend fun createPost(data: PostData): Flow<Result<String>> {
+    private val storage = Firebase.storage
+
+
+    override suspend fun createPost(data: PostData, images: List<Uri>): Flow<Result<String>> = callbackFlow {
+        val job = launch {
+            try {
+                // Upload images to storage
+                val imageUrls = images.mapNotNull { uri ->
+                    try {
+                        val storageRef = storage.reference.child("posts/${UUID.randomUUID()}")
+                        val uploadTask = storageRef.putFile(uri).await()
+                        storageRef.downloadUrl.await().toString()
+                    } catch (e: Exception) {
+                        null // Return null if the upload fails for an image
+                    }
+                }
+
+                if (imageUrls.size != images.size) {
+                    // If not all images were uploaded successfully
+                    trySend(Result.failure(Exception("Failed to upload all images")))
+                    return@launch
+                }
+
+                // Update PostData with image URLs
+                val updatedData = data.copy(attachments = imageUrls)
+
+                // Create post in Firestore
+                firestore.collection(POSTS).add(updatedData).await()
+                trySend(Result.success("Success"))
+            } catch (e: Exception) {
+                trySend(Result.failure(e))
+            }
+        }
+
+        awaitClose { job.cancel() }
+    }
+
+
+    /*override suspend fun createPost(data: PostData, images: List<Uri>): Flow<Result<String>> {
         return callbackFlow {
             val job = launch {
                 try {
@@ -34,21 +76,40 @@ class FeedRepositoryImpl @Inject constructor(
                 job.cancel()
             }
         }
-    }
+    }*/
 
     override suspend fun deletePost(data: PostData): Flow<Result<String>> {
         return callbackFlow {
             val job = launch {
                 try {
+                    // Fetch the post to get image URLs
+                    val postSnapshot = firestore.collection(POSTS).document(data.postId).get().await()
+                    val postData = postSnapshot.toObject(PostData::class.java)
+
+                    if (postData == null) {
+                        trySend(Result.failure(Exception("Post not found")))
+                        return@launch
+                    }
+
+                    // Delete each image from  Storage
+                    postData.attachments.forEach { imageUrl ->
+                        try {
+                            val storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
+                            storageRef.delete().await()
+                        } catch (e: Exception) {
+                            trySend(Result.failure(e))
+                            return@launch
+                        }
+                    }
+
+                    // Delete the post from Firestore
                     firestore.collection(POSTS).document(data.postId).delete().await()
-                    trySend(Result.success("Success"))
-                }catch (e:Exception){
+                    trySend(Result.success("Post deleted successfully"))
+                } catch (e: Exception) {
                     trySend(Result.failure(e))
                 }
             }
-            awaitClose {
-                job.cancel()
-            }
+            awaitClose { job.cancel() }
         }
     }
 
