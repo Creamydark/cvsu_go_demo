@@ -21,11 +21,11 @@ import coil.compose.AsyncImage
 import com.creamydark.cvsugo.R
 import com.creamydark.cvsugo.core.presentation.rootscreen.LocalNavController
 import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.RoutesV2
-import com.google.firebase.auth.FirebaseUser
+import com.creamydark.cvsugo.googleAuth.domain.dataclass.UserData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CommunitySectionTopBar(modifier: Modifier = Modifier,firebaseUser: FirebaseUser? = null,) {
+fun CommunitySectionTopBar(modifier: Modifier = Modifier,userData: UserData,) {
     val navHostController = LocalNavController.current
     TopAppBar(
         modifier = modifier,
@@ -58,7 +58,7 @@ fun CommunitySectionTopBar(modifier: Modifier = Modifier,firebaseUser: FirebaseU
                         .size(38.dp)
 
                         .clip(CircleShape),
-                    model = firebaseUser?.photoUrl,
+                    model = userData.profilePictureUri,
                     contentScale = ContentScale.Fit,
                     contentDescription = "",
                     clipToBounds = true

@@ -72,8 +72,8 @@ android {
     }
 }
 dependencies {
-
-    implementation ("com.google.accompanist:accompanist-pager-indicators:0.30.1")
+    implementation(libs.androidx.paging.compose)
+    implementation (libs.accompanist.pager.indicators)
 
     implementation(libs.onetapcompose.v1014)
 

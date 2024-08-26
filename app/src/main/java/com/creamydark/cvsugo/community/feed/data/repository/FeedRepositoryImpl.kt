@@ -1,6 +1,13 @@
 package com.creamydark.cvsugo.community.feed.data.repository
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.creamydark.cvsugo.community.feed.data.datasource.FeedListDataSource
 import com.creamydark.cvsugo.community.feed.domain.data.PostData
 import com.creamydark.cvsugo.community.feed.domain.repository.FeedRepository
 import com.creamydark.cvsugo.core.util.POSTS
@@ -17,11 +24,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import java.io.ByteArrayOutputStream
 import java.util.UUID
 import javax.inject.Inject
 
 class FeedRepositoryImpl @Inject constructor(
-
+    private val context: Context
 ): FeedRepository {
     private val firestore = Firebase.firestore
     private val storage = Firebase.storage
@@ -34,7 +42,7 @@ class FeedRepositoryImpl @Inject constructor(
                 val imageUrls = images.mapNotNull { uri ->
                     try {
                         val storageRef = storage.reference.child("posts/${UUID.randomUUID()}")
-                        val uploadTask = storageRef.putFile(uri).await()
+                        val uploadTask = storageRef.putBytes(compressImage(uri,context)).await()
                         storageRef.downloadUrl.await().toString()
                     } catch (e: Exception) {
                         null // Return null if the upload fails for an image
@@ -151,10 +159,17 @@ class FeedRepositoryImpl @Inject constructor(
         return callbackFlow {
             val job = launch {
                 try {
-                    val data = firestore.collection(POSTS).document(postId).get().await()
-                    trySend(Result.success(data.toObject(PostData::class.java) ?: PostData()))
+                    val postData = firestore.collection(POSTS).document(postId).get().await().toObject(PostData::class.java)?: PostData()
+                    val task = firestore.collection(USERS).document(postData.userId).get().continueWith { task ->
+                        val userData = task.result.toObject(UserData::class.java) ?: UserData()
+                        postData.copy(userData = userData)
+                    }
+                    val updatedPostData = task.await()
+                    trySend(Result.success(updatedPostData))
                 }catch (e:Exception){
                     trySend(Result.failure(e))
+                }finally {
+                    close()
                 }
             }
             awaitClose {
@@ -178,5 +193,28 @@ class FeedRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun getPostsUsingPager(): Flow<PagingData<PostData>> {
+        return Pager(
+            config = PagingConfig(pageSize = 10),
+            pagingSourceFactory = { FeedListDataSource() }
+        ).flow
+
+    }
 }
 
+
+private fun compressImage(imageUri: Uri,context: Context): ByteArray {
+    val bitmap = BitmapFactory.decodeStream(context.contentResolver.openInputStream(imageUri))
+    // Create a new bitmap with the desired quality
+    val compressedBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.width / 2, bitmap.height / 2, false)
+    // Convert the compressed bitmap to a byte array
+    val outputStream = ByteArrayOutputStream()
+    val quality = if(bitmap.height>=300||bitmap.width>=300){
+        70
+    }else{
+        100
+    }
+    compressedBitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
+    return outputStream.toByteArray()
+}

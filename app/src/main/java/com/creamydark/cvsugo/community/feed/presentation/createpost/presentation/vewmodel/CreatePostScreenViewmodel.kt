@@ -14,7 +14,9 @@ import com.creamydark.cvsugo.community.feed.presentation.createpost.presentation
 import com.creamydark.cvsugo.googleAuth.domain.repository.AccountRepository
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,6 +35,10 @@ class CreatePostScreenViewmodel @Inject constructor(
             }
         }
     }
+
+
+    private val channel = Channel<Result<String>>()
+    val receiver = channel.receiveAsFlow()
 
     var state by mutableStateOf(CreatePostScreenState())
         private set

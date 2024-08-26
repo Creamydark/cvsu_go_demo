@@ -62,7 +62,7 @@ fun OneClickSignInRootScreen(modifier: Modifier = Modifier,viewmodel: OneClickSi
                     }
                     is SignInResult.Success -> {
                         Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
-                        navigateToFeed(navHostController)
+                       navHostController.navigateUp()
                     }
                 }
             }

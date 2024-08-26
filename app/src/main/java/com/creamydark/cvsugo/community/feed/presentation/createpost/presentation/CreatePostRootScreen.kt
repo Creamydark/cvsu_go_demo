@@ -1,9 +1,9 @@
 package com.creamydark.cvsugo.community.feed.presentation.createpost.presentation
 
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,28 +29,57 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.creamydark.cvsugo.community.feed.presentation.createpost.presentation.intent.CreatePostScreenIntent
 import com.creamydark.cvsugo.community.feed.presentation.createpost.presentation.state.CreatePostScreenState
 import com.creamydark.cvsugo.community.feed.presentation.createpost.presentation.vewmodel.CreatePostScreenViewmodel
+import com.creamydark.cvsugo.core.presentation.rootscreen.LocalNavController
+import kotlinx.coroutines.flow.collectLatest
 
 
 @Composable
 fun CreatePostRootScreen(modifier: Modifier = Modifier,viewmodel : CreatePostScreenViewmodel = hiltViewModel()) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val navController = LocalNavController.current
+    val context = LocalContext.current
+    LaunchedEffect(key1 = lifecycleOwner) {
+        lifecycleOwner.repeatOnLifecycle(state = Lifecycle.State.STARTED){
+            viewmodel.receiver.collectLatest {
+                result->
+                result.onSuccess {
+                    navigateBack(navController)
+                }
+                result.onFailure {
+                    Toast.makeText(context, "Failed to create post ${it.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
     CreatePostScreen(modifier = modifier, state = viewmodel.state,onEvent = viewmodel::onEvent)
+
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+private fun navigateBack(navController: NavController){
+    navController.navigateUp()
+}
+
 @Composable
 fun CreatePostScreen(
     modifier: Modifier = Modifier,
@@ -76,7 +105,7 @@ fun CreatePostScreen(
                 if (state.content.isEmpty()) {
                     Text(
                         text = "body text (optional)",
-                        style = TextStyle(color = Color.Gray)
+                        style = TextStyle(color = MaterialTheme.colorScheme.onSurface)
                     )
                 }
 
@@ -88,7 +117,7 @@ fun CreatePostScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .heightIn(min = 130.dp),
-                    textStyle = TextStyle(color = Color.Black)
+                    textStyle = TextStyle(color = MaterialTheme.colorScheme.onSurface)
                 )
             }
 
@@ -138,7 +167,7 @@ fun CreatePostScreen(
                     CircularProgressIndicator(modifier= Modifier.size(24.dp))
                     Spacer(modifier = modifier.width(8.dp))
                 }
-                Text(text = "Publish")
+                Text(text = "Post")
             }
         }
     }

@@ -7,6 +7,7 @@ import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,11 +19,11 @@ import com.creamydark.cvsugo.core.presentation.rootscreen.LocalNavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBarCustomComponent(modifier: Modifier = Modifier) {
+fun TopBarCustomComponent(modifier: Modifier = Modifier,title:String = "") {
     val navHostController = LocalNavController.current
     TopAppBar(
         modifier = modifier,
-        title = { /*TODO*/ },
+        title = { if(title.isNotBlank()) {Text(text = title)} },
         navigationIcon = {
             IconButton(
                 onClick = {
@@ -39,7 +40,7 @@ fun TopBarCustomComponent(modifier: Modifier = Modifier) {
 fun TopBarCustomComponent0(modifier: Modifier = Modifier) {
     TopAppBar(
         modifier = modifier,
-        title = { /*TODO*/ },
+        title = {  },
         navigationIcon = {
             IconButton(onClick = { /*TODO*/ }) {
                 Image(

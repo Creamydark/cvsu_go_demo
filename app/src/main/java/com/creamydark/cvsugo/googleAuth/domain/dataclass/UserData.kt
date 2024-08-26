@@ -8,5 +8,6 @@ data class UserData(
     val uid:String? = null,
     val profilePictureUri: String? = null,
     val email: String? = null,
+    val name:String? = null,
     @ServerTimestamp val dateJoined:Date = Date()
 )

@@ -5,12 +5,12 @@ import com.creamydark.cvsugo.auth.data.repository.UserLoginDataStoreRepoImpl
 import com.creamydark.cvsugo.auth.domain.repository.UserLoginDataStoreRepo
 import com.creamydark.cvsugo.community.feed.data.repository.FeedRepositoryImpl
 import com.creamydark.cvsugo.community.feed.domain.repository.FeedRepository
+import com.creamydark.cvsugo.googleAuth.data.repository.AccountRepositoryImpl
+import com.creamydark.cvsugo.googleAuth.domain.repository.AccountRepository
 import com.creamydark.cvsugo.notification.data.repository.NotificationRepositoryImpl
 import com.creamydark.cvsugo.notification.domain.repository.NotificationRepository
 import com.creamydark.cvsugo.portal.data.repository.StudentDataRepositoryImpl
 import com.creamydark.cvsugo.portal.domain.repository.StudentDataRepository
-import com.creamydark.cvsugo.googleAuth.data.repository.AccountRepositoryImpl
-import com.creamydark.cvsugo.googleAuth.domain.repository.AccountRepository
 import com.creamydark.cvsugo.university.data.repository.UniversityRepositoryImpl
 import com.creamydark.cvsugo.university.domain.repository.UniversityRepository
 import dagger.Module
@@ -56,14 +56,14 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideAccountRepository(): AccountRepository {
-        return AccountRepositoryImpl()
+    fun provideAccountRepository(@ApplicationContext context: Context): AccountRepository {
+        return AccountRepositoryImpl(context)
     }
 
     @Provides
     @Singleton
-    fun provideFeedRepository(): FeedRepository {
-        return FeedRepositoryImpl()
+    fun provideFeedRepository(@ApplicationContext context: Context): FeedRepository {
+        return FeedRepositoryImpl(context)
     }
 
 }

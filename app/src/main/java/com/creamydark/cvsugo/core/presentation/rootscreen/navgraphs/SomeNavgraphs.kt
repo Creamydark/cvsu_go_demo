@@ -1,5 +1,6 @@
 package com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs
 
+import FeedPostDetailRootScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -9,15 +10,17 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import com.creamydark.cvsugo.auth.presentation.signin.SignInScreenRoot
 import com.creamydark.cvsugo.community.feed.presentation.createpost.presentation.CreatePostRootScreen
+import com.creamydark.cvsugo.community.feed.presentation.editpost.presentation.EditPostRootScreen
+import com.creamydark.cvsugo.community.feed.presentation.editpost.viewmodel.EditPostScreenViewmodel
 import com.creamydark.cvsugo.community.feed.presentation.feedlist.FeedListRootScreen
-import com.creamydark.cvsugo.community.feed.presentation.postdetail.presentation.FeedPostDetailRootScreen
-import com.creamydark.cvsugo.community.feed.presentation.postdetail.viewmodel.FeedPostDetailScreenViewmodel
+import com.creamydark.cvsugo.community.feed.presentation.postdetail.presentation.viewmodel.FeedPostDetailScreenViewmodel
+import com.creamydark.cvsugo.community.profile.presentation.changeprofilepicture.presentation.ChangeProfilePictureRootScreen
+import com.creamydark.cvsugo.community.profile.presentation.profile.ProfileScreenRoot
 import com.creamydark.cvsugo.googleAuth.presentation.oneClickSignIn.OneClickSignInRootScreen
 import com.creamydark.cvsugo.googleAuth.presentation.signup.SignUpRootScreen
 import com.creamydark.cvsugo.notification.presentation.listcreen.NotificationListRootScreen
 import com.creamydark.cvsugo.portal.presentation.studentportal.dashboard.StudentPortalDashboardRootScreen
 import com.creamydark.cvsugo.portal.presentation.studentportal.grades.StudentGradesScreen
-import com.creamydark.cvsugo.profile.presentation.profile.ProfileScreenRoot
 import com.creamydark.cvsugo.university.presentation.about.AboutUniversityScreen
 import com.creamydark.cvsugo.university.presentation.coursesoffered.CourseDetailScreen
 import com.creamydark.cvsugo.university.presentation.coursesoffered.CoursesOfferedRootScreen
@@ -50,7 +53,7 @@ fun NavGraphBuilder.universityNavGraph(navController: NavHostController) {
 }
 
 
-fun NavGraphBuilder.studentNavGraph() {
+fun NavGraphBuilder.student() {
     navigation(route = RootRoutesItems.Portal.route, startDestination = StudentPortal.Dashboard.route){
         composable(route = StudentPortal.Dashboard.route){
            StudentPortalDashboardRootScreen()
@@ -76,6 +79,14 @@ fun NavGraphBuilder.community(){
         }
         composable(route = CommunityRoutesItems.CreatePost.route){
             CreatePostRootScreen()
+        }
+        composable(
+            route = CommunityRoutesItems.EditPost.route.plus("/{postId}"),
+            listOf(navArgument("postId") { type = NavType.StringType })
+        ){
+            navBackStackEntry ->
+            val viewmodel : EditPostScreenViewmodel = hiltViewModel(navBackStackEntry)
+            EditPostRootScreen(viewmodel = viewmodel)
         }
     }
 }
@@ -114,9 +125,12 @@ fun NavGraphBuilder.googleAuth(){
 
 
 fun NavGraphBuilder.profile(){
-    navigation(route = RoutesV2.ProfileGraph.route, startDestination = RoutesV2.ProfileScreen.route){
-        composable(route = RoutesV2.ProfileScreen.route){
+    navigation(route = RoutesV2.ProfileGraph.route, startDestination = ProfileRoutesItems.Profile.route){
+        composable(route = ProfileRoutesItems.Profile.route){
             ProfileScreenRoot()
+        }
+        composable(route = ProfileRoutesItems.ChangeProfilePicture.route){
+            ChangeProfilePictureRootScreen()
         }
     }
 }

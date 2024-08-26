@@ -4,12 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.creamydark.cvsugo.auth.domain.repository.UserLoginDataStoreRepo
 import com.creamydark.cvsugo.core.domain.enums.AuthenticationState
-import com.creamydark.cvsugo.googleAuth.domain.repository.SignInRepository
-import com.creamydark.cvsugo.googleAuth.domain.dataclass.UserData
+import com.creamydark.cvsugo.core.presentation.rootscreen.MainScreenEvent
+import com.creamydark.cvsugo.core.presentation.rootscreen.intent.MainScreenIntent
+import com.creamydark.cvsugo.core.presentation.state.MainScreenState
 import com.creamydark.cvsugo.googleAuth.domain.repository.AccountRepository
-import com.google.firebase.auth.FirebaseUser
+import com.creamydark.cvsugo.googleAuth.domain.repository.SignInRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
@@ -23,49 +26,70 @@ class MainScreenViewModel @Inject constructor(
     private val accountRepository: AccountRepository
 ) : ViewModel() {
 
-    private val _firebaseUser = MutableStateFlow<FirebaseUser?>(null)
-    val firebaseUser: StateFlow<FirebaseUser?> get() = _firebaseUser
+    private val _state = MutableStateFlow(MainScreenState())
+    val state: StateFlow<MainScreenState> = _state
 
-    private val _currentUser = MutableStateFlow<UserData?>(null)
-    val currentUser: StateFlow<UserData?> get() = _currentUser
-
-    private val _authenticationState = MutableStateFlow(AuthenticationState.Loading)
-    val authenticationState: StateFlow<AuthenticationState> get() = _authenticationState
+    private val _event = MutableSharedFlow<MainScreenEvent>()
+    val event: SharedFlow<MainScreenEvent> = _event
 
     init {
+        handleIntent(MainScreenIntent.LoadUser)
+        handleIntent(MainScreenIntent.LoadLoginState)
+    }
+
+    fun handleIntent(intent: MainScreenIntent) {
         viewModelScope.launch {
-            signInRepository.currentUserListener().collectLatest {
-                firebaseUser: FirebaseUser? ->
-                _firebaseUser.update { firebaseUser }
+            when (intent) {
+                is MainScreenIntent.LoadUser -> {
+                    signInRepository.currentUserListener().collectLatest { firebaseUser ->
+                        if (firebaseUser == null) {
+                            _state.update { it.copy(authenticationState = AuthenticationState.Unauthenticated) }
+                        }
+                        _state.update { it.copy(firebaseUser = firebaseUser) }
 
-
-
-                accountRepository.getUserData(firebaseUser?.uid?:"").collectLatest {
-                    result: Result<UserData?> ->
-                    result.onSuccess {
-                        data: UserData? ->
-                        _currentUser.update { data }
-                        if (data == null){
-                            _authenticationState.update { AuthenticationState.OnRegister }
-                        }else{
-                            _authenticationState.update { AuthenticationState.Authenticated }
+                        accountRepository.getUserData(firebaseUser?.uid ?: "").collectLatest { result ->
+                            result.onSuccess { data ->
+                                _state.update {
+                                    it.copy(
+                                        currentUser = data,
+                                        authenticationState = if (data == null) AuthenticationState.OnRegister else AuthenticationState.Authenticated
+                                    )
+                                }
+                            }
                         }
                     }
                 }
-            }
-        }
-        viewModelScope.launch {
-            userLoginDataStoreRepo.getLoginState().collectLatest {
-                value: AuthenticationState ->
-//                delay(2000)
-                _authenticationState.update { value }
-            }
-        }
-    }
-    fun setLoginState (state: Boolean) {
-        viewModelScope.launch {
-            userLoginDataStoreRepo.updateLoginState(state).collect {
-                // do nothing
+                is MainScreenIntent.LoadLoginState -> {
+                    userLoginDataStoreRepo.getLoginState().collectLatest { value ->
+                        _state.update { it.copy(portalAuthState = value) }
+                    }
+                }
+                is MainScreenIntent.SetLoginState -> {
+                    userLoginDataStoreRepo.updateLoginState(intent.state).collectLatest {
+                        if (intent.state){
+                            _state.update { it.copy(portalAuthState = AuthenticationState.Authenticated) }
+                        }else{
+                            _state.update { it.copy(portalAuthState = AuthenticationState.Unauthenticated) }
+                        }
+                    }
+                }
+                is MainScreenIntent.SignOut -> {
+                    accountRepository.signOut().collectLatest { result ->
+                        result.onSuccess {
+                            _state.update {
+                                it.copy(
+                                    authenticationState = AuthenticationState.Unauthenticated,
+                                    firebaseUser = null,
+                                    currentUser = null
+                                )
+                            }
+                            _event.emit(MainScreenEvent.NavigateToUniversity)
+                        }
+                        result.onFailure {
+                            _event.emit(MainScreenEvent.ShowError(it.message ?: "Unknown error"))
+                        }
+                    }
+                }
             }
         }
     }

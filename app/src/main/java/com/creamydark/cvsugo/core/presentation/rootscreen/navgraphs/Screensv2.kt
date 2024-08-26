@@ -37,9 +37,11 @@ sealed class RoutesV2(val route: String) {
     object GoogleSignInScreen : RoutesV2("google_sign_in_screen")
     object GoogleSignUpScreen : RoutesV2("google_sign_up_screen")
     object CreatePostScreen : RoutesV2("create_post_screen")
+    object EditPostScreen : RoutesV2("edit_post_screen")
     object AccountSetupScreen : RoutesV2("account_setup_screen")
     object LoadingScreen : RoutesV2("loading_screen")
     object PostDetailScreen : RoutesV2("post_detail_screen")
+    object ChangeProfilePictureScreen : RoutesV2("change_profile_picture_screen")
 }
 
 
@@ -86,6 +88,12 @@ enum class PortalRoutesItems(val route: String, val icon: ImageVector, val label
 enum class CommunityRoutesItems(val route: String, val icon: ImageVector, val label: String) {
     FeedList(route = RoutesV2.FeedListScreen.route, icon = Icons.Outlined.SpaceDashboard, label = "Feed"),
     PostDetail(route = RoutesV2.PostDetailScreen.route, icon = Icons.Outlined.FavoriteBorder, label = "Post Detail"),
-    CreatePost(route = RoutesV2.CreatePostScreen.route, icon = Icons.Outlined.Info, label = "Create Post")
+    CreatePost(route = RoutesV2.CreatePostScreen.route, icon = Icons.Outlined.Info, label = "Create Post"),
+    EditPost(route = RoutesV2.EditPostScreen.route, icon = Icons.Outlined.Info, label = "Edit Post")
 }
 
+
+enum class ProfileRoutesItems(val route: String, val icon: ImageVector, val label: String) {
+    Profile(route = RoutesV2.ProfileScreen.route, icon = Icons.Outlined.SpaceDashboard, label = "Profile"),
+    ChangeProfilePicture(route = RoutesV2.ChangeProfilePictureScreen.route, icon = Icons.Outlined.FavoriteBorder, label = "Change Profile Picture")
+}

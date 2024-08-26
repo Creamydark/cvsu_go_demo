@@ -6,4 +6,5 @@ sealed class FeedListScreenIntent {
     data class OnDeletePost(val postData: PostData):FeedListScreenIntent()
     data class OnEditPost(val postData: PostData):FeedListScreenIntent()
     data class NavigateToDetail(val postId:String):FeedListScreenIntent()
+    object OnRefresh:FeedListScreenIntent()
 }

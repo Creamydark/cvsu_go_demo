@@ -43,25 +43,7 @@ class AccountSetupViewmodel @Inject constructor(
         when(intent){
 
             AccountSetupScreenIntent.OnSaveClicked -> {
-                state = state.copy(loading = true)
-                viewModelScope.launch {
-                    val userData = UserData(
-                        username = state.username,
-                        uid = _firebaseUser.value?.uid,
-                        profilePictureUri = state.profilePictureUri,
-                        email = _firebaseUser.value?.email
-                    )
-                    accountRepository.createAccount(userData = userData).collectLatest {
-                        result: Result<String> ->
-                        result.onSuccess {
-
-                        }
-                        result.onFailure {
-                            state = state.copy(error = it.message)
-                        }
-                        state = state.copy(loading = false)
-                    }
-                }
+                Save()
             }
 
             is AccountSetupScreenIntent.OnUsernameChanged -> {
@@ -69,7 +51,29 @@ class AccountSetupViewmodel @Inject constructor(
             }
 
             is AccountSetupScreenIntent.OnProfilePictureChanged -> {
+                state = state.copy(selectedImageUri = intent.uri)
+            }
+        }
+    }
+    private fun Save(){
+        state = state.copy(loading = true)
+        viewModelScope.launch {
+            val userData = UserData(
+                username = state.username,
+                uid = _firebaseUser.value?.uid,
+                profilePictureUri = state.profilePictureUri,
+                name = _firebaseUser.value?.displayName,
+                email = _firebaseUser.value?.email
+            )
+            accountRepository.createAccount(userData = userData, selectedProfilePicture = state.selectedImageUri).collectLatest {
+                    result: Result<String> ->
+                result.onSuccess {
 
+                }
+                result.onFailure {
+                    state = state.copy(error = it.message)
+                }
+                state = state.copy(loading = false)
             }
         }
     }

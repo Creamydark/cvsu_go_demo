@@ -1,5 +1,7 @@
 package com.creamydark.cvsugo.accountSetup.presentation.setupnewaccount
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +18,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,11 +43,17 @@ fun AccountSetupRootScreen(viewmodel: AccountSetupViewmodel = hiltViewModel()) {
 
 
 @Composable
-fun AccountSetupScreen(
+private fun AccountSetupScreen(
     modifier: Modifier = Modifier,
     state: AccountSetupScreenState = AccountSetupScreenState(),
     onIntent: (AccountSetupScreenIntent) -> Unit = {}
 ) {
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri ->
+        onIntent(AccountSetupScreenIntent.OnProfilePictureChanged(uri))
+    }
 
     Box(modifier = Modifier
         .fillMaxSize()
@@ -68,10 +77,16 @@ fun AccountSetupScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            ProfilePicture(state.profilePictureUri) {
+            ProfilePicture(imageUri = state.selectedImageUri?:state.profilePictureUri) {
                 // Handle profile picture selection logic here
                 // For example, you can launch an image picker here
+                launcher.launch("image/*")
             }
+            Spacer(modifier = Modifier.height(18.dp))
+            Text(
+                text = "Click profile to upload new image",
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+            )
 
             Spacer(modifier = Modifier.height(32.dp))
 
@@ -109,7 +124,7 @@ fun AccountSetupScreen(
 }
 
 @Composable
-fun ProfilePicture(imageUri: Any?, onClick: () -> Unit) {
+private fun ProfilePicture(imageUri: Any?, onClick: () -> Unit) {
 
     Box(
         modifier = Modifier
@@ -129,7 +144,7 @@ fun ProfilePicture(imageUri: Any?, onClick: () -> Unit) {
 }
 
 @Composable
-fun UsernameInputField(
+private fun UsernameInputField(
     username: String,
     onUsernameChange: (String) -> Unit,
     supportingText: String?

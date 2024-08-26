@@ -20,7 +20,7 @@ fun RootScreen(modifier: Modifier = Modifier) {
     ) {
         val navController = rememberNavController()
         CompositionLocalProvider(LocalNavController provides navController) {
-            RootNavhostComponent()
+            MainScreen()
         }
     }
 }
