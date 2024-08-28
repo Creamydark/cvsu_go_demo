@@ -21,4 +21,14 @@
 #-renamesourcefileattribute SourceFile
 
 #-keepclassmembers class com.creamydark.cvsugo.domain.dataclass**
--keep class com.creamydark.cvsugo.domain.dataclass.** { *; }
+
+-keep class com.creamydark.cvsugo.** { *; }
+
+#-keep class com.creamydark.cvsugo.** {
+#    <fields>;
+#}
+#
+#-keepclasseswithmembers class com.creamydark.cvsugo.** {
+#    public ** component1();
+#    <fields>;
+#}

@@ -39,7 +39,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
@@ -59,11 +58,15 @@ fun CreatePostRootScreen(modifier: Modifier = Modifier,viewmodel : CreatePostScr
     val lifecycleOwner = LocalLifecycleOwner.current
     val navController = LocalNavController.current
     val context = LocalContext.current
+
+
+
     LaunchedEffect(key1 = lifecycleOwner) {
         lifecycleOwner.repeatOnLifecycle(state = Lifecycle.State.STARTED){
             viewmodel.receiver.collectLatest {
                 result->
                 result.onSuccess {
+                    Toast.makeText(context, "Post created successfully", Toast.LENGTH_SHORT).show()
                     navigateBack(navController)
                 }
                 result.onFailure {
@@ -72,13 +75,12 @@ fun CreatePostRootScreen(modifier: Modifier = Modifier,viewmodel : CreatePostScr
             }
         }
     }
+
     CreatePostScreen(modifier = modifier, state = viewmodel.state,onEvent = viewmodel::onEvent)
 
 }
 
-private fun navigateBack(navController: NavController){
-    navController.navigateUp()
-}
+
 
 @Composable
 fun CreatePostScreen(
@@ -87,14 +89,10 @@ fun CreatePostScreen(
     onEvent: (CreatePostScreenIntent) -> Unit = {}
 ) {
 
-
-
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetMultipleContents()
     ) { uris: List<Uri> ->
-
         onEvent(CreatePostScreenIntent.OnGetImages(uris))
-
     }
 
     Box(modifier = modifier
@@ -121,9 +119,6 @@ fun CreatePostScreen(
                 )
             }
 
-
-
-            //TODO: attachments
             HorizontalDivider()
             if (state.attachments.isEmpty()){
                 IconButton(onClick = { launcher.launch("image/*") }) {
@@ -173,6 +168,10 @@ fun CreatePostScreen(
     }
 }
 
+private fun navigateBack(navController: NavController){
+    navController.navigateUp()
+}
+
 @Composable
 private fun ImageAttachmentItem(model: Any?,modifier: Modifier = Modifier,onRemove:()->Unit) {
     Box(
@@ -200,10 +199,4 @@ private fun ImageAttachmentItem(model: Any?,modifier: Modifier = Modifier,onRemo
 
 
     }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun Preview() {
-    CreatePostScreen()
 }

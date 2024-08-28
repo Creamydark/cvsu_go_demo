@@ -72,6 +72,11 @@ android {
     }
 }
 dependencies {
+
+    implementation ("com.google.code.gson:gson:2.11.0")
+
+    implementation ("io.github.fornewid:photo-compose:1.0.1")
+
     implementation(libs.androidx.paging.compose)
     implementation (libs.accompanist.pager.indicators)
 

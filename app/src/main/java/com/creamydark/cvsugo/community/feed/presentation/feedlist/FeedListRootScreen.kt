@@ -12,8 +12,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.PeopleOutline
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -64,8 +68,10 @@ fun FeedListRootScreen(modifier: Modifier = Modifier, viewModel: FeedListViewMod
             viewModel.onIntent(intent)
         }
     )
+
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun FeedListScreen(
     modifier: Modifier = Modifier,
@@ -89,52 +95,41 @@ fun FeedListScreen(
             }
     }
 
-    LazyColumn(modifier = modifier, contentPadding = PaddingValues(16.dp)) {
+    val pullState = rememberPullRefreshState(
+        refreshing = state.isRefreshing,
+        onRefresh = { onIntent(FeedListScreenIntent.OnRefresh) }
+    )
+    Box(
+        modifier = Modifier.fillMaxWidth().pullRefresh(pullState)
+    ) {
 
-        item {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    tint = MaterialTheme.colorScheme.primary,
-                    imageVector = Icons.Outlined.PeopleOutline,
-                    contentDescription = ""
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = "Explore",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary,
-                    style = MaterialTheme.typography.titleLarge
-                )
-            }
-            Spacer(modifier = Modifier.height(18.dp))
-
-        }
-        items(items = list.itemSnapshotList.items, key = { it.postId }){
-            postData->
-
-            val showMore = postData.userData.uid == state.currentUser?.uid
-
-            if (postData.attachments.isEmpty()){
-                FeedItem(postData = postData, showMore = showMore){
-                        feedItemActions: FeedItemActions ->
-                    when (feedItemActions) {
-                        FeedItemActions.Edit ->{
-                            navigateToEditScreen(navController, postData.postId)
-                        }
-                        FeedItemActions.Delete ->{
-                            onIntent(FeedListScreenIntent.OnDeletePost(postData))
-                        }
-                    }
+        LazyColumn(modifier = modifier, contentPadding = PaddingValues(16.dp)) {
+            item {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        tint = MaterialTheme.colorScheme.primary,
+                        imageVector = Icons.Outlined.PeopleOutline,
+                        contentDescription = ""
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Explore",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.titleLarge
+                    )
                 }
-            }else{
-                FeedItem2(
-                    postData = postData,
-                    showMore = showMore,
-                    onItemClick = {
-                        onIntent(FeedListScreenIntent.NavigateToDetail(postData.postId))
-                    },
-                    actions = {
+                Spacer(modifier = Modifier.height(18.dp))
+
+            }
+            items(items = list.itemSnapshotList.items, key = { it.postId }){
+                    postData->
+
+                val showMore = postData.userData.uid == state.currentUser?.uid
+
+                if (postData.attachments.isEmpty()){
+                    FeedItem(postData = postData, showMore = showMore){
                             feedItemActions: FeedItemActions ->
                         when (feedItemActions) {
                             FeedItemActions.Edit ->{
@@ -145,35 +140,64 @@ fun FeedListScreen(
                             }
                         }
                     }
-                )
+                }else{
+                    FeedItem2(
+                        postData = postData,
+                        showMore = showMore,
+                        onItemClick = {
+                            onIntent(FeedListScreenIntent.NavigateToDetail(postData.postId))
+                        },
+                        actions = {
+                                feedItemActions: FeedItemActions ->
+                            when (feedItemActions) {
+                                FeedItemActions.Edit ->{
+                                    navigateToEditScreen(navController, postData.postId)
+                                }
+                                FeedItemActions.Delete ->{
+                                    onIntent(FeedListScreenIntent.OnDeletePost(postData))
+                                }
+                            }
+                        }
+                    )
+                }
+                Spacer(modifier = Modifier.height(12.dp))
             }
-            Spacer(modifier = Modifier.height(12.dp))
-        }
 
-        list.apply {
-            when{
-                loadState.append is LoadState.Loading -> {
-                    // Display a loading indicator at the bottom
-                    item {
-                        // Show a loading indicator at the bottom
-                        // You can use a CircularProgressIndicator or any other loading indicator
-                        // For example:
-                        Box(modifier = Modifier.fillMaxWidth().padding(16.dp), contentAlignment = Alignment.Center) {
-                            CircularProgressIndicator(modifier = Modifier.size(24.dp).align(Alignment.Center))
+            list.apply {
+                when{
+                    loadState.append is LoadState.Loading -> {
+                        // Display a loading indicator at the bottom
+                        item {
+                            // Show a loading indicator at the bottom
+                            // You can use a CircularProgressIndicator or any other loading indicator
+                            // For example:
+                            Box(modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp), contentAlignment = Alignment.Center) {
+                                CircularProgressIndicator(modifier = Modifier
+                                    .size(24.dp)
+                                    .align(Alignment.Center))
+                            }
+                        }
+                    }
+                    loadState.refresh is LoadState.Error -> {
+                        // Handle error state
+                        val error = (loadState.refresh as LoadState.Error).error
+                        item {
+                            // Display an error message
+                            Text(text = "Error: $error")
                         }
                     }
                 }
-                loadState.refresh is LoadState.Error -> {
-                    // Handle error state
-                    val error = (loadState.refresh as LoadState.Error).error
-                    item {
-                        // Display an error message
-                        Text(text = "Error: $error")
-                    }
-                }
             }
         }
+        PullRefreshIndicator(
+            modifier = Modifier.align(Alignment.TopCenter),
+            refreshing = state.loading,
+            state = pullState
+        )
     }
+
 
 }
 

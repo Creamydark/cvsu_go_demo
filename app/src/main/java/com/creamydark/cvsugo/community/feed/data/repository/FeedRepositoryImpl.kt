@@ -39,6 +39,9 @@ class FeedRepositoryImpl @Inject constructor(
         val job = launch {
             try {
                 // Upload images to storage
+                val parsedShits = images.map {
+                    Uri.parse(it.toString())
+                }
                 val imageUrls = images.mapNotNull { uri ->
                     try {
                         val storageRef = storage.reference.child("posts/${UUID.randomUUID()}")
