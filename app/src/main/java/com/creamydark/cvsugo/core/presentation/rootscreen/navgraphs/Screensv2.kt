@@ -1,6 +1,7 @@
 package com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Notifications
@@ -42,6 +43,7 @@ sealed class RoutesV2(val route: String) {
     object LoadingScreen : RoutesV2("loading_screen")
     object PostDetailScreen : RoutesV2("post_detail_screen")
     object ChangeProfilePictureScreen : RoutesV2("change_profile_picture_screen")
+    object UploadNotificationScreen : RoutesV2("upload_notification_screen")
 }
 
 
@@ -76,7 +78,10 @@ enum class UniversityRoutesItems(val route: String, val icon: ImageVector, val l
 
 
 enum class NotificationRoutesItems(val route: String, val icon: ImageVector, val label: String){
-    Notification(route = RoutesV2.NotificationScreen.route , icon = Icons.Outlined.Notifications, label = "Notifications")
+
+    Notification(route = RoutesV2.NotificationScreen.route , icon = Icons.Outlined.Notifications, label = "Notifications"),
+    UploadNotification(route = RoutesV2.UploadNotificationScreen.route , icon = Icons.Outlined.Add, label = "Upload Notification")
+
 }
 
 enum class PortalRoutesItems(val route: String, val icon: ImageVector, val label: String) {

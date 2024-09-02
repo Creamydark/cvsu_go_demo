@@ -28,6 +28,7 @@ firebaseFirestore = "25.0.0"
 googleGmsGoogleServices = "4.4.2"
 firebaseAuth = "23.0.0"
 firebaseStorageKtx = "21.0.0"
+hiltCommon = "1.2.0"
 
 [libraries]
 
@@ -72,6 +73,7 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 onetapcompose = { module = "com.github.stevdza-san:OneTapCompose", version.ref = "onetapcompose" }
 onetapcompose-v1014 = { module = "com.github.stevdza-san:OneTapCompose", version.ref = "onetapcomposeVersion" }
 firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx", version.ref = "firebaseStorageKtx" }
+androidx-hilt-common = { group = "androidx.hilt", name = "hilt-common", version.ref = "hiltCommon" }
 
 [plugins]
 

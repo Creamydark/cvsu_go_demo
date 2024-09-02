@@ -6,9 +6,11 @@ import android.app.NotificationManager
 import android.content.Context
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.creamydark.cvsugo.core.notificationmanager.NotificationCHIds.greetingsChannel
-import com.creamydark.cvsugo.core.notificationmanager.NotificationCHIds.uploadPostChannel
+import com.creamydark.cvsugo.core.notificationmanager.NotificationCHIds.ANNOUNCEMENTS_CHANNEL
+import com.creamydark.cvsugo.core.notificationmanager.NotificationCHIds.GREETINGS_CHANNEL
+import com.creamydark.cvsugo.core.notificationmanager.NotificationCHIds.UPLOAD_POST_CHANNEL
 import com.creamydark.cvsugo.core.workmanager.GreetingtWorkManager
+import com.creamydark.cvsugo.notification.workmanager.AnnouncementsWorker
 import dagger.hilt.android.HiltAndroidApp
 import java.util.concurrent.TimeUnit
 
@@ -20,19 +22,35 @@ class MyApp:Application() {
 
         createGreetingsNotificationChannel(applicationContext)
         createUploadPostNotificationChannel(applicationContext)
+        createAnnouncementsNotificaitonChannel(applicationContext)
+
+        enqueueAnnouncementsWorkManager(applicationContext)
+        enqueueGreetingWorkManager(applicationContext)
 
 
-        val workRequest = PeriodicWorkRequestBuilder<GreetingtWorkManager>(
-            repeatInterval = 3,
-            repeatIntervalTimeUnit = TimeUnit.HOURS
-        ).build()
-        val workManager = WorkManager.getInstance(applicationContext)
-        workManager.enqueue(workRequest)
     }
 }
+private fun enqueueAnnouncementsWorkManager(context: Context){
+
+    val workRequest = PeriodicWorkRequestBuilder<AnnouncementsWorker>(
+        repeatInterval = 3,
+        repeatIntervalTimeUnit = TimeUnit.HOURS
+    ).build()
+    val workManager = WorkManager.getInstance(context)
+    workManager.enqueue(workRequest)
+}
+private fun enqueueGreetingWorkManager(context: Context){
+    val workRequest = PeriodicWorkRequestBuilder<GreetingtWorkManager>(
+        repeatInterval = 3,
+        repeatIntervalTimeUnit = TimeUnit.HOURS
+    ).build()
+    val workManager = WorkManager.getInstance(context)
+    workManager.enqueue(workRequest)
+}
+
 private fun createGreetingsNotificationChannel(context: Context) {
     val channel = NotificationChannel(
-        /* id = */ greetingsChannel,
+        /* id = */ GREETINGS_CHANNEL,
         /* name = */ "University Greetings",
         /* importance = */ NotificationManager.IMPORTANCE_DEFAULT
     )
@@ -42,9 +60,21 @@ private fun createGreetingsNotificationChannel(context: Context) {
 
 
 private fun createUploadPostNotificationChannel(context: Context) {
-    val channelId = uploadPostChannel
+    val channelId = UPLOAD_POST_CHANNEL
     val channelName = "Upload Notifications"
     val channelDescription = "Notifications for image upload progress"
+    val importance = NotificationManager.IMPORTANCE_LOW
+    val channel = NotificationChannel(channelId, channelName, importance).apply {
+        description = channelDescription
+    }
+    val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    notificationManager.createNotificationChannel(channel)
+}
+
+private fun createAnnouncementsNotificaitonChannel(context: Context) {
+    val channelId = ANNOUNCEMENTS_CHANNEL
+    val channelName = "Announcements"
+    val channelDescription = "Announcements from the university"
     val importance = NotificationManager.IMPORTANCE_LOW
     val channel = NotificationChannel(channelId, channelName, importance).apply {
         description = channelDescription

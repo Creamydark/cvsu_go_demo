@@ -22,6 +22,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.creamydark.cvsugo.accountSetup.presentation.setupnewaccount.AccountSetupRootScreen
 import com.creamydark.cvsugo.community.components.CommunitySectionTopBar
+import com.creamydark.cvsugo.community.profile.component.ProfileScreenTopBar
 import com.creamydark.cvsugo.core.domain.enums.AuthenticationState.Loading
 import com.creamydark.cvsugo.core.domain.enums.AuthenticationState.OnRegister
 import com.creamydark.cvsugo.core.presentation.loading.LoadingScreen
@@ -47,8 +48,8 @@ import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.universityNa
 import com.creamydark.cvsugo.core.presentation.rootscreen.viewmodel.MainScreenViewModel
 import com.creamydark.cvsugo.core.presentation.state.MainScreenState
 import com.creamydark.cvsugo.googleAuth.domain.dataclass.UserData
+import com.creamydark.cvsugo.notification.components.NotificationScreenTopBar
 import com.creamydark.cvsugo.portal.components.PortalTopBarComponent
-import com.creamydark.cvsugo.community.profile.component.ProfileScreenTopBar
 import com.creamydark.cvsugo.university.components.UniversityPageTopbar
 import kotlinx.coroutines.flow.collectLatest
 
@@ -155,6 +156,9 @@ private fun RootNavhostComponent(
                 CommunityRoutesItems.CreatePost.route -> {
                     TopBarCustomComponent(title = "Create Post")
                 }
+                in NotificationRoutesItems.entries.filterNot { it.route == NotificationRoutesItems.UploadNotification.route }.map { it.route } -> {
+                    NotificationScreenTopBar()
+                }
                 in CommunityRoutesItems.entries.filterNot { it.route == CommunityRoutesItems.CreatePost.route }.map { it.route } -> {
                     CommunitySectionTopBar(userData = currentUser?: UserData())
                 }
@@ -193,8 +197,8 @@ private fun RootNavhostComponent(
             navController = navhostController,
             startDestination = startDestination
         ) {
-            universityNavGraph(navhostController)
-            notification(navhostController)
+            universityNavGraph()
+            notification()
             composable(route = RoutesV2.AccountSetupScreen.route){
                 AccountSetupRootScreen()
             }

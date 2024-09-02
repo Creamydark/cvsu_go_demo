@@ -11,7 +11,7 @@ import androidx.work.Data
 import androidx.work.WorkerParameters
 import com.creamydark.cvsugo.R
 import com.creamydark.cvsugo.community.feed.domain.data.PostData
-import com.creamydark.cvsugo.core.notificationmanager.NotificationCHIds.uploadPostChannel
+import com.creamydark.cvsugo.core.notificationmanager.NotificationCHIds.UPLOAD_POST_CHANNEL
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.gson.Gson
@@ -91,7 +91,7 @@ private fun notifyUser(context: Context, onGoing:Boolean,title:String = "Uploadi
     val icon = if( onGoing ) R.drawable.outline_cloud_upload_24 else R.drawable.outline_done_24
     val notificationId = 1
     val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    val notificationBuilder = NotificationCompat.Builder(context, uploadPostChannel)
+    val notificationBuilder = NotificationCompat.Builder(context, UPLOAD_POST_CHANNEL)
         .setContentTitle(title)
         .setSmallIcon(icon)
         .setOngoing(onGoing)

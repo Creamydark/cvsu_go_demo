@@ -3,7 +3,6 @@ package com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs
 import FeedPostDetailRootScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
@@ -18,6 +17,7 @@ import com.creamydark.cvsugo.community.profile.presentation.changeprofilepicture
 import com.creamydark.cvsugo.community.profile.presentation.profile.ProfileScreenRoot
 import com.creamydark.cvsugo.googleAuth.presentation.oneClickSignIn.OneClickSignInRootScreen
 import com.creamydark.cvsugo.googleAuth.presentation.signup.SignUpRootScreen
+import com.creamydark.cvsugo.notification.presentation.addpost.presentation.UploadNotificationRootScreen
 import com.creamydark.cvsugo.notification.presentation.listcreen.NotificationListRootScreen
 import com.creamydark.cvsugo.portal.presentation.studentportal.dashboard.StudentPortalDashboardRootScreen
 import com.creamydark.cvsugo.portal.presentation.studentportal.grades.StudentGradesScreen
@@ -27,13 +27,13 @@ import com.creamydark.cvsugo.university.presentation.coursesoffered.CoursesOffer
 import com.creamydark.cvsugo.university.presentation.coursesoffered.viewmodel.CourseDetailViewModel
 import com.creamydark.cvsugo.university.presentation.main.UniversityHomeScreenRoot
 
-fun NavGraphBuilder.universityNavGraph(navController: NavHostController) {
+fun NavGraphBuilder.universityNavGraph() {
     navigation(
         route = RootRoutesItems.University.route,
         startDestination = UniversityRoutesItems.Home.route
     ){
         composable(route = UniversityRoutesItems.Home.route){
-            UniversityHomeScreenRoot(navHostController = navController)
+            UniversityHomeScreenRoot()
         }
         composable(route = UniversityRoutesItems.CoursesDetail.route.plus("/{id}"),
             listOf(navArgument("id") { type = NavType.StringType })
@@ -94,10 +94,13 @@ fun NavGraphBuilder.community(){
 
 
 
-fun NavGraphBuilder.notification(navController: NavHostController){
-    navigation(route = RootRoutesItems.Notification.route, startDestination = NotificationRoutesItems.Notification.route){
+fun NavGraphBuilder.notification(){
+    navigation(route = RoutesV2.NOtificationGraph.route, startDestination = NotificationRoutesItems.Notification.route){
         composable(route = NotificationRoutesItems.Notification.route){
-            NotificationListRootScreen(navHostController = navController)
+            NotificationListRootScreen()
+        }
+        composable(route = NotificationRoutesItems.UploadNotification.route){
+            UploadNotificationRootScreen()
         }
     }
 }

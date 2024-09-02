@@ -40,10 +40,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.creamydark.cvsugo.R
 import com.creamydark.cvsugo.core.components.ParagraphWithLabel
+import com.creamydark.cvsugo.core.presentation.rootscreen.LocalNavController
 import com.creamydark.cvsugo.core.presentation.rootscreen.navgraphs.UniversityRoutesItems
 import com.creamydark.cvsugo.university.domain.dataclass.CoursesOfferedData
 import com.creamydark.cvsugo.university.domain.dataclass.UniversityStatsData
@@ -55,9 +55,9 @@ import com.creamydark.cvsugo.university.presentation.main.viewstate.UniversityHo
 @Composable
 fun UniversityHomeScreenRoot(
     modifier: Modifier = Modifier,
-    navHostController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
+    val navHostController = LocalNavController.current
     UniversityHomeScreen(
         modifier = modifier,
         state = viewModel.state,

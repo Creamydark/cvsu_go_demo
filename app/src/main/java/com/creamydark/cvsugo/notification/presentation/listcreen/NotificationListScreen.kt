@@ -22,7 +22,6 @@ import com.creamydark.cvsugo.notification.presentation.listcreen.viewmodel.Notif
 @Composable
 fun NotificationListRootScreen(
     modifier: Modifier = Modifier,
-    navHostController: NavHostController,
     viewModel: NotificationListViewModel = hiltViewModel()
 ) {
     val state = viewModel.state
@@ -57,11 +56,12 @@ private fun NotificationListScreen(
             item {
                 BigHeaderMain(text = "Communiqué")
             }
+
             items(
                 items = state.notifications,
                 key = { item ->
                     // Return a stable + unique key for the item
-                    item.id
+                    item.notificationId
                 },
             ){
                     item ->
@@ -72,7 +72,7 @@ private fun NotificationListScreen(
                     title = item.title,
                     message = item.message,
                     onCLicked = {
-                        onIntent(NotificationListScreenIntent.OnSelectNotification(item.id))
+                        onIntent(NotificationListScreenIntent.OnSelectNotification(item.notificationId))
                     }
                 )
             }
