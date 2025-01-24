@@ -1,0 +1,90 @@
+[versions]
+accompanistPagerIndicators = "0.30.1"
+agp = "8.6.0"
+androidxMaterialIconsExtended = "1.6.8"
+datastorePreferencesCore = "1.1.1"
+kotlin = "1.9.0"
+coreKtx = "1.13.1"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+lifecycleRuntimeKtx = "2.8.3"
+activityCompose = "1.9.0"
+composeBom = "2024.04.01"
+
+ksp = "1.9.0-1.0.13"
+daggerHilt = "2.49"
+navigationCompose = "2.7.7"
+androidxHilt = "1.2.0"
+androidxLifecycle = "2.8.3"
+coil = "2.6.0"
+onetapcompose = "1.0.13"
+onetapcomposeVersion = "1.0.14"
+pagingCompose = "3.3.2"
+uiTextGoogleFonts = "1.6.8"
+workRuntimeKtx = "2.10.0"
+accompanistPermissions = "0.35.1-alpha"
+firebaseFirestore = "25.0.0"
+googleGmsGoogleServices = "4.4.2"
+firebaseAuth = "23.0.0"
+firebaseStorageKtx = "21.0.0"
+hiltCommon = "1.2.0"
+hiltWork = "1.2.0"
+
+[libraries]
+
+
+accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanistPagerIndicators" }
+accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferencesCore" }
+androidx-datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastorePreferencesCore" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "androidxMaterialIconsExtended" }
+androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingCompose" }
+androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "pagingCompose" }
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
+coil = {group = "io.coil-kt", name= "coil-compose",version.ref = "coil"}
+
+androidx-navigation-compose = {group = "androidx.navigation" , name = "navigation-compose", version.ref = "navigationCompose"}
+androidx-lifecycle = {group = "androidx.lifecycle" , name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle"}
+
+hilt-android = {group = "com.google.dagger" , name = "hilt-android", version.ref = "daggerHilt"}
+androidx-hilt-navigation = {group = "androidx.hilt" , name = "hilt-navigation-compose", version.ref = "androidxHilt"}
+hilt-android-compiler = { group = "com.google.dagger" , name = "hilt-android-compiler" , version.ref = "daggerHilt"}
+
+
+
+
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
+onetapcompose = { module = "com.github.stevdza-san:OneTapCompose", version.ref = "onetapcompose" }
+onetapcompose-v1014 = { module = "com.github.stevdza-san:OneTapCompose", version.ref = "onetapcomposeVersion" }
+firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx", version.ref = "firebaseStorageKtx" }
+androidx-hilt-common = { group = "androidx.hilt", name = "hilt-common", version.ref = "hiltCommon" }
+androidx-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltWork" }
+
+[plugins]
+
+devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
+
+
+android-application = { id = "com.android.application", version.ref = "agp" }
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
+
+
